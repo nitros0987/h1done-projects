@@ -28,13 +28,22 @@ Then open <http://localhost:8410>. Open a **second tab** (one on the student per
 |---|---|
 | `#/` | Role chooser (Ava Byrne 5th Year Geography, Jake O'Donnell 5th Year Biology, Ms O'Halloran teacher) |
 | `#/student/home` | Project header, progress bar, vertical stage map, sticky raise-hand button |
-| `#/student/stage/:n` | Next question, answer box, mentor review panel ("What's working" / "Before you move on"), revise or accept |
+| `#/student/stage/:n` | Next question (brief-specific), answer box, mentor review panel, Read the brief button. Locked stages show the full page with the real question and a "Finish Stage N to unlock your answer" panel |
+| `#/brief/:subject` | Brief reader: embedded PDF (`assets/*.pdf`) with "Open PDF in new tab" fallback, plus a styled HTML recreation of the brief (labelled). Biology = recreation of the live LC 2027 brief (membranes, osmosis, food preservation); Geography = demo brief until the real SEC brief issues in spring 2027 |
 | `#/student/answers` | Export preview under SEC report headings + AI use reference + Copy page |
-| `#/teacher/board` | Pinned hand-raised queue, filter chips, ~8 student cards with status dots |
-| `#/teacher/student/:id` | Profile: progress, last 3 submissions, full answers (every stage, every question, full text, verdicts), advice box, Authentication evidence log, View as student |
+| `#/teacher/board` | Pinned hand-raised queue, filter chips, 20-student roster (12 Geography, 8 Biology) across all stages, including one stalled, one stuck, one hand raised and two fully complete students |
+| `#/teacher/student/:id` | Profile: progress, clickable last 3 submissions (open full-view at `#/sub/:n`), full answers (every stage, every question, full text, verdicts), advice box with Suggest feedback, Authentication evidence log, View as student |
 | `#/teacher/student/:id/as-student` | Read-only view of that student's stage map exactly as they see it |
 | `#/teacher/student/:id/as-student/stage/:n` | Read-only stage view: their question, full answer and the review they received \u2013 no action buttons |
+| `#/teacher/student/:id/as-student/answers` | Read-only export preview for the student \u2013 full report assembly + AI-use reference |
+| `#/teacher/student/:id/sub/:n` | Full record of one exact submission: question, complete answer, verdict, timestamp |
 | `#/settings` | OpenRouter key (optional live AI) and demo-data reset |
+
+The topbar carries an AI status chip at all times: **Demo AI** (grey) or **Live AI** (green).
+
+## Getting a live AI key in (without touching Settings)
+
+Append `?key=YOUR_OPENROUTER_KEY` to any URL on first load: the key is saved to localStorage, stripped from the address bar immediately (`history.replaceState`) and a "Live AI connected" toast confirms. Keys are never stored in any file.
 
 ## Brand tokens
 
@@ -82,7 +91,7 @@ Notes on fidelity: the stage names, indicative times and Geography prompt questi
 ## How the demo AI works
 
 - **Default (no key):** reviews are canned, scripted per stage in `demoReview`. Mentor voice: 2 "What's working" bullets, 1–2 "Before you move on" prompts, always tied to the stage's definition of done, never writing text for the student. After three unaccepted submissions on a stage the student is flagged **stuck** and the mentor nudges them to raise a hand.
-- **Optional live AI:** in Settings, paste an OpenRouter API key (stored only in `localStorage`, never committed or sent anywhere except `openrouter.ai`). Submissions then go to `https://openrouter.ai/api/v1/chat/completions` with model `deepseek/deepseek-v4.1-flash`. The system prompt encodes the product's mentor rules (ask, never write; output JSON `{verdict, strengths[], nextQuestion}`). On any failure the app silently falls back to the canned script.
+- **Optional live AI:** in Settings, paste an OpenRouter API key (stored only in `localStorage`, never committed or sent anywhere except `openrouter.ai`), or load the app once with `?key=...`. All AI calls \u2013 answer reviews with next questions, and teacher feedback suggestions \u2013 go through the same OpenRouter path with model `deepseek/deepseek-v4.1-flash`. The system prompts encode the product's rules: mentor not ghostwriter, never write report text, ask the next specific question building on the student's previous answers, JSON responses. On any failure the app silently falls back to the canned script.
 
 ## State and the two-tab round-trip
 

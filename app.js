@@ -111,114 +111,231 @@
     return PACKS[st.subject] || PACKS.geography;
   }
 
+  function fakeStudent(spec) {
+    var pk = PACKS[spec.subject];
+    var history = spec.history.map(function (h) {
+      return { stage: h.s, question: pk.stages[h.s].questions[h.q], answer: h.a, at: h.at, verdict: h.v || "accepted" };
+    });
+    history.sort(function (a, b) { return a.at - b.at; });
+    var log = [];
+    if (history.length) {
+      log.push({ at: history[0].at - 1.5 * DAY, event: "Project started", detail: "Stage 1: " + pk.stages[0].name });
+    } else {
+      log.push({ at: spec.lastActivity - 0.5 * DAY, event: "Project started", detail: "Stage 1: " + pk.stages[0].name });
+    }
+    history.forEach(function (r) {
+      log.push({
+        at: r.at,
+        event: r.verdict === "accepted" ? "Answer accepted" : "Submitted answer",
+        detail: "Stage " + (r.stage + 1) + ": " + pk.stages[r.stage].name + (r.verdict === "accepted" ? "" : " \u2013 review asked for a revision")
+      });
+    });
+    if (spec.handRaised) {
+      log.push({ at: spec.raisedAt, event: "Hand raised", detail: "Asked for help with Stage " + (spec.stageIndex + 1) });
+    }
+    log.sort(function (a, b) { return a.at - b.at; });
+    return {
+      id: spec.id, live: false, subject: spec.subject, name: spec.name,
+      stageIndex: spec.stageIndex, attempts: spec.attempts || 1, stuck: !!spec.stuck,
+      handRaised: !!spec.handRaised, handRaisedAt: spec.raisedAt || null,
+      lastActivity: spec.lastActivity,
+      history: history,
+      submissions: history.slice(-3).map(function (r) {
+        return { idx: history.indexOf(r), stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
+      }),
+      log: log
+    };
+  }
+
   function seedRoster() {
+    var D = function (n) { return Date.now() - n * DAY; };
     var roster = [
       liveEntry("geography"),
       liveEntry("biology"),
-      {
-        id: "dillon", live: false, subject: "geography", name: "Dillon Murphy",
+      fakeStudent({
+        id: "callum", subject: "geography", name: "Callum Dunne",
+        stageIndex: 0, lastActivity: D(0.3), history: []
+      }),
+      fakeStudent({
+        id: "dillon", subject: "geography", name: "Dillon Murphy",
         stageIndex: 3, attempts: 1, stuck: false, handRaised: true,
-        handRaisedAt: Date.now() - 1.4 * DAY, lastActivity: Date.now() - 0.2 * DAY,
+        raisedAt: D(1.4), lastActivity: D(0.2),
         history: [
-          { stage: 0, question: "In your own words, what is this year\u2019s brief asking you to explore?", answer: "The brief asks how coastal areas change over time and who manages that change. For me that is Portmarnock: the dunes retreat visibly every winter and the council keeps moving the path back, so I want to understand what is actually driving it.", verdict: "accepted", at: Date.now() - 5 * DAY },
-          { stage: 1, question: "Write your draft inquiry question exactly as it stands now, even if you are not happy with it yet.", answer: "How fast are the dunes at Portmarnock strand retreating, and what is causing the retreat? My sub-questions are how far the dune front has moved since autumn, what the winter storms contributed, and how people use the dunes day to day.", verdict: "accepted", at: Date.now() - 4 * DAY },
-          { stage: 2, question: "What type of evidence (data and/or information) do I need to respond to my inquiry question?", answer: "Primary: dune profile measurements with ranging poles at three transects, plus photos from the same fixed spots on every visit. Secondary: OPW coastal reports and EPA storm data so I can line my measurements up with storm dates.", verdict: "accepted", at: Date.now() - 3 * DAY },
-          { stage: 3, question: "Walk me through what you collected in your most recent evidence session: what did you gather, where and when?", answer: "On Saturday at low tide I measured all three transects, took 24 photos from the fixed points and logged wind, tide and weather conditions in my log. The middle transect has lost nearly a metre since my first visit, so I want one more session after this week\u2019s forecast storm to compare before and after.", verdict: "accepted", at: Date.now() - 2 * DAY },
-          { stage: 3, question: "Do you have enough appropriate and accurate evidence to respond to your inquiry question, or is there a gap?", answer: "Two field visits done, measurements at all three transects. I think I need one more visit after the storm, but I am not sure whether comparing before and after a single storm is enough evidence on its own, or whether I should be measuring across the whole winter.", verdict: "revise", at: Date.now() - 0.2 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 6 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
-          { at: Date.now() - 4 * DAY, event: "Answer accepted", detail: "Stage 2: Formulating the inquiry question" },
-          { at: Date.now() - 3 * DAY, event: "Answer accepted", detail: "Stage 3: Considering evidence collection" },
-          { at: Date.now() - 2 * DAY, event: "Submitted answer", detail: "Stage 4: Collecting evidence" },
-          { at: Date.now() - 1.4 * DAY, event: "Hand raised", detail: "Asked for help with Stage 4" },
-          { at: Date.now() - 0.2 * DAY, event: "Submitted answer", detail: "Stage 4: Collecting evidence" }
+          { s: 0, q: 0, at: D(5.5), a: "The coast, no question. Portmarnock's dunes take a hammering every winter and the council keeps moving the walkway back \u2013 water is literally reshaping where people walk." },
+          { s: 1, q: 1, at: D(4), a: "How far have the dunes at three fixed points on Portmarnock strand retreated since last September, and how does that retreat compare with the storm record for the same months?" },
+          { s: 2, q: 0, at: D(3), a: "Primary: dune profile measurements with ranging poles and a clinometer at three fixed transects, plus photos from the same marked spots. Secondary: Met \u00c9ireann storm and rainfall records and the OPW coastal flood maps, so I can match profile change to storm dates." },
+          { s: 3, q: 0, at: D(2), a: "On Saturday at low tide I measured all three transects, took 24 photos from the fixed points and logged wind, tide and weather in my log. The middle transect has lost nearly a metre since my first visit \u2013 the sand fence that used to be behind it is now standing on bare marram roots." },
+          { s: 3, q: 1, at: D(0.2), v: "revise", a: "Two visits done at all three transects. I think I need one more after this week's forecast storm, but I am not sure whether comparing before and after a single storm counts as enough evidence, or whether I should spread visits across the whole winter." }
         ]
-      },
-      {
-        id: "eva", live: false, subject: "biology", name: "Eva Lynch",
-        stageIndex: 1, attempts: 1, stuck: false, handRaised: true,
-        handRaisedAt: Date.now() - 0.6 * DAY, lastActivity: Date.now() - 0.6 * DAY,
-        history: [
-          { stage: 0, question: "What experiment am I interested in completing?", answer: "I want to adapt the amylase and starch experiment we did in class. The brief mentions enzymes in everyday products, so I would test how temperature affects how quickly amylase breaks starch down, from fridge cold up to about 40 degrees.", verdict: "accepted", at: Date.now() - 2 * DAY },
-          { stage: 1, question: "State your research question, and trace how it grew out of the brief and your background reading.", answer: "My research question is how temperature affects amylase activity. Honestly though, I have only read one website so far and it does not really explain why enzymes denature, so I think my background research is too thin before I design the experiment properly.", verdict: "revise", at: Date.now() - 0.6 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 5 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
-          { at: Date.now() - 2 * DAY, event: "Answer accepted", detail: "Stage 1: Initial response to the investigation brief" },
-          { at: Date.now() - 0.6 * DAY, event: "Submitted answer", detail: "Stage 2: review asked for more background research" },
-          { at: Date.now() - 0.6 * DAY, event: "Hand raised", detail: "Asked for help starting background research" }
-        ]
-      },
-      {
-        id: "faye", live: false, subject: "biology", name: "Faye Kelly",
-        stageIndex: 2, attempts: 3, stuck: true, handRaised: false,
-        handRaisedAt: null, lastActivity: Date.now() - 1 * DAY,
-        history: [
-          { stage: 0, question: "Which issue within the brief interests you most, and what draws you to it?", answer: "The brief is about enzymes being used in everyday products. I already know enzymes speed up reactions and only work in certain conditions, and I want to see that for myself instead of just learning it off the book.", verdict: "accepted", at: Date.now() - 6 * DAY },
-          { stage: 1, question: "State your research question, and trace how it grew out of the brief and your background reading.", answer: "How do different drinks affect teeth? I got this from the part of the brief about acids in food and drink. Tooth enamel is a similar hard material to eggshell, so I plan to use eggshells to test the drinks on.", verdict: "accepted", at: Date.now() - 3 * DAY },
-          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", answer: "My hypothesis is that cola will dissolve eggshells the most because it has the most acid and sugar in it. I will put eggs in cola, water and milk for a week.", verdict: "revise", at: Date.now() - 2 * DAY },
-          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", answer: "Eggshells soaked in cola for a week will lose more mass than the ones in water or milk, if the shells all start at the same weight and stay at room temperature. I will weigh each shell at the start and again after seven days.", verdict: "revise", at: Date.now() - 1 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 8 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
-          { at: Date.now() - 4 * DAY, event: "Answer accepted", detail: "Stage 2: Background research" },
-          { at: Date.now() - 2 * DAY, event: "Submitted answer", detail: "Stage 3: review asked for a revision" },
-          { at: Date.now() - 1 * DAY, event: "Submitted answer", detail: "Stage 3: review asked for a second revision" }
-        ]
-      },
-      {
-        id: "sean", live: false, subject: "geography", name: "Sean Walsh",
-        stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
-        handRaisedAt: null, lastActivity: Date.now() - 9 * DAY,
-        history: [
-          { stage: 0, question: "In your own words, what is this year\u2019s brief asking you to explore?", answer: "The brief is about how travel and tourism change towns. In summer my town nearly doubles with day trippers and the car parks overflow, so I am thinking about what all of that does to the town across the year.", verdict: "accepted", at: Date.now() - 10 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 12 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
-          { at: Date.now() - 10 * DAY, event: "Answer accepted", detail: "Stage 1: Considering the brief" }
-        ]
-      },
-      {
-        id: "oisin", live: false, subject: "geography", name: "Oisin Ward",
+      }),
+      fakeStudent({
+        id: "oisin", subject: "geography", name: "Oisin Ward",
         stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
-        handRaisedAt: null, lastActivity: Date.now() - 6 * DAY,
+        raisedAt: null, lastActivity: D(2),
         history: [
-          { stage: 0, question: "How does the theme present itself in the geography of your local area? Name one concrete place or setting.", answer: "Air quality on the school run. Every morning Griffith Avenue is standstill with cars dropping to the two schools at the top of the road, and I cycle through it every day.", verdict: "accepted", at: Date.now() - 8 * DAY },
-          { stage: 1, question: "Write your draft inquiry question exactly as it stands now, even if you are not happy with it yet.", answer: "How does traffic affect air quality on my road compared to a quiet road nearby, measured at school run times?", verdict: "accepted", at: Date.now() - 7 * DAY },
-          { stage: 1, question: "Does your question make clear what you are finding out and where? Rewrite it naming the setting.", answer: "How does traffic volume affect nitrogen dioxide levels outside 34 Griffith Avenue in Drumcondra at school run times compared with mid-morning, measured with NO2 diffusion tubes over five school days?", verdict: "accepted", at: Date.now() - 6 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 9 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
-          { at: Date.now() - 8 * DAY, event: "Answer accepted", detail: "Stage 1: Considering the brief" },
-          { at: Date.now() - 6 * DAY, event: "Answer accepted", detail: "Stage 2: Formulating the inquiry question" }
+          { s: 0, q: 1, at: D(8), a: "Water quality in the Tolka. There is a surface-water outfall from our estate into the river about 200 metres above Griffith Park, and I cycle past it every morning on the way to school." },
+          { s: 1, q: 0, at: D(7), a: "Does runoff from the Fairview estate outfall change the water quality of the River Tolka between the outfall and the Griffith Park footbridge?" },
+          { s: 1, q: 1, at: D(6), a: "How does the clarity and phosphate level of the River Tolka compare 20 metres upstream and 200 metres downstream of the Fairview estate surface-water outfall, sampled on five dry days and one day after heavy rain?" }
         ]
-      },
-      {
-        id: "niamh", live: false, subject: "biology", name: "Niamh Doyle",
+      }),
+      fakeStudent({
+        id: "sean", subject: "geography", name: "Sean Walsh",
+        stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(10),
+        history: [
+          { s: 0, q: 0, at: D(10), a: "Flooding, definitely. The car park beside the market in Ennis floods a few times every winter, and then we had a hosepipe ban last summer \u2013 too much water and not enough, in the same town in the same year." }
+        ]
+      }),
+      fakeStudent({
+        id: "luke", subject: "geography", name: "Luke Maher",
+        stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1),
+        history: [
+          { s: 0, q: 1, at: D(6), a: "Limescale, honestly. Our kettle in Clonee is white with it, but my granny's house in west Kerry has almost none \u2013 and when I looked into it, it comes from the rock the water flows through on its way to the treatment plant." },
+          { s: 1, q: 2, at: D(4.5), a: "My sub-questions are: does water hardness differ between the Clonee mains supply and the school supply; does any difference match the rock types each supply is drawn from; and how does hardness relate to how easily soap lathers in a measured volume of each sample?" }
+        ]
+      }),
+      fakeStudent({
+        id: "aoife", subject: "geography", name: "Aoife Brennan",
         stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
-        handRaisedAt: null, lastActivity: Date.now() - 0.5 * DAY,
+        raisedAt: null, lastActivity: D(2.5),
         history: [
-          { stage: 2, question: "Walk me through your method step by step. Where is error most likely to creep in?", answer: "I will test three water samples, each 20 ml, with the same volume of indicator, timing the colour change with a stopwatch. I will keep temperature constant with a water bath. Error is most likely from judging the exact moment the colour changes, so I will do three repeats per sample and take the mean.", verdict: "accepted", at: Date.now() - 4 * DAY },
-          { stage: 3, question: "Tell me what happened when you ran the experiment: what did you observe, and did anything behave unexpectedly?", answer: "The first run went to plan, but my second sample changed colour much faster than the first. I think the water bath had cooled between runs because someone opened the lid, so I recorded the bath temperature before each run from then on and repeated the second sample.", verdict: "accepted", at: Date.now() - 2 * DAY },
-          { stage: 4, question: "What pattern do your data show? Quote the numbers or observations that demonstrate it.", answer: "Mean time to colour change drops from 210 seconds at 10 degrees to 95 seconds at 30 degrees, but between 30 and 40 degrees it barely changes. I expected it to keep getting faster, so I think I need to explain why it levels off using what I read about denaturation.", verdict: "revise", at: Date.now() - 0.5 * DAY }
-        ],
-        log: [
-          { at: Date.now() - 10 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
-          { at: Date.now() - 6 * DAY, event: "Answer accepted", detail: "Stage 3: Designing and planning the experiment" },
-          { at: Date.now() - 2 * DAY, event: "Answer accepted", detail: "Stage 4: Conducting the experiment" },
-          { at: Date.now() - 0.5 * DAY, event: "Submitted answer", detail: "Stage 5: Data analysis and conclusions" }
+          { s: 0, q: 1, at: D(9), a: "Flooding by the sea. Clontarf Promenade closes a few times a year when a spring high tide meets an easterly wind \u2013 the road and the car park go under, and the council keeps raising the sea wall." },
+          { s: 1, q: 0, at: D(8), a: "Why does the car park at Clontarf Promenade flood at high spring tides, and how much does an onshore wind add to the flood level?" },
+          { s: 2, q: 1, at: D(5), a: "I will measure tide heights against the marked gauge on the promenade wall rather than estimating, photograph from the same three fixed spots with timestamps, and use the harbour master's tide tables instead of a phone app so my predicted levels are official. I will also record wind direction and speed from Met \u00c9ireann for each event so I am not cherry-picking the dramatic mornings." },
+          { s: 3, q: 0, at: D(2.5), a: "Over the last spring tide series I visited at predicted high water on four mornings, photographed the gauge and the car park from the fixed points, and logged the highest water mark against the wall with chalk and a tape. On the two mornings with a force 5-6 easterly the water reached about 38 cm above the predicted height; on the calm mornings it matched the tide table almost exactly." }
         ]
-      }
+      }),
+      fakeStudent({
+        id: "cathal", subject: "geography", name: "Cathal Moore",
+        stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(2),
+        history: [
+          { s: 0, q: 2, at: D(8.5), a: "Why does the outside of the meander bend at Tinnahinch on the River Barrow keep collapsing into the river while the inside bend builds up? I row past it every Saturday and the field edge is visibly closer every season." },
+          { s: 1, q: 0, at: D(7), a: "How does water speed and erosion differ between the outside and the inside of the meander bend at Tinnahinch on the River Barrow?" },
+          { s: 2, q: 0, at: D(5), a: "Primary: orange float timings over a measured 10 metre course at five points across the channel, depth with a metre stick at each point, and photographs of the collapsing bank with a scale pole. Secondary: OPW channel records for the Barrow and EPA water level data so I can compare my readings with normal conditions." },
+          { s: 3, q: 0, at: D(2), a: "Two sessions on the bend. Floats moved fastest and the channel was more than twice as deep against the outside bank, where the field edge has collapsed; on the inside bend the floats slowed and there is a fresh shingle bank building. I logged timings to the nearest tenth of a second with a stopwatch and repeated each run three times." }
+        ]
+      }),
+      fakeStudent({
+        id: "lauren", subject: "geography", name: "Lauren Ryan",
+        stageIndex: 3, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(3),
+        history: [
+          { s: 0, q: 1, at: D(7), a: "The Royal Canal behind our school. The stretch from lock 8 to lock 12 is either green and choked with algae one week or clear the next, and dog walkers complain about it constantly." },
+          { s: 1, q: 1, at: D(5.5), a: "How does the clarity and phosphate level of the Royal Canal change between lock 8 and lock 12 in Phibsborough, sampled at five locks over three weeks?" },
+          { s: 2, q: 0, at: D(3), a: "Primary: water samples from five locks tested with a phosphate test kit and a clarity tube, plus a photo at each lock on each sampling day. Secondary: the EPA Catchments site Water Framework Directive rating for that canal reach, so I can compare my own results against the official classification." }
+        ]
+      }),
+      fakeStudent({
+        id: "eoin", subject: "geography", name: "Eoin Kavanagh",
+        stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(4),
+        history: [
+          { s: 0, q: 1, at: D(8), a: "The sea defences at Rush. South of the harbour there is a rock armour wall and a groyne; north of it the dunes are left alone. You can see the difference in the beach from the car park, and I want to know which approach is actually working." },
+          { s: 1, q: 1, at: D(4), a: "How do beach width and dune condition differ north and south of Rush harbour, and what does that suggest about how well each management approach is coping with the same sea?" }
+        ]
+      }),
+      fakeStudent({
+        id: "sara", subject: "geography", name: "Sara Nolan",
+        stageIndex: 6, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1.5),
+        history: [
+          { s: 0, q: 1, at: D(11), a: "Flood defences. Fermoy flooded badly in 2009 and there are now permanent and demountable barriers along the Blackwater \u2013 my aunt lives there and I want to know whether they actually work, not just whether the council says they do." },
+          { s: 1, q: 0, at: D(10), a: "How effective are the Fermoy flood defences at protecting the town centre since the scheme was completed, and how do the people who work beside them every day rate them?" },
+          { s: 2, q: 0, at: D(7), a: "Primary: a short survey of ten shop owners on the two flooded-in-2009 streets about closures and water since the barriers, plus photographs of the barrier lines and the gauge boards. Secondary: the OPW Fermoy scheme documents and EPA flood records, so I can compare floods before and after completion." },
+          { s: 3, q: 0, at: D(4), a: "I surveyed ten shops across two afternoons and photographed every barrier access point. The OPW documents record six demountable barrier closures since the scheme finished, and no shop in my survey has taken water since \u2013 while the EPA records show three town-centre floods in the nine years before it." },
+          { s: 4, q: 0, at: D(2.5), a: "The clearest pattern is the contrast either side of the scheme: three centre floods before, none after, and eight of ten shopkeepers say closures are now short and organised. The surprise was that two shopkeepers still keep sandbags behind the counter because they do not fully trust the demountable sections." },
+          { s: 5, q: 0, at: D(1.5), a: "My evidence is strong on perceptions and closure counts but weak on hydrology \u2013 I did not measure the river myself, so I am relying on OPW and EPA data, which I have referenced. The survey has a bias too: the shops that flooded worst before may have closed or moved, so the survivors I surveyed are the ones that were never hit hardest." }
+        ]
+      }),
+      fakeStudent({
+        id: "roisin", subject: "geography", name: "Roisin Fahy",
+        stageIndex: 7, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1.5),
+        history: [
+          { s: 0, q: 0, at: D(13), a: "Water in our community means the Dodder for me. We live near Rathfarnham and the river rises shockingly fast after heavy rain \u2013 the playground by the bridge floods its lower path most winters. I want to understand why it happens so quickly." },
+          { s: 1, q: 0, at: D(11.5), v: "revise", a: "Does land use affect flooding on the Dodder? I think it does because of the car park near the bridge, but I have not said where or how I would measure it." },
+          { s: 1, q: 0, at: D(11), a: "How does land use in the Dodder catchment above Rathfarnham Weir affect how quickly and how high the river rises after heavy rain? My sub-questions are how the river responds below the car park versus the park stretch, and how that compares with the rainfall on each day." },
+          { s: 2, q: 0, at: D(9), a: "Primary: channel width and depth at three fixed points near the weir after rainfall events, and photographs of ground cover along each stretch \u2013 the tarmac car park, the grass park and the natural bank. Secondary: Met \u00c9ireann daily rainfall for the nearest station and OPW water level data for the Dodder gauge." },
+          { s: 3, q: 0, at: D(6), a: "Three visits after rain over four weeks, measuring width and depth at the three points each time and photographing ground cover, plus the rainfall figures for each event. The point below the car park rose fastest and ran muddiest; the point downstream of the grass park rose more slowly and stayed clearer." },
+          { s: 4, q: 0, at: D(3.5), a: "The pattern is consistent across three rain events of 12-15 mm: the level below the car park rose roughly twice as fast as the point below the park, and the water was visibly muddier there. Impermeable surfaces send rain straight into the channel, while the grass stretch slows it and lets it soak away \u2013 so land use is changing how the river responds." },
+          { s: 5, q: 0, at: D(2), a: "My method was simple enough to repeat, but my readings were ruler readings to the nearest centimetre, so small rises are uncertain. I only caught three moderate rain events, so I cannot say what a serious storm does. Bias: I chose measuring points I could safely reach, which limits the locations I could compare." },
+          { s: 6, q: 0, at: D(1.5), a: "My report follows the brief's headings and I have checked the word count and trimmed my photo set to the five that carry the analysis. Every source is referenced with dates, and the AI-use reference covers the mentor sessions where I was questioned on my own answers \u2013 no sentence of the report was written for me." }
+        ]
+      }),
+      fakeStudent({
+        id: "ben", subject: "biology", name: "Ben O'Connor",
+        stageIndex: 0, lastActivity: D(0.4), history: []
+      }),
+      fakeStudent({
+        id: "eva", subject: "biology", name: "Eva Lynch",
+        stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1),
+        history: [
+          { s: 0, q: 0, at: D(3), a: "Membranes. The brief's stimulus mentions heat and chemicals damaging membranes, and I straight away thought of the beetroot experiment \u2013 the pigment leaks into the water when you cook it because the membrane holding it in breaks down." },
+          { s: 1, q: 0, at: D(1), a: "How does increasing temperature affect the permeability of beetroot cell membranes, measured by the amount of pigment released into the surrounding water?" }
+        ]
+      }),
+      fakeStudent({
+        id: "faye", subject: "biology", name: "Faye Kelly",
+        stageIndex: 2, attempts: 3, stuck: true, handRaised: false,
+        raisedAt: null, lastActivity: D(1),
+        history: [
+          { s: 0, q: 2, at: D(8), a: "Membranes, using eggs. My idea is to soak eggs in different drinks to see which damages them most, because the membrane inside an egg is like a cell membrane and eggs are easy to get." },
+          { s: 1, q: 0, at: D(6), a: "How do different drinks affect an egg's membranes? I picked it from the membranes topic because eggs are cheap and the changes are visible without special equipment." },
+          { s: 2, q: 0, at: D(2), v: "revise", a: "My hypothesis is that cola will dissolve eggshells the most because it has the most acid and sugar in it. I will put eggs in cola, water and milk for a week." },
+          { s: 2, q: 0, at: D(1), v: "revise", a: "Eggshells soaked in cola for a week will lose more mass than the ones in water or milk, if the shells all start at the same weight and stay at room temperature. I will weigh each shell at the start and again after seven days." }
+        ]
+      }),
+      fakeStudent({
+        id: "niamh", subject: "biology", name: "Niamh Doyle",
+        stageIndex: 5, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(0.5),
+        history: [
+          { s: 0, q: 0, at: D(9), a: "Food preservation. My granny brines her own bacon and the brief asks how preservation methods actually stop food going off. Yeast is the microbe I can test most easily at school, so I want to see how salt slows it down." },
+          { s: 1, q: 0, at: D(7), a: "How does salt concentration affect the rate of yeast fermentation, and what does that tell us about why salting preserves food?" },
+          { s: 2, q: 0, at: D(5), a: "Hypothesis: as salt concentration rises, yeast fermentation slows. I will change the salt concentration (0, 2, 5 and 10%) across identical yeast-glucose mixtures in bottles with a balloon sealed on top, measure balloon height every 5 minutes for 30 minutes at 30 degrees in the water bath, and keep yeast amount, glucose, volume and temperature constant." },
+          { s: 3, q: 0, at: D(2.5), a: "The 0% and 2% balloons rose fast and steady; 5% was clearly slower; 10% barely moved in 30 minutes. One surprise: the 5% bottle frothed right up the neck but the balloon stayed small \u2013 gas was escaping round the neck, so I re-sealed it for the repeat run and logged the change." },
+          { s: 4, q: 0, at: D(0.5), a: "Balloon height after 30 minutes falls from 6.5 cm at 0% salt to 4.8 cm at 2%, 2.1 cm at 5% and 0.3 cm at 10% \u2013 fermentation rate drops as salt rises, roughly halving between 0 and 5%. That matches salt drawing water out of the yeast cells by osmosis, which is exactly why brine preserves food." }
+        ]
+      }),
+      fakeStudent({
+        id: "david", subject: "biology", name: "David Farrell",
+        stageIndex: 3, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(2),
+        history: [
+          { s: 0, q: 0, at: D(6), a: "Osmosis. The brief's stimulus mentions watering plants and sports drinks, and we did potato chips in class \u2013 but only in water. I want to do it properly with a range of sucrose concentrations." },
+          { s: 1, q: 1, at: D(4), a: "One textbook chapter explains the water potential gradient driving water in or out of plant tissue. A gardening site I found claims fertiliser burns plants by sucking water out \u2013 the textbook shows it is osmosis along a gradient, not burning, and that difference helped me frame my variables properly." },
+          { s: 2, q: 0, at: D(2.5), a: "Hypothesis: as sucrose concentration rises from 0 to 1.0 M, potato cylinders lose more mass by osmosis. I will change the sucrose concentration (0, 0.2, 0.4, 0.6, 0.8, 1.0 M) and keep cylinder size (same cork borer, 4 cm), time (30 minutes) and temperature constant, measuring percentage change in mass so chips of different starting weights compare fairly." }
+        ]
+      }),
+      fakeStudent({
+        id: "chloe", subject: "biology", name: "Chloe Higgins",
+        stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1.5),
+        history: [
+          { s: 0, q: 2, at: D(8), a: "Food preservation \u2013 the cold chain. I want to test how refrigeration slows bread going mouldy: identical slices kept at room temperature, in the fridge and in the freezer, and measured over a week." },
+          { s: 1, q: 2, at: D(5), a: "My log has a HSE food safety page and a food science textbook chapter, both with download dates, plus my method notes and hypothesis: colder storage means slower mould growth because the microbes and their enzymes work more slowly. I also recorded that the slices must come from the same loaf on the same day." },
+          { s: 2, q: 1, at: D(3), a: "Cut four equal squares from one loaf on day zero; one stays at room temperature, one in the fridge, one in the freezer, and one in a sealed dry box at room temperature as a control for moisture. My biggest error risk is judging mould area by eye, so I trace the mould edge onto transparent film each day and count grid squares to get an area." },
+          { s: 3, q: 0, at: D(1.5), a: "By day 5 the room-temperature slice had mould across roughly 22 grid squares, the fridge slice only three small spots, and the freezer slice none at all \u2013 though it went soggy during the daily photo check. Unexpectedly the sealed dry box at room temperature moulded slower than the plain room slice, which suggests moisture matters as much as temperature." }
+        ]
+      }),
+      fakeStudent({
+        id: "emma", subject: "biology", name: "Emma Walsh",
+        stageIndex: 6, attempts: 1, stuck: false, handRaised: false,
+        raisedAt: null, lastActivity: D(1),
+        history: [
+          { s: 0, q: 1, at: D(10), a: "Osmosis \u2013 water crossing a partially permeable membrane from a dilute solution to a more concentrated one. I chose it because the brief links it to food preservation like brining, and because we already have the equipment to test it properly with plant tissue." },
+          { s: 1, q: 0, at: D(8), a: "How does the concentration of sucrose solution affect the change in mass of potato cylinders, and what does the concentration at which there is no change tell us about the water potential of the potato cells?" },
+          { s: 2, q: 0, at: D(6.5), v: "revise", a: "As sucrose concentration increases, potato cylinders will lose more mass. I will put chips in six different solutions for an hour and weigh them before and after." },
+          { s: 2, q: 0, at: D(6), a: "Hypothesis: as sucrose concentration rises from 0 to 1.0 M, potato cylinders lose more mass by osmosis. I will change the sucrose concentration (0, 0.2, 0.4, 0.6, 0.8, 1.0 M) and keep cylinder diameter (same borer), length (4 cm), time (30 minutes) and temperature (room, recorded) constant, measuring percentage change in mass so chips of different starting weights compare fairly." },
+          { s: 3, q: 0, at: D(4), a: "Three runs at each concentration using chips from the same potato, blotted and weighed before and after. Zero molar chips gained about 8% on average, the mass change crossed zero between 0.4 and 0.6 M, and 1.0 M lost about 19%. One 0.6 M chip gained mass instead of losing \u2013 I found I had swapped two beakers, so I repeated that run and used only the clean data, with the mix-up noted in my log." },
+          { s: 4, q: 0, at: D(2), a: "Mean percentage change in mass falls steadily as concentration rises: +8.2%, +4.6%, +1.1%, \u22126.3%, \u221212.8% and \u221219.4% across the six concentrations. The line crosses zero just above 0.4 M, which estimates the water potential of the potato cells \u2013 the point where there is no net water movement between inside and outside." },
+          { s: 5, q: 0, at: D(1), a: "My repeats were close, so the means are reliable, but the zero-crossing is only estimated between two concentrations \u2013 more points between 0.2 and 0.6 M would sharpen it. I also assumed all chips came from the same potato; a different batch could shift the estimated water potential. Blotting time was timed consistently after my first run looked too light." }
+        ]
+      })
     ];
-    roster.forEach(function (s) {
-      if (!s.live) {
-        s.history.sort(function (a, b) { return a.at - b.at; });
-        s.submissions = s.history.slice(-3).map(function (r) {
-          return { stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
-        });
-      }
-    });
     save("h1_roster", roster);
     return roster;
   }
@@ -249,7 +366,7 @@
     });
     history.sort(function (a, b) { return a.at - b.at; });
     var subs = history.slice(-3).map(function (r) {
-      return { stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
+      return { idx: history.indexOf(r), stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
     });
     return {
       id: "live-" + subject, live: true, subject: subject, name: st.name,
@@ -317,13 +434,26 @@
   }
 
   function topbar(links, badge) {
+    var live = !!getORKey();
     return '<header class="topbar"><div class="topbar-inner">' +
       '<a class="brand" href="#/">H1Done <span>Projects</span></a>' +
       "<nav>" + links.map(function (l) {
         return '<a href="' + l.href + '"' + (l.on ? ' class="on"' : "") + ">" + l.label + "</a>";
       }).join("") +
+      '<a class="ai-chip' + (live ? " live" : "") + '" href="#/settings" title="AI status">' + (live ? "Live AI" : "Demo AI") + "</a>" +
       (badge ? '<span class="ro-badge">' + esc(badge) + "</span>" : "") +
       "</nav></div></header>";
+  }
+
+  function bootstrapKey() {
+    var m = /[?&]key=([^&]+)/.exec(location.search || "");
+    if (!m) return;
+    var val = decodeURIComponent(m[1]).trim();
+    if (val) {
+      save("h1_openrouter_key", val);
+      try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}
+      setTimeout(function () { toast("Live AI connected"); }, 400);
+    }
   }
 
   function handFAB(st) {
@@ -332,6 +462,47 @@
       '<span class="handfab-main">' + (raised ? "Hand raised &#8211; awaiting teacher" : "Raise hand") + "</span>" +
       '<span class="handfab-sub">' + (raised ? "Tap to lower your hand" : "Ask " + esc(st.teacher) + " to look at this with you") + "</span>" +
       "</button>";
+  }
+
+  var briefBack = { href: "#/", label: "Back" };
+
+  function briefView(subjectParam) {
+    var subj = PACKS[subjectParam] ? subjectParam : PERSONAS[currentPersona()].subject;
+    var pk = PACKS[subj] || PACKS.geography;
+    var html = topbar([{ href: pk.brief.pdf, label: "PDF" }]);
+    html += '<div class="container wide brief-wrap">';
+    html += '<a class="backlink" href="' + briefBack.href + '">&#8592; ' + esc(briefBack.label) + "</a>";
+    html += '<div class="banner brief-label"><h3>' + esc(pk.aacName) + " \u2013 the brief</h3>" +
+      '<p class="msg-text">' + esc(pk.brief.label) + "</p></div>";
+    html += '<div class="pdf-frame"><object data="' + pk.brief.pdf + '" type="application/pdf" aria-label="' + esc(pk.aacName) + ' brief PDF">' +
+      '<div class="pdf-fallback"><p>PDF preview is not available on this device.</p>' +
+      '<a class="btn small primary" href="' + pk.brief.pdf + '" target="_blank" rel="noopener">Open PDF in new tab</a></div>' +
+      "</object></div>";
+    html += '<p class="pdf-link-row"><a class="btn small ghost" href="' + pk.brief.pdf + '" target="_blank" rel="noopener">Open PDF in new tab</a></p>';
+    html += '<article class="brief-doc"><header>' +
+      '<p class="kicker">' + esc(pk.subject) + " \u00b7 " + esc(pk.weighting) + "</p>" +
+      "<h2>" + esc(pk.brief.title) + "</h2>" +
+      '<p class="brief-sub">' + esc(pk.brief.subtitle) + "</p></header>";
+    pk.brief.sections.forEach(function (sec) {
+      html += '<h3 class="brief-h">' + esc(sec.h) + "</h3>";
+      (sec.p || []).forEach(function (t) { html += "<p>" + esc(t) + "</p>"; });
+      if (sec.list) {
+        html += "<ul>";
+        sec.list.forEach(function (t) { html += "<li>" + esc(t) + "</li>"; });
+        html += "</ul>";
+      }
+      (sec.sub || []).forEach(function (x) {
+        html += '<h4 class="brief-subh">' + esc(x.h) + "</h4>";
+        (x.p || []).forEach(function (t) { html += "<p>" + esc(t) + "</p>"; });
+        if (x.list) {
+          html += "<ul>";
+          x.list.forEach(function (t) { html += "<li>" + esc(t) + "</li>"; });
+          html += "</ul>";
+        }
+      });
+    });
+    html += '<p class="policy-note">' + esc(pk.linksPolicy) + "</p></article></div>";
+    return html;
   }
 
   function roleChooser() {
@@ -432,6 +603,7 @@
     ro = ro || {};
     var st = ro.st || getStudent();
     var readOnly = !!ro.readOnly;
+    briefBack = readOnly ? { href: ro.backHref, label: ro.backLabel || "Back" } : { href: "#/student/home", label: "Back to stage map" };
     var pk = PACKS[st.subject];
     var doneCount = st.done.filter(Boolean).length;
     var html = readOnly ?
@@ -472,6 +644,10 @@
     html += stageMapHTML(st, function (i) {
       return readOnly ? ro.profileHref + "/as-student/stage/" + i : "#/student/stage/" + i;
     });
+    if (readOnly) {
+      html += '<div class="settings-row"><a class="btn ghost small" href="' + ro.profileHref + '/as-student/answers">View their answers (export preview)</a>' +
+        '<a class="btn ghost small" href="#/brief/' + st.subject + '">Read the brief</a></div>';
+    }
     html += "</div>";
     if (!readOnly) html += handFAB(st);
     if (readOnly) {
@@ -506,19 +682,34 @@
     var status = stageStatus(st, i);
     var mapHref = readOnly ? ro.backHref : "#/student/home";
     var mapLabel = readOnly ? (ro.mapLabel || "Back to stage map") : "All stages";
+    briefBack = { href: mapHref, label: mapLabel };
     var html = readOnly ?
-      topbar([{ href: ro.backHref, label: ro.backLabel || "Back" }], ro.badge) :
+      topbar([{ href: ro.backHref, label: ro.backLabel || "Back" }, { href: "#/brief/" + st.subject, label: "The brief" }], ro.badge) :
       topbar([
         { href: "#/student/home", label: "Stage map" },
         { href: "#/student/answers", label: "Your answers" },
+        { href: "#/brief/" + st.subject, label: "The brief" },
         { href: "#/settings", label: "Settings" }
       ]);
     html += '<div class="container">';
     html += '<a class="backlink" href="' + mapHref + '">&#8592; ' + esc(mapLabel) + "</a>";
     if (status === "locked") {
-      html += '<section class="card"><p class="kicker">Locked</p><h2>' + esc(s.name) + "</h2>" +
-        '<p class="progress-note">' + (readOnly ? esc(st.name) + " has not reached this stage yet \u2013 it unlocks when the previous stage is accepted." : "This stage unlocks when you accept the previous stage. The guidelines run the project in order \u2013 so does H1Done.") + "</p>" +
-        '<a class="btn primary small" href="' + mapHref + '" style="margin-top:10px">Back to stage map</a></section></div>';
+      html += '<section class="card">';
+      html += '<p class="kicker crimson">Stage ' + (i + 1) + " of " + pk.stages.length + " \u00b7 " + esc(s.time) + "</p>";
+      html += "<h2>" + esc(s.name) + "</h2>";
+      html += '<h3 class="q-label" style="margin-top:14px">Your next question</h3>';
+      html += '<p class="q-text">' + esc(nextQuestion(st, i)) + "</p>";
+      html += '<details class="promptbank"><summary>Prompt bank from the guidelines (' + s.promptQuestions.length + ")</summary><ul>";
+      s.promptQuestions.forEach(function (q) { html += "<li>" + esc(q) + "</li>"; });
+      html += "</ul></details>";
+      html += '<div class="locked-panel"><p class="locked-title">Finish Stage ' + (i + 1) + " to unlock your answer</p>" +
+        '<p>The stages run in order, exactly as the guidelines set them out. Accept stage ' + i + " and this question will be waiting for you here.</p></div>";
+      html += "</section>";
+      html += '<section class="card"><p class="kicker">Definition of done \u2013 Stage ' + (i + 1) + "</p><ul class=\"dod-list\">";
+      s.definitionOfDone.forEach(function (d) {
+        html += "<li>" + esc(d) + "</li>";
+      });
+      html += "</ul></section></div>";
       return html;
     }
     var records = (stg.history && stg.history.length) ? stg.history.slice() : (stg.answers || []).map(function (a) {
@@ -541,7 +732,8 @@
       html += "</ul></details>";
       html += '<label class="field-label" for="answer-input">Your answer \u2013 in your own words</label>';
       html += '<textarea id="answer-input" rows="6" placeholder="The mentor never writes this for you. Write your thinking here\u2026">' + esc(stg.draft || "") + "</textarea>";
-      html += '<div class="review-actions"><button class="btn primary" data-action="submit-answer" data-stage="' + i + '">Submit answer</button></div>';
+      html += '<div class="review-actions"><button class="btn primary" data-action="submit-answer" data-stage="' + i + '">Submit answer</button>' +
+        '<a class="btn ghost" href="#/brief/' + st.subject + '">Read the brief</a></div>';
       html += "</section>";
       if (stg.reading) {
         html += '<section class="card reading">Your mentor is reading your answer\u2026</section>';
@@ -665,24 +857,69 @@
     });
   }
 
+  function povAnswers(id) {
+    var s = findRosterStudent(id);
+    if (!s) return teacherBoard();
+    return studentAnswers({
+      st: viewStateFor(s),
+      readOnly: true,
+      backHref: "#/teacher/student/" + id + "/as-student",
+      backLabel: "Back to " + s.name.split(" ")[0] + "\u2019s stage map",
+      badge: "Read-only view"
+    });
+  }
+
+  function profileSubmission(id, indexStr) {
+    var s = findRosterStudent(id);
+    if (!s) return teacherBoard();
+    var i = parseInt(indexStr, 10);
+    var rec = (s.history || [])[i];
+    if (!rec) return teacherProfile(id);
+    var pk = PACKS[s.subject];
+    var stgName = pk.stages[rec.stage] ? pk.stages[rec.stage].name : "Stage " + (rec.stage + 1);
+    var html = topbar([{ href: "#/teacher/board", label: "Board" }, { href: "#/settings", label: "Settings" }, { href: "#/", label: "Switch role" }]);
+    html += '<div class="container">';
+    html += '<a class="backlink" href="#/teacher/student/' + esc(id) + '">&#8592; Back to ' + esc(s.name) + "</a>";
+    html += '<section class="card"><p class="kicker crimson">Submission \u00b7 Stage ' + (rec.stage + 1) + " \u00b7 " + esc(stgName) + "</p>" +
+      '<p class="progress-note">Full record of this exact submission \u2013 question, complete answer and review verdict.</p>' +
+      '<div class="fa-item" style="margin-top:12px"><p class="q-ref">' + esc(rec.question) + "</p>" +
+      '<p class="a-text">' + esc(rec.answer) + "</p>" +
+      '<div class="fa-meta"><span class="verdict ' + (rec.verdict === "accepted" ? "proceed" : "revise") + '">' +
+      (rec.verdict === "accepted" ? "Accepted" : "Revise") + "</span>" +
+      '<span class="sub-time">' + fmtTime(rec.at) + " \u00b7 " + ago(rec.at) + "</span></div></div></section>";
+    html += "</div>";
+    return html;
+  }
+
   function findRosterStudent(id) {
     return getRoster().filter(function (x) { return x.id === id; })[0] || null;
   }
 
-  function studentAnswers() {
-    var st = getStudent();
+  function studentAnswers(ro) {
+    ro = ro || {};
+    var st = ro.st || getStudent();
+    var readOnly = !!ro.readOnly;
     var pk = PACKS[st.subject];
-    var html = topbar([
-      { href: "#/student/home", label: "Stage map" },
-      { href: "#/settings", label: "Settings" },
-      { href: "#/", label: "Switch role" }
-    ]);
+    var html = readOnly ?
+      topbar([{ href: ro.backHref, label: ro.backLabel || "Back" }], ro.badge) :
+      topbar([
+        { href: "#/student/home", label: "Stage map" },
+        { href: "#/settings", label: "Settings" },
+        { href: "#/", label: "Switch role" }
+      ]);
     html += '<div class="container export-headings">';
-    html += '<a class="backlink" href="#/student/home">&#8592; Back to project</a>';
-    html += '<section class="card"><p class="kicker">Export preview \u00b7 ' + esc(pk.subject) + "</p>" +
-      "<h2>Your answers, under the report headings</h2>" +
-      '<p class="progress-note">SEC reports follow a prescribed format. This preview lays your verbatim answers under the section headings so you can see the shape of your report. Nothing here is rewritten.</p>' +
-      '<button class="btn small" data-action="copy-export" style="margin-top:10px">Copy page</button></section>';
+    if (readOnly) {
+      html += '<a class="backlink" href="' + ro.backHref + '">&#8592; ' + esc(ro.backLabel || "Back") + "</a>";
+      html += '<section class="card"><p class="kicker">Export preview \u00b7 ' + esc(pk.subject) + "</p>" +
+        "<h2>" + esc(st.name) + "\u2019s answers, under the report headings</h2>" +
+        '<p class="progress-note">This is their full export: verbatim answers under the SEC section headings, plus the AI-use reference they will submit. Read-only \u2013 nothing here can be changed from the teacher side.</p></section>';
+    } else {
+      html += '<a class="backlink" href="#/student/home">&#8592; Back to project</a>';
+      html += '<section class="card"><p class="kicker">Export preview \u00b7 ' + esc(pk.subject) + "</p>" +
+        "<h2>Your answers, under the report headings</h2>" +
+        '<p class="progress-note">SEC reports follow a prescribed format. This preview lays your verbatim answers under the section headings so you can see the shape of your report. Nothing here is rewritten.</p>' +
+        '<button class="btn small" data-action="copy-export" style="margin-top:10px">Copy page</button></section>';
+    }
     pk.stages.forEach(function (s, i) {
       html += "<h3>" + esc(pk.reportHeadings[i] || s.name) + "</h3>";
       var answers = st.stages[i].answers;
@@ -761,7 +998,7 @@
       '<span class="status-label">' + STATUS_TEXT[status] + "</span>" +
       '<span class="subject-chip">' + (s.subject === "geography" ? "Geography" : "Biology") + "</span></div>";
     html += "<h3>" + esc(s.name) + "</h3>";
-    html += '<p class="tstage">Stage ' + (s.stageIndex + 1) + ": " + esc(stage.name) + "</p>";
+    html += '<p class="tstage">' + (s.stageIndex >= pk.stages.length ? "All stages complete \u2013 export ready" : "Stage " + (s.stageIndex + 1) + ": " + esc(stage.name)) + "</p>";
     html += '<p class="tmeta">Last active ' + ago(s.lastActivity) + "</p>";
     if (s.handRaised && s.handRaisedAt) {
       html += '<p class="traised">Hand raised ' + ago(s.handRaisedAt) + "</p>";
@@ -818,25 +1055,28 @@
       "<div><p class=\"kicker\">" + esc(pk.aacName) + " \u00b7 " + STATUS_TEXT[statusOf(s)] + "</p>" +
       "<h2>" + esc(s.name) + "</h2></div></div>" +
       '<div class="progress"><span style="width:' + pct + '%"></span></div>' +
-      '<p class="progress-note">Stage ' + (s.stageIndex + 1) + " of " + pk.stages.length + ": " + esc(stage.name) +
+      '<p class="progress-note">' + (s.stageIndex >= pk.stages.length ?
+        "All " + pk.stages.length + " stages complete \u2013 ready for submission" :
+        "Stage " + (s.stageIndex + 1) + " of " + pk.stages.length + ": " + esc(stage.name)) +
       " \u00b7 " + doneCount + " of " + doneTotal + " stages complete \u00b7 last active " + ago(s.lastActivity) + "</p>" +
       '<div class="settings-row"><a class="btn ghost small" href="#/teacher/student/' + esc(s.id) + '/as-student">View as student</a></div>' +
       '<p class="advice-note">Opens ' + esc(first) + "\u2019s stage map, questions, answers and reviews exactly as they see them \u2013 read-only, no actions.</p></section>";
     if (s.handRaised && s.handRaisedAt) {
       html += '<div class="banner"><h3>Hand raised</h3><p class="msg-text">' + esc(first) + " raised a hand " + ago(s.handRaisedAt) + ". Sending advice below will clear it.</p></div>";
     }
-    html += '<section class="card"><p class="kicker">Recent submissions</p><h3 style="margin-top:2px">Last submissions</h3>';
+    html += '<section class="card"><p class="kicker">Recent submissions</p><h3 style="margin-top:2px">Last submissions</h3>' +
+      '<p class="advice-note">Click any submission to open it full-view \u2013 the complete answer, verdict and timestamp.</p>';
     if (!s.submissions.length) {
       html += '<p class="empty-note">No submissions yet.</p>';
     } else {
       html += '<div class="sub-list">';
       s.submissions.slice().reverse().forEach(function (sub) {
         var stgName = pk.stages[sub.stage] ? pk.stages[sub.stage].name : "Stage " + (sub.stage + 1);
-        html += '<div class="sub-item"><p class="q-ref">Stage ' + (sub.stage + 1) + " \u00b7 " + esc(stgName) + "</p>" +
+        html += '<a class="sub-item" href="#/teacher/student/' + esc(id) + "/sub/" + sub.idx + '"><p class="q-ref">Stage ' + (sub.stage + 1) + " \u00b7 " + esc(stgName) + "</p>" +
           '<p class="q-ref" style="font-weight:600;color:var(--ink)">' + esc(sub.question) + "</p>" +
           '<p class="excerpt">\u201c' + esc(sub.excerpt) + "\u201d</p>" +
           '<span class="verdict ' + sub.verdict + '">' + (sub.verdict === "proceed" ? "Passed review" : "Revise") + "</span>" +
-          '<span class="sub-time">' + ago(sub.at) + "</span></div>";
+          '<span class="sub-time">' + ago(sub.at) + "</span></a>";
       });
       html += "</div>";
     }
@@ -847,7 +1087,10 @@
       '<p class="advice-note">The guidelines are clear: feedback should be general and nondirective. No editing of draft work, no model answers \u2013 H1Done holds the same line.</p>' +
       '<textarea id="advice-input" rows="4" placeholder="e.g. Your method section needs a sentence on how you will minimise bias \u2013 look back at the stage 3 checklist.">' +
       esc(adviceDrafts[id] || "") + "</textarea>" +
-      '<div class="review-actions"><button class="btn primary" data-action="send-advice" data-id="' + esc(id) + '">Send to student</button></div>' +
+      '<div class="review-actions"><button class="btn primary" data-action="send-advice" data-id="' + esc(id) + '">Send to student</button>' +
+      '<button class="btn ghost" data-action="suggest-feedback" data-id="' + esc(id) + '">Suggest feedback</button></div>' +
+      (drafting[id] ? '<p class="advice-note">Drafting a suggestion from their last answer\u2026</p>' : "") +
+      '<p class="advice-note">Suggest feedback drafts a nondirective nudge grounded in their latest answer and this stage\u2019s definition of done \u2013 you review and edit before sending.</p>' +
       (s.live ? '<p class="advice-note">This student is live in this browser \u2013 your message appears on their home screen instantly (try two tabs).</p>' : "") +
       "</section>";
     html += '<section class="card"><p class="kicker">Full prompt and answer record</p><h3>Authentication evidence</h3>';
@@ -877,7 +1120,7 @@
     html += '<h3 style="margin-top:14px">Live AI mentor (optional)</h3>' +
       '<p style="font-size:0.9rem;color:var(--muted)">By default the demo uses canned, scripted mentor reviews written for each stage. Paste an OpenRouter API key and submissions are instead reviewed by <strong>' + OR_MODEL + "</strong> using the product\u2019s mentor rules: ask, never write; reference the definition of done.</p>" +
       '<label class="field-label" for="orkey">OpenRouter API key</label>' +
-      '<input type="password" id="orkey" placeholder="sk-or-v1-..." value="' + esc(key) + '">' +
+      '<input type="password" id="orkey" placeholder="Paste your OpenRouter key here" value="' + esc(key) + '">' +
       '<div class="settings-row">' +
       '<button class="btn primary small" data-action="save-key">Save key</button>' +
       '<button class="btn small" data-action="clear-key">Remove key</button>' +
@@ -953,14 +1196,7 @@
     return new Promise(function (r) { setTimeout(r, ms); });
   }
 
-  function mentorSystemPrompt(pack) {
-    return "You are the H1Done mentor for the " + pack.aacName + " (" + pack.subject + "), the 40% Additional Assessment Component of the Irish Leaving Certificate. " +
-      "Rules: you are a project mentor, not a ghost writer. NEVER write project text, model answers or rewrites for the student. " +
-      "Ask questions and give feedback only. Reference the stage's definition of done. Be warm, specific and brief (max 60 words per field). " +
-      'Reply ONLY with JSON of the exact shape {"verdict":"proceed" or "revise","strengths":["...","..."],"nextQuestion":"..."} where strengths quote what actually works in the student\'s answer and nextQuestion is the next question you would ask the student.';
-  }
-
-  async function liveReview(pack, stage, question, answer) {
+  async function aiCall(system, user) {
     var key = getORKey();
     if (!key) return null;
     try {
@@ -973,34 +1209,46 @@
         body: JSON.stringify({
           model: OR_MODEL,
           messages: [
-            { role: "system", content: mentorSystemPrompt(pack) },
-            {
-              role: "user",
-              content: "Stage: " + stage.name +
-                "\nDefinition of done: " + stage.definitionOfDone.join("; ") +
-                "\nQuestion asked: " + question +
-                "\nStudent answer: " + answer +
-                "\nReview this answer against the definition of done and give your next question."
-            }
+            { role: "system", content: system },
+            { role: "user", content: user }
           ]
         })
       });
       if (!res.ok) return null;
       var data = await res.json();
       var text = data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
-      var json = JSON.parse(String(text).replace(/```json|```/g, "").trim());
-      var strengths = Array.isArray(json.strengths) ? json.strengths.filter(Boolean) : [];
-      if (!strengths.length) return null;
-      return {
-        strengths: strengths.slice(0, 2),
-        prompts: json.nextQuestion ? [String(json.nextQuestion)] : [],
-        nextQuestion: json.nextQuestion ? String(json.nextQuestion) : null,
-        verdict: json.verdict === "revise" ? "revise" : "proceed",
-        source: "live"
-      };
+      return JSON.parse(String(text).replace(/```json|```/g, "").trim());
     } catch (e) {
       return null;
     }
+  }
+
+  function mentorSystemPrompt(pack) {
+    return "You are the H1Done mentor for the " + pack.aacName + " (" + pack.subject + "), the 40% Additional Assessment Component of the Irish Leaving Certificate. " +
+      "Rules: you are a mentor, not a ghost writer. NEVER write project or report text, model answers or rewrites for the student. " +
+      "Ask questions and give feedback only. Reference the stage's definition of done. Ask the next specific question, building on the student's previous answers rather than repeating generic prompts. " +
+      "Be warm, specific and brief (max 60 words per field). " +
+      'Reply ONLY with JSON of the exact shape {"verdict":"proceed" or "revise","strengths":["...","..."],"nextQuestion":"..."} where strengths quote what actually works in the student\'s answer and nextQuestion is your next question for the student.';
+  }
+
+  async function liveReview(pack, stage, question, answer, prevText) {
+    var json = await aiCall(mentorSystemPrompt(pack),
+      "Stage: " + stage.name +
+      "\nDefinition of done: " + stage.definitionOfDone.join("; ") +
+      (prevText ? "\nThe student's earlier answers in this stage (for context, build on these): " + prevText : "") +
+      "\nQuestion asked: " + question +
+      "\nStudent answer: " + answer +
+      "\nReview this answer against the definition of done and give your next question.");
+    if (!json) return null;
+    var strengths = Array.isArray(json.strengths) ? json.strengths.filter(Boolean) : [];
+    if (!strengths.length) return null;
+    return {
+      strengths: strengths.slice(0, 2),
+      prompts: json.nextQuestion ? [String(json.nextQuestion)] : [],
+      nextQuestion: json.nextQuestion ? String(json.nextQuestion) : null,
+      verdict: json.verdict === "revise" ? "revise" : "proceed",
+      source: "live"
+    };
   }
 
   function cannedReview(stage, attempts) {
@@ -1013,6 +1261,54 @@
       flagged: flagged,
       source: "canned"
     };
+  }
+
+  function feedbackSystemPrompt(pk) {
+    return "You are the H1Done teacher-assist for the " + pk.aacName + " (" + pk.subject + "). Draft ONE short piece of feedback (max 80 words) that the classroom teacher could send the student about their most recent answer. " +
+      "NCCA AAC rules: feedback must be general and nondirective. Reference what the student actually wrote, point at the stage's definition of done, and use questions or nudges the student can act on. " +
+      "NEVER provide model text, rewrites, or wording the student could paste into their report. " +
+      'Reply ONLY with JSON of the exact shape {"suggestion":"..."}.';
+  }
+
+  function cannedFeedback(s, rec) {
+    var stage = PACKS[s.subject].stages[rec.stage];
+    var snippet = rec.answer.length > 110 ? rec.answer.slice(0, 110).trim() + "\u2026" : rec.answer;
+    return "Good progress \u2013 you wrote: \u201c" + snippet + "\u201d. The definition of done for stage " + (rec.stage + 1) + " says: \u201c" +
+      stage.definitionOfDone[0] + "\u201d. Which part of that do you feel least sure about yet, and how could you check it for yourself before our next class?";
+  }
+
+  var drafting = {};
+
+  function suggestFeedback(id) {
+    var s = findRosterStudent(id);
+    if (!s) return;
+    var rec = (s.history || []).length ? s.history[s.history.length - 1] : null;
+    if (!rec) {
+      toast("No answers yet from this student");
+      return;
+    }
+    var pk = PACKS[s.subject];
+    var stage = pk.stages[rec.stage];
+    if (!getORKey()) {
+      adviceDrafts[id] = cannedFeedback(s, rec);
+      toast("Feedback drafted from their last answer \u2013 review, edit, then send");
+      render();
+      return;
+    }
+    drafting[id] = true;
+    render();
+    aiCall(feedbackSystemPrompt(pk),
+      "Student: " + s.name +
+      "\nStage " + (rec.stage + 1) + ": " + stage.name +
+      "\nDefinition of done: " + stage.definitionOfDone.join("; ") +
+      "\nTheir last answer, to the question \u201c" + rec.question + "\u201d: " + rec.answer +
+      "\nDraft the one nondirective feedback message.").then(function (json) {
+        var fallback = cannedFeedback(s, rec);
+        adviceDrafts[id] = json && json.suggestion ? String(json.suggestion) : fallback;
+        delete drafting[id];
+        toast("Feedback drafted \u2013 review, edit, then send");
+        render();
+      });
   }
 
   function submitAnswer(stageIdx) {
@@ -1032,11 +1328,12 @@
     stg.attempts++;
     stg.draft = "";
     stg.reading = true;
+    var prevText = (stg.answers || []).slice(-2).map(function (a) { return a.text; }).join(" || ");
     st.log.push({ at: Date.now(), event: "Submitted answer", detail: "Stage " + (stageIdx + 1) + ": " + question });
     saveStudent(st);
     render();
     var minDelay = sleep(getORKey() ? 0 : 700);
-    Promise.all([liveReview(pk, pk.stages[stageIdx], question, text), minDelay]).then(function (results) {
+    Promise.all([liveReview(pk, pk.stages[stageIdx], question, text, prevText), minDelay]).then(function (results) {
       var review = results[0] || cannedReview(pk.stages[stageIdx], stg.attempts);
       var st2 = getStudent();
       var stg2 = st2.stages[stageIdx];
@@ -1219,13 +1516,18 @@
       if (parts[1] === "student" && parts[2]) {
         if (parts[3] === "as-student") {
           if (parts[4] === "stage" && parts[5] !== undefined) html = povStage(parts[2], parts[5]);
+          else if (parts[4] === "answers") html = povAnswers(parts[2]);
           else html = povHome(parts[2]);
+        } else if (parts[3] === "sub" && parts[4] !== undefined) {
+          html = profileSubmission(parts[2], parts[4]);
         } else {
           html = teacherProfile(parts[2]);
         }
       } else {
         html = teacherBoard();
       }
+    } else if (view === "brief") {
+      html = briefView(parts[1]);
     } else if (view === "settings") {
       html = settingsView();
     } else {
@@ -1248,6 +1550,7 @@
     else if (action === "mark-read") markRead();
     else if (action === "copy-export") copyExport();
     else if (action === "send-advice") sendAdvice(t.getAttribute("data-id"));
+    else if (action === "suggest-feedback") suggestFeedback(t.getAttribute("data-id"));
     else if (action === "save-key") saveKey();
     else if (action === "clear-key") clearKey();
     else if (action === "reset-demo") resetDemo();
@@ -1277,5 +1580,6 @@
     if (e.key && e.key.indexOf("h1_") === 0) render();
   });
 
+  bootstrapKey();
   render();
 })();
