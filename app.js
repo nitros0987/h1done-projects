@@ -113,8 +113,9 @@
 
   function fakeStudent(spec) {
     var pk = PACKS[spec.subject];
-    var history = spec.history.map(function (h) {
-      return { stage: h.s, question: pk.stages[h.s].questions[h.q], answer: h.a, at: h.at, verdict: h.v || "accepted" };
+    var seed = window.H1_SEED_HISTORY && window.H1_SEED_HISTORY[spec.id] ? window.H1_SEED_HISTORY[spec.id] : [];
+    var history = seed.map(function (h) {
+      return { stage: h.s, question: pk.stages[h.s].questions[h.q], answer: h.a, at: Date.now() - h.d * DAY, verdict: h.v || "accepted", reason: h.reason };
     });
     history.sort(function (a, b) { return a.at - b.at; });
     var log = [];
@@ -152,194 +153,28 @@
     var roster = [
       liveEntry("geography"),
       liveEntry("biology"),
-      fakeStudent({
-        id: "callum", subject: "geography", name: "Callum Dunne",
-        stageIndex: 0, lastActivity: D(0.3), history: []
-      }),
-      fakeStudent({
-        id: "dillon", subject: "geography", name: "Dillon Murphy",
-        stageIndex: 3, attempts: 1, stuck: false, handRaised: true,
-        raisedAt: D(1.4), lastActivity: D(0.2),
-        history: [
-          { s: 0, q: 0, at: D(5.5), a: "The coast, no question. Portmarnock's dunes take a hammering every winter and the council keeps moving the walkway back \u2013 water is literally reshaping where people walk." },
-          { s: 1, q: 1, at: D(4), a: "How far have the dunes at three fixed points on Portmarnock strand retreated since last September, and how does that retreat compare with the storm record for the same months?" },
-          { s: 2, q: 0, at: D(3), a: "Primary: dune profile measurements with ranging poles and a clinometer at three fixed transects, plus photos from the same marked spots. Secondary: Met \u00c9ireann storm and rainfall records and the OPW coastal flood maps, so I can match profile change to storm dates." },
-          { s: 3, q: 0, at: D(2), a: "On Saturday at low tide I measured all three transects, took 24 photos from the fixed points and logged wind, tide and weather in my log. The middle transect has lost nearly a metre since my first visit \u2013 the sand fence that used to be behind it is now standing on bare marram roots." },
-          { s: 3, q: 1, at: D(0.2), v: "revise", a: "Two visits done at all three transects. I think I need one more after this week's forecast storm, but I am not sure whether comparing before and after a single storm counts as enough evidence, or whether I should spread visits across the whole winter." }
-        ]
-      }),
-      fakeStudent({
-        id: "oisin", subject: "geography", name: "Oisin Ward",
-        stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(2),
-        history: [
-          { s: 0, q: 1, at: D(8), a: "Water quality in the Tolka. There is a surface-water outfall from our estate into the river about 200 metres above Griffith Park, and I cycle past it every morning on the way to school." },
-          { s: 1, q: 0, at: D(7), a: "Does runoff from the Fairview estate outfall change the water quality of the River Tolka between the outfall and the Griffith Park footbridge?" },
-          { s: 1, q: 1, at: D(6), a: "How does the clarity and phosphate level of the River Tolka compare 20 metres upstream and 200 metres downstream of the Fairview estate surface-water outfall, sampled on five dry days and one day after heavy rain?" }
-        ]
-      }),
-      fakeStudent({
-        id: "sean", subject: "geography", name: "Sean Walsh",
-        stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(10),
-        history: [
-          { s: 0, q: 0, at: D(10), a: "Flooding, definitely. The car park beside the market in Ennis floods a few times every winter, and then we had a hosepipe ban last summer \u2013 too much water and not enough, in the same town in the same year." }
-        ]
-      }),
-      fakeStudent({
-        id: "luke", subject: "geography", name: "Luke Maher",
-        stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1),
-        history: [
-          { s: 0, q: 1, at: D(6), a: "Limescale, honestly. Our kettle in Clonee is white with it, but my granny's house in west Kerry has almost none \u2013 and when I looked into it, it comes from the rock the water flows through on its way to the treatment plant." },
-          { s: 1, q: 2, at: D(4.5), a: "My sub-questions are: does water hardness differ between the Clonee mains supply and the school supply; does any difference match the rock types each supply is drawn from; and how does hardness relate to how easily soap lathers in a measured volume of each sample?" }
-        ]
-      }),
-      fakeStudent({
-        id: "aoife", subject: "geography", name: "Aoife Brennan",
-        stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(2.5),
-        history: [
-          { s: 0, q: 1, at: D(9), a: "Flooding by the sea. Clontarf Promenade closes a few times a year when a spring high tide meets an easterly wind \u2013 the road and the car park go under, and the council keeps raising the sea wall." },
-          { s: 1, q: 0, at: D(8), a: "Why does the car park at Clontarf Promenade flood at high spring tides, and how much does an onshore wind add to the flood level?" },
-          { s: 2, q: 1, at: D(5), a: "I will measure tide heights against the marked gauge on the promenade wall rather than estimating, photograph from the same three fixed spots with timestamps, and use the harbour master's tide tables instead of a phone app so my predicted levels are official. I will also record wind direction and speed from Met \u00c9ireann for each event so I am not cherry-picking the dramatic mornings." },
-          { s: 3, q: 0, at: D(2.5), a: "Over the last spring tide series I visited at predicted high water on four mornings, photographed the gauge and the car park from the fixed points, and logged the highest water mark against the wall with chalk and a tape. On the two mornings with a force 5-6 easterly the water reached about 38 cm above the predicted height; on the calm mornings it matched the tide table almost exactly." }
-        ]
-      }),
-      fakeStudent({
-        id: "cathal", subject: "geography", name: "Cathal Moore",
-        stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(2),
-        history: [
-          { s: 0, q: 2, at: D(8.5), a: "Why does the outside of the meander bend at Tinnahinch on the River Barrow keep collapsing into the river while the inside bend builds up? I row past it every Saturday and the field edge is visibly closer every season." },
-          { s: 1, q: 0, at: D(7), a: "How does water speed and erosion differ between the outside and the inside of the meander bend at Tinnahinch on the River Barrow?" },
-          { s: 2, q: 0, at: D(5), a: "Primary: orange float timings over a measured 10 metre course at five points across the channel, depth with a metre stick at each point, and photographs of the collapsing bank with a scale pole. Secondary: OPW channel records for the Barrow and EPA water level data so I can compare my readings with normal conditions." },
-          { s: 3, q: 0, at: D(2), a: "Two sessions on the bend. Floats moved fastest and the channel was more than twice as deep against the outside bank, where the field edge has collapsed; on the inside bend the floats slowed and there is a fresh shingle bank building. I logged timings to the nearest tenth of a second with a stopwatch and repeated each run three times." }
-        ]
-      }),
-      fakeStudent({
-        id: "lauren", subject: "geography", name: "Lauren Ryan",
-        stageIndex: 3, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(3),
-        history: [
-          { s: 0, q: 1, at: D(7), a: "The Royal Canal behind our school. The stretch from lock 8 to lock 12 is either green and choked with algae one week or clear the next, and dog walkers complain about it constantly." },
-          { s: 1, q: 1, at: D(5.5), a: "How does the clarity and phosphate level of the Royal Canal change between lock 8 and lock 12 in Phibsborough, sampled at five locks over three weeks?" },
-          { s: 2, q: 0, at: D(3), a: "Primary: water samples from five locks tested with a phosphate test kit and a clarity tube, plus a photo at each lock on each sampling day. Secondary: the EPA Catchments site Water Framework Directive rating for that canal reach, so I can compare my own results against the official classification." }
-        ]
-      }),
-      fakeStudent({
-        id: "eoin", subject: "geography", name: "Eoin Kavanagh",
-        stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(4),
-        history: [
-          { s: 0, q: 1, at: D(8), a: "The sea defences at Rush. South of the harbour there is a rock armour wall and a groyne; north of it the dunes are left alone. You can see the difference in the beach from the car park, and I want to know which approach is actually working." },
-          { s: 1, q: 1, at: D(4), a: "How do beach width and dune condition differ north and south of Rush harbour, and what does that suggest about how well each management approach is coping with the same sea?" }
-        ]
-      }),
-      fakeStudent({
-        id: "sara", subject: "geography", name: "Sara Nolan",
-        stageIndex: 6, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1.5),
-        history: [
-          { s: 0, q: 1, at: D(11), a: "Flood defences. Fermoy flooded badly in 2009 and there are now permanent and demountable barriers along the Blackwater \u2013 my aunt lives there and I want to know whether they actually work, not just whether the council says they do." },
-          { s: 1, q: 0, at: D(10), a: "How effective are the Fermoy flood defences at protecting the town centre since the scheme was completed, and how do the people who work beside them every day rate them?" },
-          { s: 2, q: 0, at: D(7), a: "Primary: a short survey of ten shop owners on the two flooded-in-2009 streets about closures and water since the barriers, plus photographs of the barrier lines and the gauge boards. Secondary: the OPW Fermoy scheme documents and EPA flood records, so I can compare floods before and after completion." },
-          { s: 3, q: 0, at: D(4), a: "I surveyed ten shops across two afternoons and photographed every barrier access point. The OPW documents record six demountable barrier closures since the scheme finished, and no shop in my survey has taken water since \u2013 while the EPA records show three town-centre floods in the nine years before it." },
-          { s: 4, q: 0, at: D(2.5), a: "The clearest pattern is the contrast either side of the scheme: three centre floods before, none after, and eight of ten shopkeepers say closures are now short and organised. The surprise was that two shopkeepers still keep sandbags behind the counter because they do not fully trust the demountable sections." },
-          { s: 5, q: 0, at: D(1.5), a: "My evidence is strong on perceptions and closure counts but weak on hydrology \u2013 I did not measure the river myself, so I am relying on OPW and EPA data, which I have referenced. The survey has a bias too: the shops that flooded worst before may have closed or moved, so the survivors I surveyed are the ones that were never hit hardest." }
-        ]
-      }),
-      fakeStudent({
-        id: "roisin", subject: "geography", name: "Roisin Fahy",
-        stageIndex: 7, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1.5),
-        history: [
-          { s: 0, q: 0, at: D(13), a: "Water in our community means the Dodder for me. We live near Rathfarnham and the river rises shockingly fast after heavy rain \u2013 the playground by the bridge floods its lower path most winters. I want to understand why it happens so quickly." },
-          { s: 1, q: 0, at: D(11.5), v: "revise", a: "Does land use affect flooding on the Dodder? I think it does because of the car park near the bridge, but I have not said where or how I would measure it." },
-          { s: 1, q: 0, at: D(11), a: "How does land use in the Dodder catchment above Rathfarnham Weir affect how quickly and how high the river rises after heavy rain? My sub-questions are how the river responds below the car park versus the park stretch, and how that compares with the rainfall on each day." },
-          { s: 2, q: 0, at: D(9), a: "Primary: channel width and depth at three fixed points near the weir after rainfall events, and photographs of ground cover along each stretch \u2013 the tarmac car park, the grass park and the natural bank. Secondary: Met \u00c9ireann daily rainfall for the nearest station and OPW water level data for the Dodder gauge." },
-          { s: 3, q: 0, at: D(6), a: "Three visits after rain over four weeks, measuring width and depth at the three points each time and photographing ground cover, plus the rainfall figures for each event. The point below the car park rose fastest and ran muddiest; the point downstream of the grass park rose more slowly and stayed clearer." },
-          { s: 4, q: 0, at: D(3.5), a: "The pattern is consistent across three rain events of 12-15 mm: the level below the car park rose roughly twice as fast as the point below the park, and the water was visibly muddier there. Impermeable surfaces send rain straight into the channel, while the grass stretch slows it and lets it soak away \u2013 so land use is changing how the river responds." },
-          { s: 5, q: 0, at: D(2), a: "My method was simple enough to repeat, but my readings were ruler readings to the nearest centimetre, so small rises are uncertain. I only caught three moderate rain events, so I cannot say what a serious storm does. Bias: I chose measuring points I could safely reach, which limits the locations I could compare." },
-          { s: 6, q: 0, at: D(1.5), a: "My report follows the brief's headings and I have checked the word count and trimmed my photo set to the five that carry the analysis. Every source is referenced with dates, and the AI-use reference covers the mentor sessions where I was questioned on my own answers \u2013 no sentence of the report was written for me." }
-        ]
-      }),
-      fakeStudent({
-        id: "ben", subject: "biology", name: "Ben O'Connor",
-        stageIndex: 0, lastActivity: D(0.4), history: []
-      }),
-      fakeStudent({
-        id: "eva", subject: "biology", name: "Eva Lynch",
-        stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1),
-        history: [
-          { s: 0, q: 0, at: D(3), a: "Membranes. The brief's stimulus mentions heat and chemicals damaging membranes, and I straight away thought of the beetroot experiment \u2013 the pigment leaks into the water when you cook it because the membrane holding it in breaks down." },
-          { s: 1, q: 0, at: D(1), a: "How does increasing temperature affect the permeability of beetroot cell membranes, measured by the amount of pigment released into the surrounding water?" }
-        ]
-      }),
-      fakeStudent({
-        id: "faye", subject: "biology", name: "Faye Kelly",
-        stageIndex: 2, attempts: 3, stuck: true, handRaised: false,
-        raisedAt: null, lastActivity: D(1),
-        history: [
-          { s: 0, q: 2, at: D(8), a: "Membranes, using eggs. My idea is to soak eggs in different drinks to see which damages them most, because the membrane inside an egg is like a cell membrane and eggs are easy to get." },
-          { s: 1, q: 0, at: D(6), a: "How do different drinks affect an egg's membranes? I picked it from the membranes topic because eggs are cheap and the changes are visible without special equipment." },
-          { s: 2, q: 0, at: D(2), v: "revise", a: "My hypothesis is that cola will dissolve eggshells the most because it has the most acid and sugar in it. I will put eggs in cola, water and milk for a week." },
-          { s: 2, q: 0, at: D(1), v: "revise", a: "Eggshells soaked in cola for a week will lose more mass than the ones in water or milk, if the shells all start at the same weight and stay at room temperature. I will weigh each shell at the start and again after seven days." }
-        ]
-      }),
-      fakeStudent({
-        id: "niamh", subject: "biology", name: "Niamh Doyle",
-        stageIndex: 5, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(0.5),
-        history: [
-          { s: 0, q: 0, at: D(9), a: "Food preservation. My granny brines her own bacon and the brief asks how preservation methods actually stop food going off. Yeast is the microbe I can test most easily at school, so I want to see how salt slows it down." },
-          { s: 1, q: 0, at: D(7), a: "How does salt concentration affect the rate of yeast fermentation, and what does that tell us about why salting preserves food?" },
-          { s: 2, q: 0, at: D(5), a: "Hypothesis: as salt concentration rises, yeast fermentation slows. I will change the salt concentration (0, 2, 5 and 10%) across identical yeast-glucose mixtures in bottles with a balloon sealed on top, measure balloon height every 5 minutes for 30 minutes at 30 degrees in the water bath, and keep yeast amount, glucose, volume and temperature constant." },
-          { s: 3, q: 0, at: D(2.5), a: "The 0% and 2% balloons rose fast and steady; 5% was clearly slower; 10% barely moved in 30 minutes. One surprise: the 5% bottle frothed right up the neck but the balloon stayed small \u2013 gas was escaping round the neck, so I re-sealed it for the repeat run and logged the change." },
-          { s: 4, q: 0, at: D(0.5), a: "Balloon height after 30 minutes falls from 6.5 cm at 0% salt to 4.8 cm at 2%, 2.1 cm at 5% and 0.3 cm at 10% \u2013 fermentation rate drops as salt rises, roughly halving between 0 and 5%. That matches salt drawing water out of the yeast cells by osmosis, which is exactly why brine preserves food." }
-        ]
-      }),
-      fakeStudent({
-        id: "david", subject: "biology", name: "David Farrell",
-        stageIndex: 3, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(2),
-        history: [
-          { s: 0, q: 0, at: D(6), a: "Osmosis. The brief's stimulus mentions watering plants and sports drinks, and we did potato chips in class \u2013 but only in water. I want to do it properly with a range of sucrose concentrations." },
-          { s: 1, q: 1, at: D(4), a: "One textbook chapter explains the water potential gradient driving water in or out of plant tissue. A gardening site I found claims fertiliser burns plants by sucking water out \u2013 the textbook shows it is osmosis along a gradient, not burning, and that difference helped me frame my variables properly." },
-          { s: 2, q: 0, at: D(2.5), a: "Hypothesis: as sucrose concentration rises from 0 to 1.0 M, potato cylinders lose more mass by osmosis. I will change the sucrose concentration (0, 0.2, 0.4, 0.6, 0.8, 1.0 M) and keep cylinder size (same cork borer, 4 cm), time (30 minutes) and temperature constant, measuring percentage change in mass so chips of different starting weights compare fairly." }
-        ]
-      }),
-      fakeStudent({
-        id: "chloe", subject: "biology", name: "Chloe Higgins",
-        stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1.5),
-        history: [
-          { s: 0, q: 2, at: D(8), a: "Food preservation \u2013 the cold chain. I want to test how refrigeration slows bread going mouldy: identical slices kept at room temperature, in the fridge and in the freezer, and measured over a week." },
-          { s: 1, q: 2, at: D(5), a: "My log has a HSE food safety page and a food science textbook chapter, both with download dates, plus my method notes and hypothesis: colder storage means slower mould growth because the microbes and their enzymes work more slowly. I also recorded that the slices must come from the same loaf on the same day." },
-          { s: 2, q: 1, at: D(3), a: "Cut four equal squares from one loaf on day zero; one stays at room temperature, one in the fridge, one in the freezer, and one in a sealed dry box at room temperature as a control for moisture. My biggest error risk is judging mould area by eye, so I trace the mould edge onto transparent film each day and count grid squares to get an area." },
-          { s: 3, q: 0, at: D(1.5), a: "By day 5 the room-temperature slice had mould across roughly 22 grid squares, the fridge slice only three small spots, and the freezer slice none at all \u2013 though it went soggy during the daily photo check. Unexpectedly the sealed dry box at room temperature moulded slower than the plain room slice, which suggests moisture matters as much as temperature." }
-        ]
-      }),
-      fakeStudent({
-        id: "emma", subject: "biology", name: "Emma Walsh",
-        stageIndex: 6, attempts: 1, stuck: false, handRaised: false,
-        raisedAt: null, lastActivity: D(1),
-        history: [
-          { s: 0, q: 1, at: D(10), a: "Osmosis \u2013 water crossing a partially permeable membrane from a dilute solution to a more concentrated one. I chose it because the brief links it to food preservation like brining, and because we already have the equipment to test it properly with plant tissue." },
-          { s: 1, q: 0, at: D(8), a: "How does the concentration of sucrose solution affect the change in mass of potato cylinders, and what does the concentration at which there is no change tell us about the water potential of the potato cells?" },
-          { s: 2, q: 0, at: D(6.5), v: "revise", a: "As sucrose concentration increases, potato cylinders will lose more mass. I will put chips in six different solutions for an hour and weigh them before and after." },
-          { s: 2, q: 0, at: D(6), a: "Hypothesis: as sucrose concentration rises from 0 to 1.0 M, potato cylinders lose more mass by osmosis. I will change the sucrose concentration (0, 0.2, 0.4, 0.6, 0.8, 1.0 M) and keep cylinder diameter (same borer), length (4 cm), time (30 minutes) and temperature (room, recorded) constant, measuring percentage change in mass so chips of different starting weights compare fairly." },
-          { s: 3, q: 0, at: D(4), a: "Three runs at each concentration using chips from the same potato, blotted and weighed before and after. Zero molar chips gained about 8% on average, the mass change crossed zero between 0.4 and 0.6 M, and 1.0 M lost about 19%. One 0.6 M chip gained mass instead of losing \u2013 I found I had swapped two beakers, so I repeated that run and used only the clean data, with the mix-up noted in my log." },
-          { s: 4, q: 0, at: D(2), a: "Mean percentage change in mass falls steadily as concentration rises: +8.2%, +4.6%, +1.1%, \u22126.3%, \u221212.8% and \u221219.4% across the six concentrations. The line crosses zero just above 0.4 M, which estimates the water potential of the potato cells \u2013 the point where there is no net water movement between inside and outside." },
-          { s: 5, q: 0, at: D(1), a: "My repeats were close, so the means are reliable, but the zero-crossing is only estimated between two concentrations \u2013 more points between 0.2 and 0.6 M would sharpen it. I also assumed all chips came from the same potato; a different batch could shift the estimated water potential. Blotting time was timed consistently after my first run looked too light." }
-        ]
-      })
+      fakeStudent({ id: "callum", subject: "geography", name: "Callum Dunne", stageIndex: 0, lastActivity: D(0.3) }),
+      fakeStudent({ id: "dillon", subject: "geography", name: "Dillon Murphy", stageIndex: 3, attempts: 1, handRaised: true, raisedAt: D(1.4), lastActivity: D(0.2) }),
+      fakeStudent({ id: "oisin", subject: "geography", name: "Oisin Ward", stageIndex: 2, lastActivity: D(2) }),
+      fakeStudent({ id: "sean", subject: "geography", name: "Sean Walsh", stageIndex: 1, lastActivity: D(10) }),
+      fakeStudent({ id: "luke", subject: "geography", name: "Luke Maher", stageIndex: 2, lastActivity: D(1) }),
+      fakeStudent({ id: "aoife", subject: "geography", name: "Aoife Brennan", stageIndex: 4, lastActivity: D(2.5) }),
+      fakeStudent({ id: "cathal", subject: "geography", name: "Cathal Moore", stageIndex: 4, lastActivity: D(2) }),
+      fakeStudent({ id: "lauren", subject: "geography", name: "Lauren Ryan", stageIndex: 3, lastActivity: D(3) }),
+      fakeStudent({ id: "eoin", subject: "geography", name: "Eoin Kavanagh", stageIndex: 2, lastActivity: D(4) }),
+      fakeStudent({ id: "sara", subject: "geography", name: "Sara Nolan", stageIndex: 6, lastActivity: D(1.5) }),
+      fakeStudent({ id: "roisin", subject: "geography", name: "Roisin Fahy", stageIndex: 7, lastActivity: D(1.5) }),
+      fakeStudent({ id: "ben", subject: "biology", name: "Ben O'Connor", stageIndex: 0, lastActivity: D(0.4) }),
+      fakeStudent({ id: "eva", subject: "biology", name: "Eva Lynch", stageIndex: 1, lastActivity: D(1) }),
+      fakeStudent({ id: "faye", subject: "biology", name: "Faye Kelly", stageIndex: 2, attempts: 3, stuck: true, lastActivity: D(1) }),
+      fakeStudent({ id: "niamh", subject: "biology", name: "Niamh Doyle", stageIndex: 5, lastActivity: D(0.5) }),
+      fakeStudent({ id: "david", subject: "biology", name: "David Farrell", stageIndex: 3, lastActivity: D(2) }),
+      fakeStudent({ id: "chloe", subject: "biology", name: "Chloe Higgins", stageIndex: 4, lastActivity: D(1.5) }),
+      fakeStudent({ id: "emma", subject: "biology", name: "Emma Walsh", stageIndex: 6, lastActivity: D(1) })
     ];
     save("h1_roster", roster);
     return roster;
   }
-
   function liveEntry(subject) {
     var p = PERSONAS[subject];
     var pk = PACKS[subject];
@@ -667,7 +502,9 @@
       '<p class="a-text">' + esc(r.answer) + "</p>" +
       '<div class="fa-meta"><span class="verdict ' + (r.verdict === "accepted" ? "proceed" : "revise") + '">' +
       (r.verdict === "accepted" ? (verdictLabel || "Accepted") : "Revise") + "</span>" +
-      '<span class="sub-time">' + fmtTime(r.at) + "</span></div></div>";
+      '<span class="sub-time">' + fmtTime(r.at) + "</span></div>" +
+      (r.reason ? '<p class="q-ref" style="margin:8px 0 0">Why it came back: ' + esc(r.reason) + "</p>" : "") +
+      "</div>";
   }
 
   function studentStage(indexStr, ro) {
