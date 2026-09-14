@@ -84,7 +84,7 @@
         stageIndex: 0,
         done: pk.stages.map(function () { return false; }),
         stages: pk.stages.map(function () {
-          return { answers: [], attempts: 0, customNext: null, lastReview: null, draft: "" };
+          return { answers: [], attempts: 0, customNext: null, lastReview: null, draft: "", history: [] };
         }),
         handRaised: false,
         handRaisedAt: null,
@@ -119,9 +119,12 @@
         id: "dillon", live: false, subject: "geography", name: "Dillon Murphy",
         stageIndex: 3, attempts: 1, stuck: false, handRaised: true,
         handRaisedAt: Date.now() - 1.4 * DAY, lastActivity: Date.now() - 0.2 * DAY,
-        submissions: [
-          { stage: 2, question: "What type of evidence (data and/or information) do I need to respond to my inquiry question?", excerpt: "Primary: dune profile measurements and photos at three transects on Portmarnock strand. Secondary: OPW coastal reports and EPA data on storms...", verdict: "proceed", at: Date.now() - 3 * DAY },
-          { stage: 3, question: "Have I collected enough appropriate and accurate evidence to respond to my inquiry question?", excerpt: "Two field visits done, measurements at all three transects. I want one more visit after this week's forecast storm to compare...", verdict: "proceed", at: Date.now() - 0.2 * DAY }
+        history: [
+          { stage: 0, question: "In your own words, what is this year\u2019s brief asking you to explore?", answer: "The brief asks how coastal areas change over time and who manages that change. For me that is Portmarnock: the dunes retreat visibly every winter and the council keeps moving the path back, so I want to understand what is actually driving it.", verdict: "accepted", at: Date.now() - 5 * DAY },
+          { stage: 1, question: "Write your draft inquiry question exactly as it stands now, even if you are not happy with it yet.", answer: "How fast are the dunes at Portmarnock strand retreating, and what is causing the retreat? My sub-questions are how far the dune front has moved since autumn, what the winter storms contributed, and how people use the dunes day to day.", verdict: "accepted", at: Date.now() - 4 * DAY },
+          { stage: 2, question: "What type of evidence (data and/or information) do I need to respond to my inquiry question?", answer: "Primary: dune profile measurements with ranging poles at three transects, plus photos from the same fixed spots on every visit. Secondary: OPW coastal reports and EPA storm data so I can line my measurements up with storm dates.", verdict: "accepted", at: Date.now() - 3 * DAY },
+          { stage: 3, question: "Walk me through what you collected in your most recent evidence session: what did you gather, where and when?", answer: "On Saturday at low tide I measured all three transects, took 24 photos from the fixed points and logged wind, tide and weather conditions in my log. The middle transect has lost nearly a metre since my first visit, so I want one more session after this week\u2019s forecast storm to compare before and after.", verdict: "accepted", at: Date.now() - 2 * DAY },
+          { stage: 3, question: "Do you have enough appropriate and accurate evidence to respond to your inquiry question, or is there a gap?", answer: "Two field visits done, measurements at all three transects. I think I need one more visit after the storm, but I am not sure whether comparing before and after a single storm is enough evidence on its own, or whether I should be measuring across the whole winter.", verdict: "revise", at: Date.now() - 0.2 * DAY }
         ],
         log: [
           { at: Date.now() - 6 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
@@ -136,12 +139,14 @@
         id: "eva", live: false, subject: "biology", name: "Eva Lynch",
         stageIndex: 1, attempts: 1, stuck: false, handRaised: true,
         handRaisedAt: Date.now() - 0.6 * DAY, lastActivity: Date.now() - 0.6 * DAY,
-        submissions: [
-          { stage: 0, question: "What experiment am I interested in completing?", excerpt: "I want to adapt the enzyme activity experiment we did in class, looking at how temperature affects amylase and starch breakdown...", verdict: "proceed", at: Date.now() - 2 * DAY }
+        history: [
+          { stage: 0, question: "What experiment am I interested in completing?", answer: "I want to adapt the amylase and starch experiment we did in class. The brief mentions enzymes in everyday products, so I would test how temperature affects how quickly amylase breaks starch down, from fridge cold up to about 40 degrees.", verdict: "accepted", at: Date.now() - 2 * DAY },
+          { stage: 1, question: "State your research question, and trace how it grew out of the brief and your background reading.", answer: "My research question is how temperature affects amylase activity. Honestly though, I have only read one website so far and it does not really explain why enzymes denature, so I think my background research is too thin before I design the experiment properly.", verdict: "revise", at: Date.now() - 0.6 * DAY }
         ],
         log: [
           { at: Date.now() - 5 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
           { at: Date.now() - 2 * DAY, event: "Answer accepted", detail: "Stage 1: Initial response to the investigation brief" },
+          { at: Date.now() - 0.6 * DAY, event: "Submitted answer", detail: "Stage 2: review asked for more background research" },
           { at: Date.now() - 0.6 * DAY, event: "Hand raised", detail: "Asked for help starting background research" }
         ]
       },
@@ -149,10 +154,11 @@
         id: "faye", live: false, subject: "biology", name: "Faye Kelly",
         stageIndex: 2, attempts: 3, stuck: true, handRaised: false,
         handRaisedAt: null, lastActivity: Date.now() - 1 * DAY,
-        submissions: [
-          { stage: 1, question: "State your research question, and trace how it grew out of the brief and your background reading.", excerpt: "How do different drinks affect teeth? I got this from the brief part about enamel and sugar...", verdict: "proceed", at: Date.now() - 3 * DAY },
-          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", excerpt: "My hypothesis is that cola will dissolve eggshells the most because it has the most acid and sugar in it...", verdict: "revise", at: Date.now() - 2 * DAY },
-          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", excerpt: "Eggshells soaked in cola for a week will lose more mass than the ones in water or milk, if the shells start the same weight...", verdict: "revise", at: Date.now() - 1 * DAY }
+        history: [
+          { stage: 0, question: "Which issue within the brief interests you most, and what draws you to it?", answer: "The brief is about enzymes being used in everyday products. I already know enzymes speed up reactions and only work in certain conditions, and I want to see that for myself instead of just learning it off the book.", verdict: "accepted", at: Date.now() - 6 * DAY },
+          { stage: 1, question: "State your research question, and trace how it grew out of the brief and your background reading.", answer: "How do different drinks affect teeth? I got this from the part of the brief about acids in food and drink. Tooth enamel is a similar hard material to eggshell, so I plan to use eggshells to test the drinks on.", verdict: "accepted", at: Date.now() - 3 * DAY },
+          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", answer: "My hypothesis is that cola will dissolve eggshells the most because it has the most acid and sugar in it. I will put eggs in cola, water and milk for a week.", verdict: "revise", at: Date.now() - 2 * DAY },
+          { stage: 2, question: "State your hypothesis and your variables: what will you change, what will you measure, and what will you keep the same?", answer: "Eggshells soaked in cola for a week will lose more mass than the ones in water or milk, if the shells all start at the same weight and stay at room temperature. I will weigh each shell at the start and again after seven days.", verdict: "revise", at: Date.now() - 1 * DAY }
         ],
         log: [
           { at: Date.now() - 8 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
@@ -165,8 +171,8 @@
         id: "sean", live: false, subject: "geography", name: "Sean Walsh",
         stageIndex: 1, attempts: 1, stuck: false, handRaised: false,
         handRaisedAt: null, lastActivity: Date.now() - 9 * DAY,
-        submissions: [
-          { stage: 0, question: "In your own words, what is this year's brief asking you to explore?", excerpt: "The brief is about how travel and tourism change towns, so I am thinking of my area and how busy it gets in summer...", verdict: "proceed", at: Date.now() - 10 * DAY }
+        history: [
+          { stage: 0, question: "In your own words, what is this year\u2019s brief asking you to explore?", answer: "The brief is about how travel and tourism change towns. In summer my town nearly doubles with day trippers and the car parks overflow, so I am thinking about what all of that does to the town across the year.", verdict: "accepted", at: Date.now() - 10 * DAY }
         ],
         log: [
           { at: Date.now() - 12 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
@@ -177,9 +183,10 @@
         id: "oisin", live: false, subject: "geography", name: "Oisin Ward",
         stageIndex: 2, attempts: 1, stuck: false, handRaised: false,
         handRaisedAt: null, lastActivity: Date.now() - 6 * DAY,
-        submissions: [
-          { stage: 1, question: "Write your draft inquiry question exactly as it stands now, even if you are not happy with it yet.", excerpt: "How does traffic affect air quality on my road compared to a quiet road nearby, measured at school run times?", verdict: "proceed", at: Date.now() - 7 * DAY },
-          { stage: 1, question: "Does your question make clear what you are finding out and where? Rewrite it naming the setting.", excerpt: "How does traffic volume affect nitrogen dioxide levels outside St Mary's road in Drumcondra at school run times versus mid-morning?", verdict: "proceed", at: Date.now() - 6 * DAY }
+        history: [
+          { stage: 0, question: "How does the theme present itself in the geography of your local area? Name one concrete place or setting.", answer: "Air quality on the school run. Every morning Griffith Avenue is standstill with cars dropping to the two schools at the top of the road, and I cycle through it every day.", verdict: "accepted", at: Date.now() - 8 * DAY },
+          { stage: 1, question: "Write your draft inquiry question exactly as it stands now, even if you are not happy with it yet.", answer: "How does traffic affect air quality on my road compared to a quiet road nearby, measured at school run times?", verdict: "accepted", at: Date.now() - 7 * DAY },
+          { stage: 1, question: "Does your question make clear what you are finding out and where? Rewrite it naming the setting.", answer: "How does traffic volume affect nitrogen dioxide levels outside 34 Griffith Avenue in Drumcondra at school run times compared with mid-morning, measured with NO2 diffusion tubes over five school days?", verdict: "accepted", at: Date.now() - 6 * DAY }
         ],
         log: [
           { at: Date.now() - 9 * DAY, event: "Project started", detail: "Stage 1: Considering the brief" },
@@ -191,10 +198,10 @@
         id: "niamh", live: false, subject: "biology", name: "Niamh Doyle",
         stageIndex: 4, attempts: 1, stuck: false, handRaised: false,
         handRaisedAt: null, lastActivity: Date.now() - 0.5 * DAY,
-        submissions: [
-          { stage: 2, question: "Walk me through your method step by step. Where is error most likely to creep in?", excerpt: "I will test three water samples with the same volume of indicator, timing colour change with a stopwatch, keeping temperature constant...", verdict: "proceed", at: Date.now() - 4 * DAY },
-          { stage: 3, question: "Tell me what happened when you ran the experiment. Did anything behave unexpectedly?", excerpt: "First run went to plan but my second sample changed colour much faster, I think because the water bath had cooled between runs...", verdict: "proceed", at: Date.now() - 2 * DAY },
-          { stage: 4, question: "What pattern do your data show? Quote the numbers or observations that demonstrate it.", excerpt: "Mean time to colour change drops from 210s to 95s as temperature rises from 10 to 30 degrees, then it levels off...", verdict: "proceed", at: Date.now() - 0.5 * DAY }
+        history: [
+          { stage: 2, question: "Walk me through your method step by step. Where is error most likely to creep in?", answer: "I will test three water samples, each 20 ml, with the same volume of indicator, timing the colour change with a stopwatch. I will keep temperature constant with a water bath. Error is most likely from judging the exact moment the colour changes, so I will do three repeats per sample and take the mean.", verdict: "accepted", at: Date.now() - 4 * DAY },
+          { stage: 3, question: "Tell me what happened when you ran the experiment: what did you observe, and did anything behave unexpectedly?", answer: "The first run went to plan, but my second sample changed colour much faster than the first. I think the water bath had cooled between runs because someone opened the lid, so I recorded the bath temperature before each run from then on and repeated the second sample.", verdict: "accepted", at: Date.now() - 2 * DAY },
+          { stage: 4, question: "What pattern do your data show? Quote the numbers or observations that demonstrate it.", answer: "Mean time to colour change drops from 210 seconds at 10 degrees to 95 seconds at 30 degrees, but between 30 and 40 degrees it barely changes. I expected it to keep getting faster, so I think I need to explain why it levels off using what I read about denaturation.", verdict: "revise", at: Date.now() - 0.5 * DAY }
         ],
         log: [
           { at: Date.now() - 10 * DAY, event: "Project started", detail: "Stage 1: Initial response to the investigation brief" },
@@ -204,6 +211,14 @@
         ]
       }
     ];
+    roster.forEach(function (s) {
+      if (!s.live) {
+        s.history.sort(function (a, b) { return a.at - b.at; });
+        s.submissions = s.history.slice(-3).map(function (r) {
+          return { stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
+        });
+      }
+    });
     save("h1_roster", roster);
     return roster;
   }
@@ -216,20 +231,26 @@
       return {
         id: "live-" + subject, live: true, subject: subject, name: p.name,
         stageIndex: 0, attempts: 0, stuck: false, handRaised: false, handRaisedAt: null,
-        lastActivity: Date.now(), submissions: [],
+        lastActivity: Date.now(), submissions: [], history: [],
         log: [{ at: Date.now(), event: "Project started", detail: "Not started yet in this browser" }]
       };
     }
     var st = JSON.parse(raw);
     var attempts = 0;
     st.stages.forEach(function (s) { if (s.attempts > attempts) attempts = s.attempts; });
-    var subs = [];
+    var history = [];
     st.stages.forEach(function (s, i) {
-      s.answers.forEach(function (a) {
-        subs.push({ stage: i, question: a.question, excerpt: a.text, verdict: "proceed", at: a.at });
+      var recs = (s.history && s.history.length) ? s.history : (s.answers || []).map(function (a) {
+        return { question: a.question, answer: a.text, at: a.at, verdict: "accepted" };
+      });
+      recs.forEach(function (r) {
+        history.push({ stage: i, question: r.question, answer: r.answer, at: r.at, verdict: r.verdict });
       });
     });
-    subs.sort(function (a, b) { return a.at - b.at; });
+    history.sort(function (a, b) { return a.at - b.at; });
+    var subs = history.slice(-3).map(function (r) {
+      return { stage: r.stage, question: r.question, excerpt: r.answer, verdict: r.verdict === "accepted" ? "proceed" : "revise", at: r.at };
+    });
     return {
       id: "live-" + subject, live: true, subject: subject, name: st.name,
       stageIndex: Math.min(st.stageIndex, pk.stages.length - 1),
@@ -238,7 +259,8 @@
       attempts: attempts, stuck: attempts >= 3,
       handRaised: st.handRaised, handRaisedAt: st.handRaisedAt,
       lastActivity: st.log.length ? st.log[st.log.length - 1].at : Date.now(),
-      submissions: subs.slice(-3),
+      submissions: subs,
+      history: history,
       log: st.log
     };
   }
@@ -247,7 +269,13 @@
     var raw = localStorage.getItem("h1_roster");
     var roster = raw ? load("h1_roster", []) : seedRoster();
     roster.forEach(function (s, i) {
-      if (s.live) roster[i] = liveEntry(s.subject);
+      if (s.live) {
+        roster[i] = liveEntry(s.subject);
+      } else if (!s.history) {
+        s.history = (s.submissions || []).map(function (r) {
+          return { stage: r.stage, question: r.question, answer: r.excerpt, at: r.at, verdict: r.verdict === "proceed" ? "accepted" : "revise" };
+        });
+      }
     });
     save("h1_roster", roster);
     return roster;
@@ -288,12 +316,14 @@
     toast._t = setTimeout(function () { el.classList.remove("show"); }, 3200);
   }
 
-  function topbar(links) {
+  function topbar(links, badge) {
     return '<header class="topbar"><div class="topbar-inner">' +
       '<a class="brand" href="#/">H1Done <span>Projects</span></a>' +
       "<nav>" + links.map(function (l) {
         return '<a href="' + l.href + '"' + (l.on ? ' class="on"' : "") + ">" + l.label + "</a>";
-      }).join("") + "</nav></div></header>";
+      }).join("") +
+      (badge ? '<span class="ro-badge">' + esc(badge) + "</span>" : "") +
+      "</nav></div></header>";
   }
 
   function handFAB(st) {
@@ -332,30 +362,11 @@
     return html;
   }
 
-  function studentHome() {
-    var st = getStudent();
+  function progressHeaderHTML(st) {
     var pk = PACKS[st.subject];
     var doneCount = st.done.filter(Boolean).length;
     var pct = Math.round((doneCount / st.done.length) * 100);
-    var html = topbar([
-      { href: "#/student/answers", label: "Your answers", on: false },
-      { href: "#/settings", label: "Settings" },
-      { href: "#/", label: "Switch role" }
-    ]);
-    var unread = st.messages.filter(function (m) { return !m.read; });
-    if (unread.length) {
-      var latest = unread[unread.length - 1];
-      html += '<div class="container">';
-      html += '<div class="banner"><h3>Advice from ' + esc(st.teacher) + "</h3>";
-      unread.forEach(function (m) {
-        html += '<p class="msg-text">\u201c' + esc(m.text) + "\u201d</p>" +
-          '<p class="msg-time">' + fmtTime(m.at) + "</p>";
-      });
-      html += '<button class="btn small" data-action="mark-read">Mark as read</button></div>';
-    } else {
-      html += '<div class="container">';
-    }
-    html += '<section class="card">' +
+    var html = '<section class="card">' +
       '<p class="kicker">' + esc(pk.subject) + " \u00b7 " + esc(pk.weighting) + "</p>" +
       "<h2>" + esc(pk.aacName) + "</h2>" +
       '<div class="progress"><span style="width:' + pct + '%"></span></div>' +
@@ -364,92 +375,216 @@
       html += " \u00b7 Current: Stage " + (st.stageIndex + 1) + " \u2013 " + esc(pk.stages[st.stageIndex].name);
     }
     html += "</p></section>";
-    if (doneCount === st.done.length) {
-      html += '<div class="done-banner"><h3>Project complete</h3>' +
-        '<p style="font-size:0.9rem">Every stage is done. Read your export preview under \u201cYour answers\u201d before you build the final report.</p>' +
-        '<a class="btn primary small" href="#/student/answers">Open your answers</a></div>';
-    }
-    html += '<div class="queue-head"><h3>Your stage map</h3></div>';
-    html += '<ol class="stage-map">';
+    return html;
+  }
+
+  function stageMapHTML(st, hrefFor) {
+    var pk = PACKS[st.subject];
+    var html = '<ol class="stage-map">';
     pk.stages.forEach(function (s, i) {
       var status = stageStatus(st, i);
       var tagText = status === "done" ? "Done" : status === "current" ? "Current" : "Locked";
-      html += "<li>" +
-        '<span class="marker ' + status + '"></span>' +
-        '<a class="stagecard' + (status === "locked" ? " locked" : "") + '" href="#/student/stage/' + i + '">' +
-        '<span style="min-width:0"><span class="stage-top">Stage ' + (i + 1) + " \u00b7 " + esc(s.time) + "</span>" +
+      var href = hrefFor(i);
+      var inner = '<span style="min-width:0"><span class="stage-top">Stage ' + (i + 1) + " \u00b7 " + esc(s.time) + "</span>" +
         '<span class="stage-name">' + esc(s.name) + "</span>" +
         '<span class="stage-blurb">' + esc(s.blurb) + "</span></span>" +
-        '<span class="tag ' + status + '">' + tagText + "</span></a></li>";
+        '<span class="tag ' + status + '">' + tagText + "</span>";
+      html += "<li><span class=\"marker " + status + '"></span>';
+      if (href) {
+        html += '<a class="stagecard' + (status === "locked" ? " locked" : "") + '" href="' + href + '">' + inner + "</a>";
+      } else {
+        html += '<div class="stagecard' + (status === "locked" ? " locked" : "") + '">' + inner + "</div>";
+      }
+      html += "</li>";
     });
-    html += "</ol></div>";
-    html += handFAB(st);
-    html += '<p class="footnote">Demo persona: ' + esc(st.name) + ", " + esc(st.year) + " \u00b7 mentor never writes project text \u00b7 it asks, you answer.</p>";
-    if (unread.length && latest.at > lastToastedMessage) {
+    html += "</ol>";
+    return html;
+  }
+
+  function reviewCardHTML(r, opts) {
+    opts = opts || {};
+    var html = '<section class="card review' + (r.flagged ? " flagged" : "") + '">';
+    html += '<p class="kicker">' + esc(opts.kicker || "Mentor review") +
+      '<span class="source-badge ' + (r.source === "live" ? "live" : "canned") + '">' +
+      (r.source === "live" ? "Live AI" : "Demo script") + "</span></p>";
+    html += "<h3>What\u2019s working</h3><ul class=\"strengths\">";
+    r.strengths.forEach(function (x) { html += "<li>" + esc(x) + "</li>"; });
+    html += "</ul>";
+    if (r.prompts && r.prompts.length) {
+      html += "<h3>Before you move on</h3><ul class=\"prompts\">";
+      r.prompts.forEach(function (x) { html += "<li>" + esc(x) + "</li>"; });
+      html += "</ul>";
+    }
+    if (opts.verdictNote) {
+      html += '<p class="advice-note">' + esc(opts.verdictNote) + "</p>";
+    }
+    if (!opts.readOnly) {
+      html += '<div class="review-actions">' +
+        '<button class="btn ghost" data-action="revise" data-stage="' + opts.stage + '">Revise my answer</button>' +
+        '<button class="btn primary" data-action="accept" data-stage="' + opts.stage + '">' + (opts.acceptLabel || "Accept &amp; continue") + "</button>" +
+        "</div>";
+    }
+    html += "</section>";
+    return html;
+  }
+
+  function studentHome(ro) {
+    ro = ro || {};
+    var st = ro.st || getStudent();
+    var readOnly = !!ro.readOnly;
+    var pk = PACKS[st.subject];
+    var doneCount = st.done.filter(Boolean).length;
+    var html = readOnly ?
+      topbar([{ href: ro.backHref, label: ro.backLabel || "Back to profile" }], ro.badge) :
+      topbar([
+        { href: "#/student/answers", label: "Your answers", on: false },
+        { href: "#/settings", label: "Settings" },
+        { href: "#/", label: "Switch role" }
+      ]);
+    html += '<div class="container">';
+    if (readOnly) {
+      html += '<a class="backlink" href="' + ro.backHref + '">&#8592; ' + esc(ro.backLabel || "Back to profile") + "</a>";
+      html += '<div class="card tint pov-card"><p class="kicker">Read-only view</p>' +
+        '<p style="font-size:0.9rem;margin:0">You are seeing <strong>' + esc(st.name) + "\u2019s</strong> project exactly as they see it \u2013 their stage map, questions, answers and reviews. No actions are available here.</p></div>";
+    }
+    var unread = st.messages.filter(function (m) { return !m.read; });
+    if (!readOnly && unread.length) {
+      var latest = unread[unread.length - 1];
+      html += '<div class="banner"><h3>Advice from ' + esc(st.teacher) + "</h3>";
+      unread.forEach(function (m) {
+        html += '<p class="msg-text">\u201c' + esc(m.text) + "\u201d</p>" +
+          '<p class="msg-time">' + fmtTime(m.at) + "</p>";
+      });
+      html += '<button class="btn small" data-action="mark-read">Mark as read</button></div>';
+    }
+    html += progressHeaderHTML(st);
+    if (doneCount === st.done.length) {
+      html += '<div class="done-banner"><h3>Project complete</h3>';
+      if (readOnly) {
+        html += '<p style="font-size:0.9rem;margin:0">Every stage is done and every answer is accepted.</p>';
+      } else {
+        html += '<p style="font-size:0.9rem">Every stage is done. Read your export preview under \u201cYour answers\u201d before you build the final report.</p>' +
+          '<a class="btn primary small" href="#/student/answers">Open your answers</a>';
+      }
+      html += "</div>";
+    }
+    html += '<div class="queue-head"><h3>' + (readOnly ? esc(st.name) + "\u2019s stage map" : "Your stage map") + "</h3></div>";
+    html += stageMapHTML(st, function (i) {
+      return readOnly ? ro.profileHref + "/as-student/stage/" + i : "#/student/stage/" + i;
+    });
+    html += "</div>";
+    if (!readOnly) html += handFAB(st);
+    if (readOnly) {
+      html += '<p class="footnote">Read-only view \u00b7 what the teacher sees of ' + esc(st.name) + "\u2019s project \u00b7 no actions available.</p>";
+    } else {
+      html += '<p class="footnote">Demo persona: ' + esc(st.name) + ", " + esc(st.year) + " \u00b7 mentor never writes project text \u00b7 it asks, you answer.</p>";
+    }
+    if (!readOnly && unread.length && latest.at > lastToastedMessage) {
       lastToastedMessage = latest.at;
       setTimeout(function () { toast("New advice from " + st.teacher); }, 250);
     }
     return html;
   }
 
-  function studentStage(indexStr) {
-    var st = getStudent();
+  function answerRecordHTML(r, verdictLabel) {
+    return '<div class="fa-item"><p class="q-ref">' + esc(r.question) + "</p>" +
+      '<p class="a-text">' + esc(r.answer) + "</p>" +
+      '<div class="fa-meta"><span class="verdict ' + (r.verdict === "accepted" ? "proceed" : "revise") + '">' +
+      (r.verdict === "accepted" ? (verdictLabel || "Accepted") : "Revise") + "</span>" +
+      '<span class="sub-time">' + fmtTime(r.at) + "</span></div></div>";
+  }
+
+  function studentStage(indexStr, ro) {
+    ro = ro || {};
+    var st = ro.st || getStudent();
+    var readOnly = !!ro.readOnly;
     var pk = PACKS[st.subject];
     var i = parseInt(indexStr, 10);
-    if (isNaN(i) || i < 0 || i >= pk.stages.length) return studentHome();
+    if (isNaN(i) || i < 0 || i >= pk.stages.length) return readOnly ? studentHome(ro) : studentHome();
     var s = pk.stages[i];
     var stg = st.stages[i];
     var status = stageStatus(st, i);
-    var html = topbar([
-      { href: "#/student/home", label: "Stage map" },
-      { href: "#/student/answers", label: "Your answers" },
-      { href: "#/settings", label: "Settings" }
-    ]);
+    var mapHref = readOnly ? ro.backHref : "#/student/home";
+    var mapLabel = readOnly ? (ro.mapLabel || "Back to stage map") : "All stages";
+    var html = readOnly ?
+      topbar([{ href: ro.backHref, label: ro.backLabel || "Back" }], ro.badge) :
+      topbar([
+        { href: "#/student/home", label: "Stage map" },
+        { href: "#/student/answers", label: "Your answers" },
+        { href: "#/settings", label: "Settings" }
+      ]);
     html += '<div class="container">';
-    html += '<a class="backlink" href="#/student/home">&#8592; All stages</a>';
+    html += '<a class="backlink" href="' + mapHref + '">&#8592; ' + esc(mapLabel) + "</a>";
     if (status === "locked") {
       html += '<section class="card"><p class="kicker">Locked</p><h2>' + esc(s.name) + "</h2>" +
-        '<p class="progress-note">This stage unlocks when you accept the previous stage. The guidelines run the project in order \u2013 so does H1Done.</p>' +
-        '<a class="btn primary small" href="#/student/home" style="margin-top:10px">Back to stage map</a></section></div>';
+        '<p class="progress-note">' + (readOnly ? esc(st.name) + " has not reached this stage yet \u2013 it unlocks when the previous stage is accepted." : "This stage unlocks when you accept the previous stage. The guidelines run the project in order \u2013 so does H1Done.") + "</p>" +
+        '<a class="btn primary small" href="' + mapHref + '" style="margin-top:10px">Back to stage map</a></section></div>';
       return html;
+    }
+    var records = (stg.history && stg.history.length) ? stg.history.slice() : (stg.answers || []).map(function (a) {
+      return { question: a.question, answer: a.text, at: a.at, verdict: "accepted" };
+    });
+    if (stg.lastReview) {
+      records = records.filter(function (r) { return r.at !== stg.lastReview.at; });
     }
     html += '<section class="card">';
     html += '<p class="kicker crimson">Stage ' + (i + 1) + " of " + pk.stages.length + " \u00b7 " + esc(s.time) + "</p>";
     html += "<h2>" + esc(s.name) + "</h2>";
-    if (status === "done") {
-      html += '<p class="progress-note">This stage is complete. You are revisiting it \u2013 extra answers are kept and appear in your export.</p>';
-    }
-    html += '<h3 class="q-label" style="margin-top:14px">Your next question</h3>';
-    html += '<p class="q-text">' + esc(nextQuestion(st, i)) + "</p>";
-    html += '<details class="promptbank"><summary>Prompt bank from the guidelines (' + s.promptQuestions.length + ")</summary><ul>";
-    s.promptQuestions.forEach(function (q) { html += "<li>" + esc(q) + "</li>"; });
-    html += "</ul></details>";
-    html += '<label class="field-label" for="answer-input">Your answer \u2013 in your own words</label>';
-    html += '<textarea id="answer-input" rows="6" placeholder="The mentor never writes this for you. Write your thinking here\u2026">' + esc(stg.draft || "") + "</textarea>";
-    html += '<div class="review-actions"><button class="btn primary" data-action="submit-answer" data-stage="' + i + '">Submit answer</button></div>';
-    html += "</section>";
-    if (stg.reading) {
-      html += '<section class="card reading">Your mentor is reading your answer\u2026</section>';
-    } else if (stg.lastReview) {
-      var r = stg.lastReview;
-      html += '<section class="card review' + (r.flagged ? " flagged" : "") + '">';
-      html += '<p class="kicker">Mentor review<span class="source-badge ' + (r.source === "live" ? "live" : "canned") + '">' +
-        (r.source === "live" ? "Live AI" : "Demo script") + "</span></p>";
-      html += "<h3>What\u2019s working</h3><ul class=\"strengths\">";
-      r.strengths.forEach(function (x) { html += "<li>" + esc(x) + "</li>"; });
-      html += "</ul>";
-      if (r.prompts.length) {
-        html += "<h3>Before you move on</h3><ul class=\"prompts\">";
-        r.prompts.forEach(function (x) { html += "<li>" + esc(x) + "</li>"; });
-        html += "</ul>";
+    if (!readOnly) {
+      if (status === "done") {
+        html += '<p class="progress-note">This stage is complete. You are revisiting it \u2013 extra answers are kept and appear in your export.</p>';
       }
-      if (r.flagged) {
-        html += '<p class="advice-note">We have been around this a few times. Raise the hand button below and ' + esc(st.teacher) + " will step in.</p>";
+      html += '<h3 class="q-label" style="margin-top:14px">Your next question</h3>';
+      html += '<p class="q-text">' + esc(nextQuestion(st, i)) + "</p>";
+      html += '<details class="promptbank"><summary>Prompt bank from the guidelines (' + s.promptQuestions.length + ")</summary><ul>";
+      s.promptQuestions.forEach(function (q) { html += "<li>" + esc(q) + "</li>"; });
+      html += "</ul></details>";
+      html += '<label class="field-label" for="answer-input">Your answer \u2013 in your own words</label>';
+      html += '<textarea id="answer-input" rows="6" placeholder="The mentor never writes this for you. Write your thinking here\u2026">' + esc(stg.draft || "") + "</textarea>";
+      html += '<div class="review-actions"><button class="btn primary" data-action="submit-answer" data-stage="' + i + '">Submit answer</button></div>';
+      html += "</section>";
+      if (stg.reading) {
+        html += '<section class="card reading">Your mentor is reading your answer\u2026</section>';
+      } else if (stg.lastReview) {
+        html += reviewCardHTML(stg.lastReview, {
+          stage: i,
+          acceptLabel: st.done[i] ? "Accept this answer" : "Accept &amp; continue"
+        });
       }
-      html += '<div class="review-actions">' +
-        '<button class="btn ghost" data-action="revise" data-stage="' + i + '">Revise my answer</button>' +
-        '<button class="btn primary" data-action="accept" data-stage="' + i + '">' + (st.done[i] ? "Accept this answer" : "Accept &amp; continue") + "</button>" +
-        "</div></section>";
+    } else {
+      html += "</section>";
+      if (records.length) {
+        html += '<p class="kicker crimson" style="margin:18px 0 0">Questions asked and answers given</p>';
+        records.forEach(function (r) {
+          html += answerRecordHTML(r);
+        });
+        var last = records[records.length - 1];
+        html += reviewCardHTML(
+          stg.lastReview || {
+            strengths: cannedReview(s, stg.attempts || 1).strengths,
+            prompts: cannedReview(s, stg.attempts || 1).prompts,
+            flagged: false,
+            source: "canned"
+          },
+          {
+            readOnly: true,
+            kicker: "Review received",
+            verdictNote: last.verdict === "accepted" ? "Accepted \u2013 the mentor passed this answer against the definition of done." : "Revise \u2013 the mentor asked for another pass before accepting."
+          }
+        );
+      } else if (stg.lastReview) {
+        html += '<h3 class="q-label" style="margin-top:14px">Your next question</h3>';
+        html += '<p class="q-text">' + esc(stg.lastReview.question) + "</p>";
+        html += '<div class="fa-item"><p class="q-ref">' + esc(stg.lastReview.question) + "</p>" +
+          '<p class="a-text">' + esc(stg.lastReview.answer) + "</p>" +
+          '<div class="fa-meta"><span class="verdict revise">Revise</span>' +
+          '<span class="sub-time">' + fmtTime(stg.lastReview.at) + "</span></div></div>";
+        html += reviewCardHTML(stg.lastReview, { readOnly: true, kicker: "Review received", verdictNote: "Revise \u2013 the mentor asked for another pass before accepting." });
+      } else {
+        html += '<h3 class="q-label" style="margin-top:14px">Your next question</h3>';
+        html += '<p class="q-text">' + esc(nextQuestion(st, i)) + "</p>";
+        html += '<p class="empty-note">No answer submitted yet.</p>';
+      }
     }
     html += '<section class="card"><p class="kicker">Definition of done \u2013 Stage ' + (i + 1) + "</p><ul class=\"dod-list\">";
     s.definitionOfDone.forEach(function (d) {
@@ -457,8 +592,81 @@
     });
     html += "</ul></section>";
     html += "</div>";
-    html += handFAB(st);
+    if (!readOnly) html += handFAB(st);
     return html;
+  }
+
+  function viewStateFor(s) {
+    if (s.live) {
+      var raw = localStorage.getItem("h1_student_" + s.subject);
+      var st = raw ? JSON.parse(raw) : ensureStudent(s.subject);
+      var copy = JSON.parse(JSON.stringify(st));
+      copy.stages.forEach(function (g) {
+        g.history = g.history || [];
+        if (!g.history.length && g.answers && g.answers.length) {
+          g.history = g.answers.map(function (a) {
+            return { question: a.question, answer: a.text, at: a.at, verdict: "accepted" };
+          });
+        }
+      });
+      return copy;
+    }
+    var pk = PACKS[s.subject];
+    return {
+      persona: null, subject: s.subject, name: s.name, year: s.year, teacher: TEACHER_NAME,
+      stageIndex: s.stageIndex,
+      done: pk.stages.map(function (_, i) { return i < s.stageIndex; }),
+      stages: pk.stages.map(function (_, i) {
+        var recs = (s.history || []).filter(function (r) { return r.stage === i; });
+        var accepted = recs.filter(function (r) { return r.verdict === "accepted"; });
+        var lastRev = null;
+        recs.forEach(function (r) { if (r.verdict === "revise") lastRev = r; });
+        var cr = cannedReview(pk.stages[i], s.stuck ? 3 : 1);
+        return {
+          answers: accepted.map(function (r) { return { question: r.question, text: r.answer, at: r.at }; }),
+          attempts: Math.max(recs.length, 1),
+          history: recs.map(function (r) { return { question: r.question, answer: r.answer, at: r.at, verdict: r.verdict }; }),
+          lastReview: (i === s.stageIndex && lastRev) ? {
+            question: lastRev.question, answer: lastRev.answer, at: lastRev.at,
+            strengths: cr.strengths, prompts: cr.prompts, flagged: !!s.stuck, source: "canned"
+          } : null,
+          reading: false, draft: ""
+        };
+      }),
+      handRaised: s.handRaised, handRaisedAt: s.handRaisedAt,
+      messages: [], log: s.log || []
+    };
+  }
+
+  function povHome(id) {
+    var s = findRosterStudent(id);
+    if (!s) return teacherBoard();
+    return studentHome({
+      st: viewStateFor(s),
+      readOnly: true,
+      backHref: "#/teacher/student/" + id,
+      backLabel: "Back to profile",
+      profileHref: "#/teacher/student/" + id,
+      badge: "Read-only view"
+    });
+  }
+
+  function povStage(id, indexStr) {
+    var s = findRosterStudent(id);
+    if (!s) return teacherBoard();
+    var st = viewStateFor(s);
+    return studentStage(indexStr, {
+      st: st,
+      readOnly: true,
+      backHref: "#/teacher/student/" + id + "/as-student",
+      backLabel: "Back to " + s.name.split(" ")[0] + "\u2019s stage map",
+      profileHref: "#/teacher/student/" + id,
+      badge: "Read-only view"
+    });
+  }
+
+  function findRosterStudent(id) {
+    return getRoster().filter(function (x) { return x.id === id; })[0] || null;
   }
 
   function studentAnswers() {
@@ -562,6 +770,31 @@
     return html;
   }
 
+  function fullAnswersHTML(pk, s) {
+    var history = (s.history || []).slice().sort(function (a, b) { return a.at - b.at; });
+    var html = '<section class="card full-answers"><p class="kicker">Every question and answer</p>' +
+      "<h3>Full answers</h3>" +
+      '<p class="advice-note">Every stage in order, every question asked, the full verbatim answer and the review verdict. Nothing is summarised or shortened.</p>';
+    if (!history.length) {
+      html += '<p class="empty-note">No answers recorded yet.</p></section>';
+      return html;
+    }
+    html += '<div class="fa-scroll">';
+    pk.stages.forEach(function (stg, i) {
+      var recs = history.filter(function (r) { return r.stage === i; });
+      html += '<div class="stage-overline">Stage ' + (i + 1) + " \u00b7 " + esc(stg.name) + "</div>";
+      if (!recs.length) {
+        html += '<p class="empty-note">No answers in this stage yet.</p>';
+      } else {
+        recs.forEach(function (r) {
+          html += answerRecordHTML(r);
+        });
+      }
+    });
+    html += "</div></section>";
+    return html;
+  }
+
   function teacherProfile(id) {
     var roster = getRoster();
     var s = roster.filter(function (x) { return x.id === id; })[0];
@@ -586,7 +819,9 @@
       "<h2>" + esc(s.name) + "</h2></div></div>" +
       '<div class="progress"><span style="width:' + pct + '%"></span></div>' +
       '<p class="progress-note">Stage ' + (s.stageIndex + 1) + " of " + pk.stages.length + ": " + esc(stage.name) +
-      " \u00b7 " + doneCount + " of " + doneTotal + " stages complete \u00b7 last active " + ago(s.lastActivity) + "</p></section>";
+      " \u00b7 " + doneCount + " of " + doneTotal + " stages complete \u00b7 last active " + ago(s.lastActivity) + "</p>" +
+      '<div class="settings-row"><a class="btn ghost small" href="#/teacher/student/' + esc(s.id) + '/as-student">View as student</a></div>' +
+      '<p class="advice-note">Opens ' + esc(first) + "\u2019s stage map, questions, answers and reviews exactly as they see them \u2013 read-only, no actions.</p></section>";
     if (s.handRaised && s.handRaisedAt) {
       html += '<div class="banner"><h3>Hand raised</h3><p class="msg-text">' + esc(first) + " raised a hand " + ago(s.handRaisedAt) + ". Sending advice below will clear it.</p></div>";
     }
@@ -606,6 +841,7 @@
       html += "</div>";
     }
     html += "</section>";
+    html += fullAnswersHTML(pk, s);
     html += '<section class="card advice-box"><p class="kicker">Advice box</p>' +
       "<h3>Send guidance to " + esc(first) + "</h3>" +
       '<p class="advice-note">The guidelines are clear: feedback should be general and nondirective. No editing of draft work, no model answers \u2013 H1Done holds the same line.</p>' +
@@ -790,6 +1026,9 @@
     var pk = PACKS[st.subject];
     var question = nextQuestion(st, stageIdx);
     var stg = st.stages[stageIdx];
+    if (stg.lastReview) {
+      stg.history.push({ question: stg.lastReview.question, answer: stg.lastReview.answer, at: stg.lastReview.at, verdict: "revise" });
+    }
     stg.attempts++;
     stg.draft = "";
     stg.reading = true;
@@ -823,6 +1062,7 @@
     var stg = st.stages[stageIdx];
     if (!stg.lastReview) return;
     var alreadyDone = st.done[stageIdx];
+    stg.history.push({ question: stg.lastReview.question, answer: stg.lastReview.answer, at: stg.lastReview.at, verdict: "accepted" });
     stg.answers.push({ question: stg.lastReview.question, text: stg.lastReview.answer, at: Date.now() });
     stg.lastReview = null;
     stg.customNext = null;
@@ -976,8 +1216,16 @@
       else if (parts[1] === "answers") html = studentAnswers();
       else html = studentHome();
     } else if (view === "teacher") {
-      if (parts[1] === "student" && parts[2]) html = teacherProfile(parts[2]);
-      else html = teacherBoard();
+      if (parts[1] === "student" && parts[2]) {
+        if (parts[3] === "as-student") {
+          if (parts[4] === "stage" && parts[5] !== undefined) html = povStage(parts[2], parts[5]);
+          else html = povHome(parts[2]);
+        } else {
+          html = teacherProfile(parts[2]);
+        }
+      } else {
+        html = teacherBoard();
+      }
     } else if (view === "settings") {
       html = settingsView();
     } else {

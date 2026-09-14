@@ -807,6 +807,80 @@ details.promptbank li { font-size: 0.85rem; color: var(--muted); margin: 4px 0; 
 .status-line strong.ok { color: var(--ok); }
 .status-line strong.warn { color: var(--crimson); }
 
+.ro-badge {
+  display: inline-block;
+  font: 700 0.68rem "Inter", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--raised);
+  border-radius: 999px;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+
+.pov-card { border-left: 4px solid var(--raised); }
+
+.full-answers h3 { margin-bottom: 2px; }
+
+.fa-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  padding: 2px 6px 2px 2px;
+  margin-top: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stage-overline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 6px;
+  font: 700 0.72rem "Inter", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--crimson);
+  white-space: nowrap;
+}
+
+.stage-overline::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--bg-alt);
+}
+
+.stage-overline:first-child { margin-top: 4px; }
+
+.fa-item {
+  background: var(--card);
+  border: 1px solid var(--bg-alt);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+
+.fa-item .q-ref {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.fa-item .a-text {
+  margin: 0;
+  font-size: 0.93rem;
+  white-space: pre-wrap;
+}
+
+.fa-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 @media (min-width: 640px) {
   .tgrid { grid-template-columns: 1fr 1fr; }
   .role-buttons { flex-direction: row; }

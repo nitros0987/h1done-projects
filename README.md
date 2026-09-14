@@ -31,7 +31,9 @@ Then open <http://localhost:8410>. Open a **second tab** (one on the student per
 | `#/student/stage/:n` | Next question, answer box, mentor review panel ("What's working" / "Before you move on"), revise or accept |
 | `#/student/answers` | Export preview under SEC report headings + AI use reference + Copy page |
 | `#/teacher/board` | Pinned hand-raised queue, filter chips, ~8 student cards with status dots |
-| `#/teacher/student/:id` | Profile: progress, last 3 submissions, advice box, Authentication evidence log |
+| `#/teacher/student/:id` | Profile: progress, last 3 submissions, full answers (every stage, every question, full text, verdicts), advice box, Authentication evidence log, View as student |
+| `#/teacher/student/:id/as-student` | Read-only view of that student's stage map exactly as they see it |
+| `#/teacher/student/:id/as-student/stage/:n` | Read-only stage view: their question, full answer and the review they received \u2013 no action buttons |
 | `#/settings` | OpenRouter key (optional live AI) and demo-data reset |
 
 ## Brand tokens
