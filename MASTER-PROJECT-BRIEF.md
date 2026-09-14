@@ -1,5 +1,5 @@
 # H1DONE PROJECTS — MASTER PROJECT BRIEF (single file for multi-AI review)
-_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Contains EVERYTHING: decisions D1–D27, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
+_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Contains EVERYTHING: decisions D1–D28, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
 
 ## HOW TO USE THIS FILE
 1. Paste this whole file into any AI with the prompt Tomás has.
@@ -7,7 +7,7 @@ _Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Con
 3. All factual claims about the SEC/NCCA are cited inside the research briefs; items marked UNVERIFIED are unverified.
 
 ---
-## SECTION 1 — DECISION LOG (D1–D27)
+## SECTION 1 — DECISION LOG (D1–D28)
 # H1Done Platform — Project Mentor: decision log
 **Grill session 1 — Mon 14 Sep 2026, ~12:30 IST.** Kevin O'Keefe (geography) meeting ~14:00-15:00 today.
 Research: `research-brief-2026-09-14.md` (same folder).
@@ -57,7 +57,8 @@ Research: `research-brief-2026-09-14.md` (same folder).
 - **D24 · November union meeting = documentation-pack deadline:** geography teachers + union rep (~Nov) will clarify individual-feedback rules. Get the D17/D18 pack to Kevin well before so our interpretation is stress-tested there. Kevin is the channel in.
 - **D25 · Guided-notes engagement principle (H1Done Learning):** Kevin's 80/20 handout technique (students complete the missing 20%) — learning content should be fill-the-gap, not passive. Digital equivalent built into content design.
 - **D26 · Teacher-gated AI + group nudges:** teacher-side AI never auto-fires; only on teacher click (then max-reasoning for quality). One click can generate a nudge applicable to a group of similar students. Student-side grill (E1/E2) unchanged.
-- **D27 · Pitch = proof story:** narrative spine (doctor → metacognition → taught Jim & Paula-Eve → knowing ≠ applying → platform → grades jumped) reused for Projects (topic varies, process doesn't). One story, page per platform (Projects / Learning).---
+- **D27 · Pitch = proof story:** narrative spine (doctor → metacognition → taught Jim & Paula-Eve → knowing ≠ applying → platform → grades jumped) reused for Projects (topic varies, process doesn't). One story, page per platform (Projects / Learning).
+- **D28 · Root-criteria discovery tactic:** conditional questions ("if I solved X, would you take it on?") in sequence expose the REAL adoption criteria — for Kevin they were: ALL geography classes (standardisation) + principal approval, not the three issues raised. Use this pattern in every sales/discovery conversation; the stated objections are rarely the gate.---
 ## SECTION 2 — MEETING NOTES: KEVIN O KEEFFE (POST-MEETING)
 # Post-meeting notes — Kevin O'Keefe, Mon 14 Sep 2026
 **Outcome: went well. He genuinely liked the demo app.** (Tomás's journal additions to follow — placeholder at the bottom.)
@@ -109,6 +110,8 @@ Research: `research-brief-2026-09-14.md` (same folder).
   - **Sales page:** one story for both platforms ("I turn knowing into doing"), separate page per platform (Projects / Learning).
   - Confirmed as-is (no change): Patrick Hickey talk (internal, from principal's mail — treat as context, ask-never-claim), log-not-submitted mechanics, SEC AI rules summary.
   - Context: H1Done R2 (platform rebuild) reopens by Sat 26 Sep per the ship plan.
+
+- **The discovery tactic that worked (repeat it):** asking tough conditional questions — "if I solved the individual-feedback issue, would you take it on? ...the Google-platform issue? ...the AI issue?" — surfaced the REAL adoption criteria, which weren't any of those: **it has to be all geography classes, and the principal has to approve.** Root criteria came out only under pressure. Use this pattern with every stakeholder.
 
 ## Tomás's journal additions
 _(to be appended — he'll add these after journaling)_
