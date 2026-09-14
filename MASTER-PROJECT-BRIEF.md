@@ -1,5 +1,5 @@
 # H1DONE PROJECTS — MASTER PROJECT BRIEF (single file for multi-AI review)
-_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Contains EVERYTHING: decisions D1–D28, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
+_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting + Ballybunion. Contains EVERYTHING: decisions D1–D29, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
 
 ## HOW TO USE THIS FILE
 1. Paste this whole file into any AI with the prompt Tomás has.
@@ -7,7 +7,7 @@ _Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Con
 3. All factual claims about the SEC/NCCA are cited inside the research briefs; items marked UNVERIFIED are unverified.
 
 ---
-## SECTION 1 — DECISION LOG (D1–D28)
+## SECTION 1 — DECISION LOG (D1–D29)
 # H1Done Platform — Project Mentor: decision log
 **Grill session 1 — Mon 14 Sep 2026, ~12:30 IST.** Kevin O'Keefe (geography) meeting ~14:00-15:00 today.
 Research: `research-brief-2026-09-14.md` (same folder).
@@ -58,7 +58,8 @@ Research: `research-brief-2026-09-14.md` (same folder).
 - **D25 · Guided-notes engagement principle (H1Done Learning):** Kevin's 80/20 handout technique (students complete the missing 20%) — learning content should be fill-the-gap, not passive. Digital equivalent built into content design.
 - **D26 · Teacher-gated AI + group nudges:** teacher-side AI never auto-fires; only on teacher click (then max-reasoning for quality). One click can generate a nudge applicable to a group of similar students. Student-side grill (E1/E2) unchanged.
 - **D27 · Pitch = proof story:** narrative spine (doctor → metacognition → taught Jim & Paula-Eve → knowing ≠ applying → platform → grades jumped) reused for Projects (topic varies, process doesn't). One story, page per platform (Projects / Learning).
-- **D28 · Root-criteria discovery tactic:** conditional questions ("if I solved X, would you take it on?") in sequence expose the REAL adoption criteria — for Kevin they were: ALL geography classes (standardisation) + principal approval, not the three issues raised. Use this pattern in every sales/discovery conversation; the stated objections are rarely the gate.---
+- **D28 · Root-criteria discovery tactic:** conditional questions ("if I solved X, would you take it on?") in sequence expose the REAL adoption criteria — for Kevin they were: ALL geography classes (standardisation) + principal approval, not the three issues raised. Use this pattern in every sales/discovery conversation; the stated objections are rarely the gate.
+- **D29 · Ballybunion = second beachhead:** St Joseph's Ballybunion (Patrick Moran, guidance counsellor, intro via John Donovan). Talk to 5th/6th years + teacher sessions. Target Friday 18 Sep (clear of MRCEM 16th + BLS 17th; MRCP 23rd). Teacher pick: Biology (live LC 2027 AAC) + Geography (new, Kevin-pilot alignment) + Engineering over Construction for variety (Dad already covers Construction ground truth), unless John Donovan teaches Construction. Same-day Tarbert principal slot if Kevin can arrange. Corrected intel: English/Accounting POSTPONED ≥2027 (don't call them new); biology coursework "26 Feb 2027" from a Scribd brief copy = plausible, UNVERIFIED — verify with the biology teacher; SEC bot-wall blocked Scribd fetch too.---
 ## SECTION 2 — MEETING NOTES: KEVIN O KEEFFE (POST-MEETING)
 # Post-meeting notes — Kevin O'Keefe, Mon 14 Sep 2026
 **Outcome: went well. He genuinely liked the demo app.** (Tomás's journal additions to follow — placeholder at the bottom.)
