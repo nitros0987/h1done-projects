@@ -1,5 +1,5 @@
 # H1DONE PROJECTS — MASTER PROJECT BRIEF (single file for multi-AI review)
-_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting. Contains EVERYTHING: decisions D1–D23, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
+_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting (incl. follow-ups 2). Contains EVERYTHING: decisions D1–D27, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
 
 ## HOW TO USE THIS FILE
 1. Paste this whole file into any AI with the prompt Tomás has.
@@ -7,7 +7,7 @@ _Assembled Mon 14 Sep 2026, updated post-Kevin-meeting. Contains EVERYTHING: dec
 3. All factual claims about the SEC/NCCA are cited inside the research briefs; items marked UNVERIFIED are unverified.
 
 ---
-## SECTION 1 — DECISION LOG (D1–D23)
+## SECTION 1 — DECISION LOG (D1–D27)
 # H1Done Platform — Project Mentor: decision log
 **Grill session 1 — Mon 14 Sep 2026, ~12:30 IST.** Kevin O'Keefe (geography) meeting ~14:00-15:00 today.
 Research: `research-brief-2026-09-14.md` (same folder).
@@ -53,7 +53,11 @@ Research: `research-brief-2026-09-14.md` (same folder).
 - **D20 · New exam-content thread (paper side):** no published marking schemes / no marks — answers fit in a BOX. Build practice questions sized to the box (lines = marks proxy); use new JC paper structure as the model for new LC structure; class-level summaries for teachers ("X stuck on topic A") + teacher-uploaded class content drives student learning content (tightly classroom-connected, self-study optional). Projects are already classroom-tight; bring the exam side to parity.
 - **D21 · Ethics-first marketing:** all advertising leads with the SEC-aligned ethics story (exact guideline quotes + the hard wall) and demonstrates the individual-vs-general feedback boundary. Clarity on how specific feedback can be IS the marketing.
 - **D22 · "H1Done Learning" (exam side named):** internal marking schemes derived from the specs' LEARNING OUTCOMES (decompose each outcome into sub-requirements; show how one chosen example satisfies several outcomes at once) · box size as the marks proxy (questions sized to the box, sub-points = lines) · new JC paper structure as the LC model · teacher-uploaded class content drives student learning content. Projects = H1Done Projects; exam = H1Done Learning.
-- **D23 · Voice feedback for teachers:** record/dictate → voice-to-text → auto-format → send (Kevin's existing Google Classroom voice-feedback habit). Strong adoption wedge; v2 feature but design for it now (feedback loop must be voice-ready).---
+- **D23 · Voice feedback for teachers:** record/dictate → voice-to-text → auto-format → send (Kevin's existing Google Classroom voice-feedback habit). Strong adoption wedge; v2 feature but design for it now (feedback loop must be voice-ready).
+- **D24 · November union meeting = documentation-pack deadline:** geography teachers + union rep (~Nov) will clarify individual-feedback rules. Get the D17/D18 pack to Kevin well before so our interpretation is stress-tested there. Kevin is the channel in.
+- **D25 · Guided-notes engagement principle (H1Done Learning):** Kevin's 80/20 handout technique (students complete the missing 20%) — learning content should be fill-the-gap, not passive. Digital equivalent built into content design.
+- **D26 · Teacher-gated AI + group nudges:** teacher-side AI never auto-fires; only on teacher click (then max-reasoning for quality). One click can generate a nudge applicable to a group of similar students. Student-side grill (E1/E2) unchanged.
+- **D27 · Pitch = proof story:** narrative spine (doctor → metacognition → taught Jim & Paula-Eve → knowing ≠ applying → platform → grades jumped) reused for Projects (topic varies, process doesn't). One story, page per platform (Projects / Learning).---
 ## SECTION 2 — MEETING NOTES: KEVIN O KEEFFE (POST-MEETING)
 # Post-meeting notes — Kevin O'Keefe, Mon 14 Sep 2026
 **Outcome: went well. He genuinely liked the demo app.** (Tomás's journal additions to follow — placeholder at the bottom.)
@@ -93,6 +97,18 @@ Research: `research-brief-2026-09-14.md` (same folder).
   - The **BOX**: new papers give a box (≈10 lines) instead of published marks → box size = how much to write / how many points to make. Practice questions are sized to the box; sub-points map to the space given.
   - This nests with the JC-structure insight from the meeting notes above.
 - **Voice feedback for teachers:** Kevin records **voice feedback in Google Classroom** for past-paper work → build voice into our feedback loop: record/dictate → voice-to-text → auto-format → send to student. Fast feedback is the teacher adoption wedge.
+
+## Follow-up additions 2 (14 Sep, later)
+- **NOVEMBER: geography teachers' meeting with a union rep (~Novemberish)** — will clarify the individual-feedback rules. ACTION: the documentation-first pack (D17/D18) must be in Kevin's hands well before it, so our interpretation gets stress-tested there and we adapt fast. Kevin = our channel into that room.
+- **Kevin's classroom engagement technique (→ H1Done Learning):** handouts carry ~80% of what he teaches; students write in the missing ~20% themselves — keeps them engaged. Design principle: guided-notes / fill-the-gap interactions in learning content, not passive reading.
+- **Pain point confirmed (Projects):** reviewing student content today is not individualised — the teacher must hold in mind exactly how each project differs to give useful feedback; hard. He loved how individualised the demo was per student — his only remaining worry is the feedback-rules ambiguity (covered by D17/D18 + the November meeting).
+- **Folded in from a pre-meeting AI chat (useful bits; superseded bits dropped):**
+  - **Narrative spine for the pitch:** proof story, not feature list — "I'm a doctor; years into cognitive science/metacognition; taught Jim & Paula-Eve the principles; they knew it but couldn't apply it (knowing ≠ applying); built the platform; they thrived, grades jumped." Same shape for Projects: the topic changes every year and every student, the process never does — knowing the process ≠ running it.
+  - **The ask, small-yes-first phrasing:** "Would you try it with one class for a month or two — free — and if it's working, we run it through to Christmas?" (we already landed the Christmas version).
+  - **Teacher-gated AI nudges:** AI never fires teacher-side responses automatically — only when the teacher clicks; then spend up (max-reasoning model) for quality. Extension: one click produces a nudge the teacher applies to a GROUP of similar students in one go.
+  - **Sales page:** one story for both platforms ("I turn knowing into doing"), separate page per platform (Projects / Learning).
+  - Confirmed as-is (no change): Patrick Hickey talk (internal, from principal's mail — treat as context, ask-never-claim), log-not-submitted mechanics, SEC AI rules summary.
+  - Context: H1Done R2 (platform rebuild) reopens by Sat 26 Sep per the ship plan.
 
 ## Tomás's journal additions
 _(to be appended — he'll add these after journaling)_
