@@ -1,5 +1,5 @@
 # H1DONE PROJECTS — MASTER PROJECT BRIEF (single file for multi-AI review)
-_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting + Ballybunion. Contains EVERYTHING: decisions D1–D29, research, meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
+_Assembled Mon 14 Sep 2026, updated post-Kevin-meeting + strategy sharpening (D1–D37). Contains EVERYTHING: decisions, research (incl. verified SEC primary documents), meeting notes, and the full source of the live mock-up (https://nitros0987.github.io/h1done-projects/ · repo nitros0987/h1done-projects). Sections separated by --- with a header line._
 
 ## HOW TO USE THIS FILE
 1. Paste this whole file into any AI with the prompt Tomás has.
@@ -7,7 +7,7 @@ _Assembled Mon 14 Sep 2026, updated post-Kevin-meeting + Ballybunion. Contains E
 3. All factual claims about the SEC/NCCA are cited inside the research briefs; items marked UNVERIFIED are unverified.
 
 ---
-## SECTION 1 — DECISION LOG (D1–D29)
+## SECTION 1 — DECISION LOG (D1–D37)
 # H1Done Platform — Project Mentor: decision log
 **Grill session 1 — Mon 14 Sep 2026, ~12:30 IST.** Kevin O'Keefe (geography) meeting ~14:00-15:00 today.
 Research: `research-brief-2026-09-14.md` (same folder).
@@ -59,7 +59,15 @@ Research: `research-brief-2026-09-14.md` (same folder).
 - **D26 · Teacher-gated AI + group nudges:** teacher-side AI never auto-fires; only on teacher click (then max-reasoning for quality). One click can generate a nudge applicable to a group of similar students. Student-side grill (E1/E2) unchanged.
 - **D27 · Pitch = proof story:** narrative spine (doctor → metacognition → taught Jim & Paula-Eve → knowing ≠ applying → platform → grades jumped) reused for Projects (topic varies, process doesn't). One story, page per platform (Projects / Learning).
 - **D28 · Root-criteria discovery tactic:** conditional questions ("if I solved X, would you take it on?") in sequence expose the REAL adoption criteria — for Kevin they were: ALL geography classes (standardisation) + principal approval, not the three issues raised. Use this pattern in every sales/discovery conversation; the stated objections are rarely the gate.
-- **D29 · Ballybunion = second beachhead:** St Joseph's Ballybunion (Patrick Moran, guidance counsellor, intro via John Donovan). Talk to 5th/6th years + teacher sessions. Target Friday 18 Sep (clear of MRCEM 16th + BLS 17th; MRCP 23rd). Teacher pick: Biology (live LC 2027 AAC) + Geography (new, Kevin-pilot alignment) + Engineering over Construction for variety (Dad already covers Construction ground truth), unless John Donovan teaches Construction. Same-day Tarbert principal slot if Kevin can arrange. Corrected intel: English/Accounting POSTPONED ≥2027 (don't call them new); biology coursework "26 Feb 2027" from a Scribd brief copy = plausible, UNVERIFIED — verify with the biology teacher; SEC bot-wall blocked Scribd fetch too.---
+- **D29 · Ballybunion = second beachhead:** St Joseph's Ballybunion (Patrick Moran, guidance counsellor, intro via John Donovan). Talk to 5th/6th years + teacher sessions. Target Friday 18 Sep (clear of MRCEM 16th + BLS 17th; MRCP 23rd). Teacher pick: Biology (live LC 2027 AAC) + Geography (new, Kevin-pilot alignment) + Engineering over Construction for variety (Dad already covers Construction ground truth), unless John Donovan teaches Construction. Same-day Tarbert principal slot if Kevin can arrange. Corrected intel: English/Accounting POSTPONED ≥2027 (don't call them new); biology coursework "26 Feb 2027" from a Scribd brief copy = plausible, UNVERIFIED — verify with the biology teacher; SEC bot-wall blocked Scribd fetch too.- **D30 · SEC compliance base = Coursework Rules and Procedures 2025/2026, Appendix 2 (verified 14 Sep, sec-docs/):** supersedes S52/24 + S69/04 + S68/08 + S76/22. "Structuring coursework plans" is a NAMED PERMITTED use — the grill→brief→subtasks engine is literally on the SEC's permitted list. Export renders the SEC-format AI acknowledgment appendix (tool+version, developer, date, description, prompts, session URL). Onboarding includes "discuss AI use with your teacher" step. Penalties ladder goes into teacher-facing materials verbatim.
+- **D31 · Three-level individualisation model (the core of H1Done Projects):** L1 — the main sections come from the subject + the EXACT SEC brief for that subject/year; L2 — the sub-questions/subtasks inside each section are generated dynamically from THAT student's own answers so far; L3 — feedback/nudges are specific to that student's work. Defining trait vs generic AI.
+- **D32 · Workspace/Teams class deployment:** teacher creates a class section → copy-link for the classroom → students open it → auto-login via their school Google/Microsoft account (SSO) → everyone lands in that section. Teacher feedback flows through our site OR Google Workspace; voice notes supported; auto speech-to-text + concise formatting so the student receives both the audio and clean text.
+- **D33 · Subtasks as PRs (Matt Pocock pattern, student-executed):** each main section spawns small subtasks structured like pull requests — definition-of-done, review, accept/revise — but the STUDENT does them and fills them in; the AI reviews and asks the next question.
+- **D34 · Platform-can-individualise (Richard's insight):** the SEC feedback rules bind the TEACHER, not the platform. The platform's individualised questioning already sits inside the SEC's named permitted uses (prompt questions, structuring plans). Two modes: (a) fully automated, no teacher involvement; (b) within documented lines with teacher approval/oversight. Strategy: follow what's documented, teacher approves, adapt if corrected. Guardrail: the platform never does what a teacher may not (model text, answers).
+- **D35 · Periodic cohort digest:** at stage checkpoints (e.g. two weeks into Considering the brief) the AI aggregates all student responses → class-level summary for the teacher: the common problems, who's ahead/behind → teacher addresses them in class. One AI call per class per checkpoint — negligible cost.
+- **D36 · Anti-"paste it into ChatGPT" advantages (marketing):** standardisation done right (best models + right settings; every student gets the same standard — teacher-verifiable), the brief + relevant documents pre-loaded, SEC-ethics compliant by design (never gives answers, asks prompt questions), teacher monitoring of progress in one place, and per-student clarity so feedback never mixes projects up.
+- **D37 · Back-fill UX for mid-project students:** dead-simple "dump your stuff" upload → auto-slot into the stages → continue where they left off. Design for people who already live in Google Classroom/Microsoft — familiar patterns, easy to use; test efficiency + efficacy with half-way students.
+---
 ## SECTION 2 — MEETING NOTES: KEVIN O KEEFFE (POST-MEETING)
 # Post-meeting notes — Kevin O'Keefe, Mon 14 Sep 2026
 **Outcome: went well. He genuinely liked the demo app.** (Tomás's journal additions to follow — placeholder at the bottom.)
@@ -113,6 +121,15 @@ Research: `research-brief-2026-09-14.md` (same folder).
   - Context: H1Done R2 (platform rebuild) reopens by Sat 26 Sep per the ship plan.
 
 - **The discovery tactic that worked (repeat it):** asking tough conditional questions — "if I solved the individual-feedback issue, would you take it on? ...the Google-platform issue? ...the AI issue?" — surfaced the REAL adoption criteria, which weren't any of those: **it has to be all geography classes, and the principal has to approve.** Root criteria came out only under pressure. Use this pattern with every stakeholder.
+
+## Follow-up additions 3 (late 14 Sep — strategy sharpened)
+- **Core model named (D31):** sections = subject + exact SEC brief; sub-questions = generated from that student's own answers; feedback = per-student. Three levels of individualisation — this IS the product.
+- **Workspace/Teams deployment (D32):** class copy-link → students auto-login via school account → same section. Feedback through our site OR Google Workspace; voice notes + auto speech-to-text with concise formatting (student gets both).
+- **Subtasks formalised as student-executed PRs (D33).**
+- **Richard's insight (D34):** the platform can individualise even where the teacher can't — the rules bind the teacher, not the software; run on documented lines with teacher approval.
+- **Cohort digest (D35):** periodic AI summary of where the whole class is struggling → teacher teaches to it.
+- **Anti-ChatGPT marketing (D36):** standardisation (right models/settings for everyone), pre-loaded briefs, SEC-ethics by design, teacher monitoring, per-student clarity.
+- **Back-fill UX (D37):** dump-your-stuff upload for half-way students; familiar Google-Classroom patterns.
 
 ## Tomás's journal additions
 _(to be appended — he'll add these after journaling)_
@@ -397,7 +414,25 @@ Sources: Geography spec — https://www.curriculumonline.ie/getmedia/837bf939-b5
 - The Geography teacher's **current 6th years** run the old GI (20%, report due ~end of Term 1 of Year 2 ≈ Dec/Jan 2026-27); her **5th years** (LC 2028) start the 40% Applied Geography Project — brief lands **spring 2027** (Term 2 of 5th year), so Sept 2026–Jan 2027 is a preparation window, not a project window.
 - The AGP is a 7-stage, ~20-hour inquiry anchored in the local area, assessed solely on an individual digital report; the official guidelines hand teachers a **stage-by-stage prompt-question script (Appendix 1)** — the product can digitise exactly this, stage by stage.
 - AI is explicitly allowed as a **referenced research source** (tool, date, how used, chat URL or prompt) and explicitly banned as **unacknowledged text** — "mentor that asks the next question and supplies links" is squarely on the permitted side, and can auto-generate the AI reference entry for the inquiry log.
-- Teachers carry real authentication risk (candidate + teacher + principal, secure storage, no draft-editing): a product that logs process evidence (decision points per stage) strengthens *their* authentication file — that's a pitch that lands with a teacher, not a threat.---
+- Teachers carry real authentication risk (candidate + teacher + principal, secure storage, no draft-editing): a product that logs process evidence (decision points per stage) strengthens *their* authentication file — that's a pitch that lands with a teacher, not a threat.
+---
+
+## 9. VERIFIED 14 Sep evening — SEC primary documents (local: sec-docs/)
+Source: uploaded by Tomás to Drive "Inbox - For AI", downloaded to `sec-docs/`.
+
+- **Coursework Rules and Procedures 2025/2026** (full PDF + txt extracted). Per circular **S79/25** §A, it **replaces S69/04, S68/08, S76/22 and S52/24** — the consolidated compliance base. No need to hunt the older circulars.
+- **Appendix 2 — Rules for the Use of AI in SEC Examination Coursework** (exact wording now on file):
+  - Permitted: gathering background information from credible sources; **structuring coursework plans**; clarifying research material. Candidates must critically evaluate AI output (accuracy, bias, hallucinations).
+  - Prohibited: using AI to generate coursework content, responses or creative elements directly; copying **or paraphrasing** AI-generated material — "Any ideas, prompts, or suggestions derived from the use of AI tools must be explicitly acknowledged; however, candidates remain responsible for expressing these ideas in their own words".
+  - Acknowledgment: **dedicated appendix section** in the coursework containing tool name+version, developer/publisher, date output generated, brief description of how used; prompts where applicable; shareable URL/session link if available.
+  - Marking: properly referenced AI material earns **no credit itself** — credit only for its effective use in support/development of the candidate's own work.
+  - Penalties ladder: loss of coursework marks → loss of subject → loss of entire examination → debarment from subsequent years' certificate examinations.
+  - Authentication Form P.2 signed by candidate ("free from any unacknowledged AI tool assistance"); "Candidates should discuss the proposed use of any AI tools with their class teacher before they undertake their coursework."
+- **S79/25 Timetable and Coursework Circular 2026**: introduces the Rules; provisional LC 2026/27 schedule; per-subject AAC dates live in the briefs (biology deadline still to verify from the brief itself).
+- **Old GI LC 2027**: Prescribed List + Reporting Booklet downloaded (booklet requires PDF conversion before submission).
+
+**Product mapping (update to §4.2):** the grill→brief→subtasks engine is a **named permitted use** ("structuring coursework plans"). The platform's auto-generated AI-use export must render the SEC-format acknowledgment appendix verbatim (tool+version, developer, date, description, prompts, session URL). Onboarding must include the "discuss AI use with your teacher" step. The hard wall satisfies every prohibited use.
+---
 ## SECTION 5 — RESEARCH BRIEF 2: DATES, LEO GRANT, AI COST MODEL
 # H1Done Project Mentor — Research Brief: Due Dates, LEO Grant, AI Cost Model
 **Prepared:** Monday 14 September 2026, ~13:45 IST (for 14:00 meeting)
