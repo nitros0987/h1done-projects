@@ -11,9 +11,9 @@ const CONFIG = {
   // DEMO link on slides + QR. Plain public URL — no key in the repo (paste ?key= in Settings on the venue laptop).
   DEMO_URL: "https://nitros0987.github.io/h1done-projects/",
   // Leave '' to show a fill-later placeholder. Paste the post-survey form link and the QR renders itself.
-  SURVEY_URL: "",
+  SURVEY_URL: "https://docs.google.com/forms/d/e/1FAIpQLSeGLF6V07T47lQEOuy48l7LpZbYZ7NF46YqR1EOuN1cPFZAPQ/viewform",
   // Leave '' to show a fill-later placeholder (button appears once set).
-  PRE_SURVEY_URL: "",
+  PRE_SURVEY_URL: "https://docs.google.com/forms/d/e/1FAIpQLSdNcLKuFnutECYgD8oOGOwELsefleSlCQu7fqYuEu6-ut3h6A/viewform",
   DATA_NOTE: "Artificial Analysis · Intelligence Index v4.3 · 16 Sep 2026",
 };
 /* ==================================================================== */
