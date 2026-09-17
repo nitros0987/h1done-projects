@@ -232,13 +232,18 @@ const CONFIG = {
       html: () =>
         '<p class="eyebrow">What changed while you were studying the old way</p>' +
         '<h2>Up to <span class="crim">40%</span> of your Leaving Cert is now a project &mdash; largely in your own time.</h2>' +
-        '<div class="diag-split">' +
+        '<div class="side-split">' +
+        '<div class="side-body">' +
         '<div class="stats stats-v" style="margin:0">' +
         '<div class="stat"><div class="big">40%</div><p>Biology (AAC): the investigation + report, largely in your own time — with AI in every pocket.</p></div>' +
         '<div class="stat"><div class="big">50%</div><p>Engineering next year: Design &amp; Manufacture — the biggest coursework weight in the LC.</p></div>' +
         '<div class="stat"><div class="big">2027</div><p>First examined: the new spec you are sitting. Half your grade decided before exam day.</p></div>' +
-        "</div>" + SVG.donut() + "</div>" +
-        '<p class="sub" style="margin-bottom:0">Not all at home &mdash; e.g. Geography: <b>at least 20 hours supervised in class</b>; the <b>portfolio</b> (the write-up) is what&rsquo;s done at home. And the rules changed: the SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</p>',
+        "</div>" +
+        '<p class="sub" style="margin:1.4vh 0 0">Not all at home &mdash; e.g. Geography: <b>at least 20 hours supervised in class</b>; the <b>portfolio</b> (the write-up) is what&rsquo;s done at home.</p>' +
+        "</div>" +
+        '<div class="side-media"><img class="diag-img" src="img/ai-fork.webp" alt="Two paths: the flat old road, and a staircase rising into the light — the project route"></div>' +
+        "</div>" +
+        '<div class="take one-line">The SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</div>',
     },
     {
       beat: "3 · Write your why", clock: "7:00–12:00",
@@ -269,13 +274,17 @@ const CONFIG = {
         "Evidence: Bloom's 2-sigma (1-to-1 tutoring ≈ 2 standard deviations better); Vygotsky's zone of proximal development; pre-questions prime learning.",
       ],
       html: () =>
+        '<div class="side-split">' +
+        '<div class="side-body">' +
         '<div class="tech-head"><span class="tech-num">1</span><h2>Understand &mdash; at <span class="italic crim">your</span> level</h2></div>' +
         '<p class="sub">Learning is three processes: <b>understand &rarr; memorise &rarr; apply</b>. Understanding starts with a map: <i>what you know vs what you don&rsquo;t.</i></p>' +
-        SVG.gaps() +
         '<div class="tools"><span class="tool-chip"><b>ChatGPT / AI Studio</b> — &ldquo;quiz me first, then teach to my level&rdquo;</span><span class="tool-chip"><b>NotebookLM</b> — grounded in YOUR sources</span><span class="tool-chip"><b>Voice-to-text</b> — talk your questions in (Groq, free)</span></div>' +
         '<ul class="tech-steps"><li>Quiz <em>before</em> you read &mdash; find the gaps and the misconceptions early, while they&rsquo;re cheap to fix.</li><li>Then read content built for your level: every acronym explained, every gap filled as you go.</li><li>~10% beyond your level = flow: enjoyable, fast. Too far below = boring. Too far above = you zone out. It&rsquo;s level, not intelligence.</li><li>A class of 30 gets one speed. A good AI gets <em>yours</em> &mdash; a private tutor effect, for free.</li></ul>' +
         '<div class="trap"><b>The trap</b>Passive reading and re-watching. If no question was asked, no map was drawn &mdash; you don&rsquo;t know what you don&rsquo;t know.</div>' +
-        evidence(["Bloom&rsquo;s 2-sigma: 1-to-1 tutoring ≈ +2 SD", "Vygotsky: zone of proximal development", "pre-testing primes later learning (Kornell)"]),
+        evidence(["Bloom&rsquo;s 2-sigma: 1-to-1 tutoring ≈ +2 SD", "Vygotsky: zone of proximal development", "pre-testing primes later learning (Kornell)"]) +
+        "</div>" +
+        '<div class="side-media"><img class="diag-img" src="img/ai-partner.webp" alt="Student and AI arm-wrestling over a bar chart — working together honestly"></div>' +
+        "</div>",
     },
     {
       beat: "4 · Memorise", clock: "15:00–17:30", diag: "forget",
@@ -334,6 +343,8 @@ const CONFIG = {
       html: () =>
         '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one line, then it spins</h2></div>' +
         '<p class="sub">Three processes, one line &mdash; and every wrong answer feeds back in. That&rsquo;s spacing compounding.</p>' +
+        '<div class="side-split">' +
+        '<div class="side-body">' +
         '<div class="loop-row">' +
         '<span class="loop-step">Grill<br><small>find the gaps</small></span><span class="loop-arrow">&rarr;</span>' +
         '<span class="loop-step">Read<br><small>at your level</small></span><span class="loop-arrow">&rarr;</span>' +
@@ -343,7 +354,10 @@ const CONFIG = {
         "</div>" +
         '<div class="loop-wrap"><svg class="loop-back-arc" viewBox="0 0 560 64" preserveAspectRatio="none" aria-hidden="true"><path d="M548 8 C 470 54, 240 58, 42 22" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs></svg><span class="loop-back-label">every wrong &rarr; a new card &rarr; back into Cards &amp; Apply &mdash; the loop spins</span></div>' +
         '<ul class="tech-steps"><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; apply again. The loop spins.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
-        evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]),
+        evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]) +
+        "</div>" +
+        '<div class="side-media"><img class="diag-img" src="img/ai-loop.webp" alt="Student climbing a spiral staircase of flashcards with an upward loop arrow — spaced repetition compounding"></div>' +
+        "</div>",
     },
     {
       beat: "5 · Not all AI is equal", clock: "20:00–22:00", diag: "dials",
@@ -461,6 +475,38 @@ const CONFIG = {
     pw.focus();
   }
 
+  /* ---------------- lightbox (click any image → fullscreen) ---------------- */
+
+  function ensureLightbox() {
+    if ($("#lightbox")) return;
+    const lb = document.createElement("div");
+    lb.id = "lightbox";
+    lb.setAttribute("role", "dialog");
+    lb.setAttribute("aria-label", "Image fullscreen — click or press Escape to close");
+    lb.innerHTML = '<img alt="">' + '<button class="lb-close" aria-label="Close">×</button>';
+    document.body.appendChild(lb);
+    const img = lb.querySelector("img");
+    const close = () => { lb.classList.remove("open"); setTimeout(() => { lb.style.display = "none"; }, 180); };
+    lb.addEventListener("click", close);
+    lb.querySelector(".lb-close").addEventListener("click", close);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && lb.classList.contains("open")) close(); });
+  }
+
+  function bindLightbox(root) {
+    ensureLightbox();
+    root.addEventListener("click", (e) => {
+      const t = e.target;
+      const isImg = t.tagName === "IMG" && !t.closest(".lb") && (t.classList.contains("diag-img") || t.closest(".aa-card") || t.closest(".qr-box") || t.classList.contains("brand-mark") === false && t.closest(".side-media, .hero-pic, .diag-split"));
+      if (!isImg) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const lb = $("#lightbox");
+      lb.querySelector("img").src = t.src;
+      lb.style.display = "flex";
+      requestAnimationFrame(() => lb.classList.add("open"));
+    });
+  }
+
   /* ---------------- deck (presenter) ---------------- */
 
   function renderDeck() {
@@ -493,6 +539,7 @@ const CONFIG = {
 
     document.addEventListener("keydown", deckKeys);
     bindSwipe($("#stage"));
+    bindLightbox($("#stage"));
 
     connPill();
     connectMqtt(true);

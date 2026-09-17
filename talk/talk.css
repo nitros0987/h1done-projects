@@ -400,6 +400,25 @@ a:hover { text-decoration: underline; }
 .remote-taps .btn { flex: 1; padding: 16px 10px; font-size: 1rem; }
 .remote-taps .btn.ghost { flex: 0 0 64px; font-size: 1.2rem; padding: 10px 0; }
 
+/* ---------- lightbox ---------- */
+#lightbox {
+  display: none; position: fixed; inset: 0; z-index: 95;
+  background: rgba(20, 20, 20, 0.88); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; cursor: zoom-out; padding: 3vmin;
+}
+#lightbox img {
+  max-width: 96vw; max-height: 94vh; border-radius: 12px; box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+  transform: scale(0.92); opacity: 0; transition: transform 0.18s, opacity 0.18s; background: #fff;
+}
+#lightbox.open img { transform: scale(1); opacity: 1; }
+#lightbox .lb-close {
+  position: absolute; top: 14px; right: 18px; background: rgba(255,255,255,0.14);
+  color: #fff; border: 1px solid rgba(255,255,255,0.35); border-radius: 50%;
+  width: 44px; height: 44px; font-size: 22px; cursor: pointer;
+}
+#lightbox .lb-close:hover { background: var(--crimson); }
+.aa-card, .qr-box, .side-media, .diag-img { cursor: zoom-in; }
+
 /* ---------- toast ---------- */
 
 .toast {
