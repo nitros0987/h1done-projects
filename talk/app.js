@@ -17,7 +17,7 @@ const CONFIG = {
   // Leave '' to show a fill-later placeholder (button appears once set).
   PRE_SURVEY_URL: "https://docs.google.com/forms/d/e/1FAIpQLSdNcLKuFnutECYgD8oOGOwELsefleSlCQu7fqYuEu6-ut3h6A/viewform",
   // Teacher post-survey ('' = placeholder on the teacher close slide). QR + button render once set.
-  TEACHER_SURVEY_URL: "",
+  TEACHER_SURVEY_URL: "https://docs.google.com/forms/d/e/1FAIpQLSfwg6XHJ4PA62fCXf-5-RNl0U-2OQvERIka2IkWdQm80yGigw/viewform",
   // One-page teacher briefing (Workspace/M365 gap, SEC quotes verified) — shown beside the demo link.
   TEACHER_BRIEF_URL: "https://nitros0987.github.io/h1done-projects/workspace-gap.html",
   DATA_NOTE: "Artificial Analysis · Intelligence Index v4.3 · 16 Sep 2026",
@@ -107,8 +107,8 @@ const CONFIG = {
     "<li><b>Printed QR A4 ×2</b> — quickchart recipe, in your bag</li></ul></div>";
 
   const TEACHER_TODO_CARD =
-    '<div class="todo-card"><span class="lab">Fill before the session</span>' +
-    "<ul><li><b>TEACHER_SURVEY_URL</b> — teacher post-survey (close slide, CONFIG)</li>" +
+    '<div class="todo-card"><span class="lab">Session checklist</span>' +
+    "<ul><li><b>TEACHER_SURVEY_URL</b> — done: post-survey live, QR renders on the close slide</li>" +
     "<li><b>Demo tab pre-opened</b> — teacher board + a student tab for the round-trip</li>" +
     "<li><b>Printed QR A4</b> — teacher briefing (workspace-gap.html), in your bag</li></ul></div>";
 
@@ -651,6 +651,8 @@ const CONFIG = {
       beat: "8 · Close — survey", clock: "13:45–14:30",
       notes: [
         "Final: the 2-minute teacher survey — your subject + one thing that would make AI use work for your class.",
+        "This survey IS the inbox: every teacher answer, question and complaint lands with us — read them all, reply to anything with a name on it.",
+        "Q1 is the passphrase — so we know who was in the room; the quiz questions mirror the deck (penalties, permitted uses, authentication, feedback line).",
         "Tagline slowly, word for word: not every AI is the same — ask what model, what settings, and know how I learn.",
         "Leave the survey QR up while the room empties; the briefing URL is on it for the one-pager.",
         "If asked about the tool itself or a pilot: take it after, one-to-one — this session stays informative."
