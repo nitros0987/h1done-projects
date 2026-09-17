@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>H1Done Projects – What Classroom and Teams do (and don't) for project work</title>
+  <meta name="description" content="One-page comparison for teachers: what Google Workspace for Education and Microsoft 365 Education do for Leaving Cert project work, what the SEC rules say, and what a stage-by-stage platform adds.">
+  <meta name="theme-color" content="#A51C30">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #A51C30;
+      --crimson-dark: #8B1728;
+      --accent: #C4354A;
+      --bg: #F5F3F0;
+      --bg-alt: #E8E4E0;
+      --card: #FFFFFF;
+      --ink: #1A1A1A;
+      --muted: #7A7A7A;
+      --ok: #2E7D4F;
+      --raised: #1F7A8C;
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(26, 26, 26, 0.05), 0 8px 24px rgba(26, 26, 26, 0.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.6 "Inter", system-ui, -apple-system, sans-serif;
+    }
+
+    h1, h2, h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      line-height: 1.18;
+      margin: 0 0 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.1rem; }
+    p { margin: 0.35rem 0; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245, 243, 240, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--bg-alt);
+    }
+
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand span { color: var(--crimson); font-style: italic; }
+
+    .topnav { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .topnav:hover { color: var(--crimson); }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 18px 16px 40px;
+    }
+
+    .kicker {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0 0 4px;
+    }
+
+    .kicker.crimson { color: var(--crimson); }
+
+    .hero {
+      padding: 30px 18px 8px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero h1 { font-size: 2.3rem; margin-bottom: 8px; }
+    .hero .lede { color: var(--muted); font-size: 1rem; }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-top: 22px;
+    }
+
+    .card.gap { border-left: 4px solid var(--crimson); }
+    .card.plug { border-left: 4px solid var(--raised); }
+    .card.free { border-left: 4px solid var(--ok); }
+    .card.flow { border-left: 4px solid var(--accent); }
+    .card.sec { border-left: 4px solid var(--crimson); }
+
+    .card h2 { margin-top: 2px; }
+
+    ul.tight { margin: 8px 0 4px; padding-left: 1.1rem; }
+    ul.tight li { margin: 4px 0; }
+    ul.tight li b { font-weight: 600; }
+
+    .stageflow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin: 10px 0 6px;
+      font-size: 0.85rem;
+    }
+
+    .stageflow .st {
+      background: var(--bg);
+      border: 1px solid var(--bg-alt);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .stageflow .arrow { color: var(--crimson); font-weight: 700; }
+
+    .tally {
+      margin: 12px 0 4px;
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .tally th, .tally td {
+      text-align: left;
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--bg-alt);
+      vertical-align: top;
+    }
+
+    .tally th {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+    }
+
+    .tally td.yes { color: var(--ok); font-weight: 600; }
+    .tally td.no { color: var(--crimson); font-weight: 600; }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-radius: 999px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+
+    .tag.gws { background: #E8EEF7; color: #2B5BA8; }
+    .tag.m365 { background: #EDE7F6; color: #5E35B1; }
+
+    .anchor {
+      background: #FAF7F4;
+      border: 1px solid var(--bg-alt);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 12px 0 4px;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .anchor b { font-weight: 600; }
+
+    .anchor .say {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--crimson);
+      margin-bottom: 2px;
+    }
+
+    blockquote {
+      margin: 8px 0;
+      padding: 6px 12px;
+      border-left: 3px solid var(--crimson);
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    .pullquote {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--crimson);
+      text-align: center;
+      margin: 26px 0 6px;
+    }
+
+    .footnote {
+      max-width: 720px;
+      margin: 26px auto 0;
+      padding: 0 16px 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    @media print {
+      @page { size: A4; margin: 10mm; }
+      body { background: #fff; }
+      .topbar { position: static; }
+      .hero { padding-top: 6px; }
+      .hero h1 { font-size: 1.55rem; }
+      .hero .lede { font-size: 0.9rem; }
+      .card { box-shadow: none; border: 1px solid var(--bg-alt); break-inside: avoid; margin-top: 12px; padding: 12px 14px; }
+      .card h2 { font-size: 1.05rem; }
+      .card p, li, td, th, .anchor { font-size: 8.5pt; }
+      ul.tight li { margin: 2px 0; }
+      .tally th, .tally td { padding: 4px 8px; }
+      .pullquote { font-size: 0.95rem; margin: 12px 0 2px; }
+      .footnote { margin-top: 10px; padding-bottom: 0; }
+    }
+    </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="https://nitros0987.github.io/h1done-projects/">H1Done <span>Projects</span></a>
+      <a class="topnav" href="https://nitros0987.github.io/h1done-projects/">Try the demo</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <p class="kicker crimson">Teacher briefing · one page</p>
+    <h1>Classroom and Teams manage the assignment.<br><em>We teach the process.</em></h1>
+    <p class="lede">Google Workspace for Education and Microsoft 365 Education are excellent at assignment-in, grade-out. The new LC project component needs something they were never built to do: walk each student through their own route, and hand you the evidence trail.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="card plug">
+      <p class="kicker">Keep using them &ndash; we plug in</p>
+      <h2>What Workspace and Teams already do well</h2>
+      <ul class="tight">
+        <li><b>Google Classroom</b> <span class="tag gws">Workspace</span>: post the assignment, collect the hand-in, set deadlines, grade with rubrics, and run <b>originality reports</b> that flag uncited, copied work against webpages and books (Google's own description: plagiarism, not AI provenance).</li>
+        <li><b>Microsoft Teams / Assignments</b> <span class="tag m365">M365</span>: the same shape. Assignment brief in, work collected, rubric marking, grades out to the gradebook.</li>
+        <li>Underneath both, the school's files, mail, calendar and identity run on Workspace or M365. That is not changing, and it should not.</li>
+      </ul>
+      <p style="color:var(--muted);font-size:0.9rem">This is the linear part of project work: one brief, one deadline, one grade. The new LC projects are not linear. They are a process running over weeks, and the process is where the marks and the risk live.</p>
+    </div>
+
+    <div class="card sec">
+      <p class="kicker crimson">What the SEC says, and how we align</p>
+      <h2>The rules on AI use</h2>
+      <div class="anchor">
+        <span class="say">What the SEC says</span>
+        <p>In relation to the <b>project component</b> of the Leaving Certificate, the <b>SEC Coursework Rules and Procedures 2025/2026, Appendix 2 (pp. 33&ndash;36)</b> set the rules for AI. Permitted: background research from credible sources, <b>structuring coursework plans</b>, clarifying research material. Not permitted: generating or paraphrasing content; the candidate's expression must be their own. Every use must be acknowledged in a <b>dedicated appendix</b>: tool and version, developer, date, description of use, prompts where applicable.</p>
+      </div>
+      <div class="anchor">
+        <span class="say">How we align</span>
+        <p><b>AI never writes report text.</b> The platform only does what Appendix 2 names as permitted: it structures the plan and asks questions. The student's own words become the report. The acknowledgment appendix is generated automatically in the SEC format as the student works, and every answer entry is timestamped. Your job under the Rules is <b>authentication, not detection</b>, and authentication needs a trail, not a hunch: what was written at each stage, and what AI was used for, exportable in one click.</p>
+      </div>
+    </div>
+
+    <div class="card sec">
+      <p class="kicker crimson">What the SEC says, and how we align</p>
+      <h2>Feedback: individual or for the group?</h2>
+      <p>This is the question we hear most, so here is the wording and exactly how we read it.</p>
+      <div class="anchor">
+        <span class="say">What the guidelines say (Role of the teacher, pp. 12&ndash;13)</span>
+        <p>The teacher "may support students by… <b>offering prompt questions</b>… to stimulate and support students' planning and critical thinking throughout the process", and "it is important that each student takes an <b>individualised approach</b> to the work". On feedback:</p>
+        <blockquote>"The feedback provided to students should be <b>general and nondirective</b> in nature. Teachers should not provide any excessive or inappropriate support to students, such as <b>editing draft work or providing model text or answers</b> to be used in the students' evidence of learning."</blockquote>
+        <p style="color:var(--muted);font-size:0.82rem">Applied Geography Project guidelines (NCCA, Dec 2025). The Biology in Practice Investigation guidelines (Nov 2024) carry the same section, p. 12.</p>
+      </div>
+      <div class="anchor">
+        <span class="say">How we read it, and how we align</span>
+        <p>The line binds what feedback <b>you may give</b>: general and nondirective, never model text, never answers, never draft-editing. It does <b>not</b> forbid individualised <b>questions</b>: prompt questions are a named support, and an individualised approach is expected. So the platform holds that exact line: <b>individualised prompt questions for every student, on their own project</b> (that is the teaching), <b>never model text or answers</b> (that is the hard wall). Teacher feedback stays yours and stays general: an AI-drafted suggestion only ever appears when you click to request one, you preview it before anything is sent, and nothing reaches a student without your approval. If the SEC clarifies or amends any of this, the compliance documentation changes before the features do. We adapt to the Rules, always.</p>
+      </div>
+    </div>
+
+    <div class="card gap">
+      <p class="kicker crimson">The gap</p>
+      <h2>Every project starts the same. None stays the same.</h2>
+      <p>All thirty students open the same brief on the same day. From there, each project <b>branches</b>: one student's research takes them to a source the others never touch, one hits a dead end, one is three sub-questions behind where the plan said they'd be. By the draft stage you are not supervising one assignment. You are supervising thirty projects that share a title and nothing else.</p>
+      <p>That is what makes the new LC project the hard job for the teacher: the deeper it goes, the more unique each student's route becomes, and the small sub-stages along the way are exactly what a generic assignment flow cannot see or hold. And it is specific all the way down: this exam (the Leaving Cert), this subject, this year's brief, this student, their sub-stages. Nothing off-the-shelf accounts for all of that, because it is different for every single student in the room.</p>
+      <table class="tally">
+        <tr><th>Capability</th><th>Workspace / M365</th><th>Stage-by-stage platform</th></tr>
+        <tr><td>Sub-stages generated <b>per student</b>, each with its own deadline you can set, viewable at every point</td><td class="no">No</td><td class="yes">Yes</td></tr>
+        <tr><td>Per-stage <b>verbatim export</b>: the student's own words per stage, for moderation and authentication</td><td class="no">No</td><td class="yes">Yes</td></tr>
+        <tr><td>Automatic AI-use reference: SEC-format acknowledgment appendix generated as the student works</td><td class="no">No</td><td class="yes">Yes</td></tr>
+        <tr><td>Guided learning flow: the right questions, in the right order, tied to each stage</td><td class="no">No</td><td class="yes">Yes</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:0.85rem">On copying: Classroom's originality reports check the final document against public webpages and books. That checks the text, not the trail: how the work arrived (typed in bit by bit, timestamped per entry) is the half the Rules actually ask you to authenticate.</p>
+      <p style="color:var(--muted);font-size:0.9rem">None of this asks you to leave Classroom or Teams. It is the missing layer between the assignment you post and the grade you give.</p>
+    </div>
+
+    <div class="card free">
+      <p class="kicker">If you want to start tomorrow</p>
+      <h2>The honest free alternatives</h2>
+      <p>This is how it is done today in Workspace: one assignment per section, students submit, and the teacher opens each student's work, corrects it individually and leaves feedback. It works. Here is what each piece costs you:</p>
+      <ul class="tight">
+        <li><b>Classroom, staged</b> <span class="tag gws">Workspace</span>: one assignment per stage, each with its own deadline. Free, works today. <i>No gating between stages, no export, no AI-use record, and every student gets the same stages regardless of where their project actually went.</i></li>
+        <li><b>Google Forms checkpoints</b> <span class="tag gws">Workspace</span>: a short form at each stage creates a timestamped audit trail. Free. <i>You assemble it per class, per year, and read the evidence out of a spreadsheet.</i></li>
+        <li><b>Docs as a tracker</b> <span class="tag gws">Workspace</span>: a template doc per student; revision history is the timestamp evidence (and it is the evidence you already have). <i>Manual to review, and it shows edits, not answers.</i></li>
+      </ul>
+      <p style="color:var(--muted);font-size:0.9rem">All three are worth doing. They cost hours of assembly each year, none of them produce a verbatim per-stage export or an AI-use record, and none of them branch with the student.</p>
+    </div>
+
+    <div class="card flow">
+      <p class="kicker crimson">The alternative to assembling it yourself</p>
+      <h2>How H1Done Projects runs a project</h2>
+      <div class="stageflow">
+        <span class="st">Research</span><span class="arrow">&rarr;</span>
+        <span class="st">Plan</span><span class="arrow">&rarr;</span>
+        <span class="st">Draft</span><span class="arrow">&rarr;</span>
+        <span class="st">Revision</span><span class="arrow">&rarr;</span>
+        <span class="st">Write-up</span>
+      </div>
+      <ul class="tight">
+        <li><b>The student always knows the next move.</b> The platform asks the right question for their stage, they answer in their own words, and their answers become the report. AI never writes report text; it structures the plan and asks the questions, which are named permitted uses in the SEC rules.</li>
+        <li><b>The sub-stages are built for that student.</b> Not a generic template: the questions come from the LC spec, this year's official brief, the subject, and the answers that student has already given. As their project branches, their stages branch with it.</li>
+        <li><b>You see each point without chasing it.</b> Every stage has a deadline you set, every answer is timestamped on entry, and the whole route is viewable at any time, per student or as a class board.</li>
+        <li><b>Feedback stays yours.</b> General and nondirective, as the guidelines require. An AI-drafted suggestion appears only when you click to request one, you preview it before it sends, and nothing reaches a student without your approval.</li>
+        <li><b>The export does the paperwork.</b> One click: the student's verbatim answers under the SEC headings, plus the AI-use acknowledgment appendix in the SEC format.</li>
+      </ul>
+      <p style="color:var(--muted);font-size:0.9rem">That is the missing layer described above, built: the branching process taught, the evidence trail kept, the teacher's supervising job made visible instead of guessable.</p>
+    </div>
+
+    <p class="pullquote">"They manage the assignment. We teach the process."</p>
+
+    <div class="card">
+      <p class="kicker crimson">The ask</p>
+      <h2>See it run your subject</h2>
+      <p>The demo at <a href="https://nitros0987.github.io/h1done-projects/">nitros0987.github.io/h1done-projects</a> walks a Biology student through all six stages, on phone or laptop, and shows the teacher's triage board: who is on track, who is stuck, what the export looks like.</p>
+      <p style="color:var(--muted);font-size:0.9rem">If you want this for your subject, talk to us, and to your principal. A free pilot (one class set, back-fill ingest, positioned inside your existing Workspace or Teams) is the first step, and it starts with the school, not the individual teacher.</p>
+    </div>
+
+    <p class="footnote">H1Done Projects &middot; one-page teacher briefing &middot; SEC Coursework Rules and Procedures 2025/2026, Appendix 2 (examinations.ie, EN-1011) &middot; NCCA Applied Geography Project &amp; Biology in Practice guidelines &middot; this page stores nothing and asks for nothing but a look.</p>
+  </div>
+</body>
+</html>
