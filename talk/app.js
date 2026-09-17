@@ -43,27 +43,9 @@ const CONFIG = {
 
   // inline SVG teaching diagrams (hand-built, brand-coloured)
   const SVG = {
-    // forgetting curve: three recall lifts with growing intervals
+    // spaced repetition: the Osmosis curve he provided (retention saw-tooth vs forgetting curve)
     forget: () =>
-      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="Forgetting curve with spaced recalls">' +
-      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
-      // decaying memory curves (dashed) + recall lifts
-      '<path d="M20 25 C 60 30, 80 95, 110 118" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>' +
-      '<path d="M110 118 C 150 105, 175 60, 205 52" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>' +
-      '<path d="M205 52 C 250 50, 290 88, 330 95" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.45"/>' +
-      '<path d="M330 95 C 380 90, 420 108, 448 112" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.4"/>' +
-      // recall lifts (crimson dots + arrows up)
-      '<circle cx="110" cy="118" r="6" fill="var(--crimson)"/><circle cx="205" cy="52" r="6" fill="var(--crimson)"/><circle cx="330" cy="95" r="6" fill="var(--crimson)"/><circle cx="448" cy="112" r="6" fill="var(--ok)"/>' +
-      // interval braces
-      '<line x1="110" y1="135" x2="205" y2="135" stroke="var(--crimson)" stroke-width="2"/><line x1="205" y1="135" x2="330" y2="135" stroke="var(--crimson)" stroke-width="2"/><line x1="330" y1="135" x2="448" y2="135" stroke="var(--ok)" stroke-width="2"/>' +
-      '<text x="157" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">1 day</text>' +
-      '<text x="267" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">3 days</text>' +
-      '<text x="389" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">7 days…</text>' +
-      '<text x="22" y="30" font-size="12" fill="var(--muted)">memory</text>' +
-      '<text x="90" y="112" font-size="10" fill="var(--crimson)">recall!</text>' +
-      '<text x="185" y="46" font-size="10" fill="var(--crimson)">recall!</text>' +
-      '<text x="310" y="88" font-size="10" fill="var(--crimson)">recall!</text>' +
-      "</svg>",
+      '<img class="diag diag-img" src="img/sr-osmosis.webp" alt="Spaced repetition: retention resets on each review, flattening out above the forgetting curve — better long-term retention. (c) Osmosis">',
 
     // understanding = map of known vs unknown (two balls + string), compact + clean
     gaps: () =>
@@ -108,12 +90,12 @@ const CONFIG = {
       "</svg>",
   };
 
-  const brandTag = (i) =>
-    i === 0 ? "" : '<div class="slide-brand">H1Done <span>study</span></div>';
+  const LOGO = "img/h1d-logo.webp";
+  const brandMark = (cls) => '<img class="brand-mark ' + (cls || "") + '" src="' + LOGO + '" alt="H1Done logo">';
 
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
-    '</span><span>H1Done <span class="italic" style="color:var(--crimson)">study</span></span></div>';
+    "</span>" + brandMark("foot-mark") + "</div>";
 
   function slideDemo() {
     const survey = CONFIG.SURVEY_URL;
@@ -299,6 +281,7 @@ const CONFIG = {
         '<div class="tech-head"><span class="tech-num">2</span><h2>Memorise &mdash; like a muscle</h2></div>' +
         '<p class="sub">Understood &ne; memorised. Memorised = you can <b>recall it on demand</b>: active recall (a thousand mini-tests) + spacing.</p>' +
         SVG.forget() +
+        '<p class="mut" style="font-size:clamp(8px,1.3vh,11px);margin:-0.6vh 0 0.8vh">diagram: Osmosis.org &mdash; each review resets the fade and flattens it higher: better long-term retention</p>' +
         '<div class="tools"><span class="tool-chip"><b>Anki</b> — free on desktop &amp; Android, does the scheduling for you</span></div>' +
         '<ul class="tech-steps"><li>Every fact is a question. Answering it <em>is</em> the workout &mdash; the lift, barely managed.</li><li>Memory decays on a curve. Recall right at the thin moment = strongest lift — and the next interval grows.</li><li>Anki times that moment for you: 1 · 3 · 7 · 14 · 30 days. Miss = sooner. Easy = later.</li><li>Read once with feeling, then never re-read — recall instead. 5 minutes daily beats an hour on Sunday.</li></ul>' +
         '<div class="trap"><b>The trap</b>Re-reading and highlighting — recognition, not recall. Feels easy because it <em>is</em> easy: it isn&rsquo;t learning. Don&rsquo;t binge 400 cards in one night; cards are made <em>during</em> study.</div>' +
@@ -340,8 +323,8 @@ const CONFIG = {
         '<span class="loop-step">Cards<br><small>Anki daily</small></span><span class="loop-arrow">&rarr;</span>' +
         '<span class="loop-step">Apply<br><small>past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
         '<span class="loop-step loop-back">Wrongs<br><small>new cards</small></span>' +
-        '<svg class="loop-back-arc" viewBox="0 0 300 44" aria-hidden="true"><path d="M290 4 C 240 40, 60 40, 10 8" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs><text x="150" y="38" text-anchor="middle" font-size="11" fill="var(--ok)" font-weight="600">back into Cards &amp; Apply</text></svg>' +
         "</div>" +
+        '<svg class="loop-back-arc" viewBox="0 0 560 60" aria-hidden="true"><path d="M550 6 C 480 50, 260 56, 230 20" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs><text x="395" y="52" text-anchor="middle" font-size="13" fill="var(--ok)" font-weight="600">back into Cards &amp; Apply &mdash; the loop spins</text></svg>' +
         '<ul class="tech-steps"><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; apply again. The loop spins.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
         evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]),
     },
@@ -431,6 +414,7 @@ const CONFIG = {
   function renderGate() {
     $("#app").innerHTML =
       '<div class="gate-wrap"><div class="gate-card">' +
+      '<img class="gate-logo" src="' + LOGO + '" alt="H1Done logo">' +
       '<div class="gate-brand">H1Done <span>study</span></div>' +
       '<div class="gate-kicker">School talk · ' + (state.audience === "teachers" ? "teachers" : "students") + "</div>" +
       '<input id="pw" class="gate-input" type="password" inputmode="text" autocomplete="off" placeholder="Passphrase" aria-label="Passphrase">' +
@@ -468,7 +452,7 @@ const CONFIG = {
     $("#app").innerHTML =
       '<div class="view">' +
       '<div class="deck-head">' +
-      '<a class="deck-brand" href="#" id="home-brand">H1Done <span>study</span></a>' +
+      '<a class="deck-brand" href="#" id="home-brand">' + brandMark() + 'H1Done <span>study</span></a>' +
       '<span class="mut" style="font-size:0.75rem" id="conn-pill"></span>' +
       '<div class="head-btns">' +
       '<button class="icon-btn" id="theme-btn" title="Light / dark for the room">◑ light</button>' +
@@ -478,7 +462,7 @@ const CONFIG = {
       "</div></div>" +
       '<div class="deck-stage" id="stage">' +
       slides.map((s, i) =>
-        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + brandTag(i) + s.html() + foot(s.beat, s.clock) + "</section>"
+        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + s.html() + foot(s.beat, s.clock) + "</section>"
       ).join("") +
       "</div></div>";
 
@@ -558,7 +542,7 @@ const CONFIG = {
   function renderRemote() {
     $("#app").innerHTML =
       '<div class="remote">' +
-      '<div class="remote-top"><span class="deck-brand">H1Done <span>study</span></span>' +
+      '<div class="remote-top"><span class="deck-brand">' + brandMark() + 'H1Done <span>study</span></span>' +
       '<span class="remote-status" id="r-status"><span class="dot"></span>connecting…</span></div>' +
       '<div class="remote-cards" id="r-cards"></div>' +
       '<div class="remote-taps">' +
