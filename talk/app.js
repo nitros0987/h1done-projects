@@ -801,7 +801,11 @@ const CONFIG = {
   }
 
   function showRemoteUrl() {
-    const url = location.origin + location.pathname + "?view=remote";
+    // preserve the audience param so the remote joins the SAME deck's channel
+    const params = new URLSearchParams(location.search);
+    params.set("view", "remote");
+    const qs = params.toString();
+    const url = location.origin + location.pathname + (qs ? "?" + qs : "");
     toast("On your phone: open this same URL, tap 'Use as remote':  " + url);
     try {
       navigator.clipboard.writeText(url).then(() => toast("Remote URL copied — text it to your phone: " + url), () => {});
