@@ -462,7 +462,7 @@ const CONFIG = {
       '<div class="close-tag">&ldquo;Not every AI is the same &mdash; ask <span class="crim">what model</span>, ask <span class="crim">what settings</span>, and know <span class="crim">how I learn</span>.&rdquo;</div>' +
       '<div class="demo-split" style="margin-top:1vh">' +
       '<div class="demo-copy" style="max-width:560px">' +
-      '<p class="sub" style="margin-bottom:1.4vh">Two things we&rsquo;re asking of you: <b>(1) the 2-minute teacher survey</b> — what subject you teach, what would make the pilot work for <em>your</em> class. <b>(2) the pilot conversation</b> — mention it to the principal; that&rsquo;s where the pilot starts.</p>' +
+      '<p class="sub" style="margin-bottom:1.4vh">One thing before you go: <b>the 2-minute teacher survey</b> — your subject, and the one thing that would make AI use work for your class. If you&rsquo;d like to talk about the project process we&rsquo;re developing, find me at the break or after.</p>' +
       '<div class="cta-row" style="justify-content:flex-start">' +
       (CONFIG.TEACHER_SURVEY_URL
         ? '<a class="btn" href="' + CONFIG.TEACHER_SURVEY_URL + '" target="_blank" rel="noopener">Open the teacher survey</a>'
@@ -480,16 +480,16 @@ const CONFIG = {
     {
       beat: "Welcome", clock: "0:00", centered: true,
       notes: [
-        "Title up as they come in. 15 minutes, three conversations.",
-        "Frame: not a product pitch — how the new coursework rules land on YOUR desk, and one tool that answers them.",
-        "Patrick covered what AI is and the guidance — this is the mechanism that makes the SEC rules live in your classroom.",
-        "Promise: exact SEC wording, a live demo, one honest ask. Done inside 15.",
+        "Title up as they come in. 15 minutes, informative — not a pitch.",
+        "Frame: what the SEC rules ask of you, the mechanism that answers them, how to use AI for project work.",
+        "Patrick covered what AI is and the guidance — this is how the rules land on your desk, and how to use AI within them.",
+        "Promise: exact SEC wording, a live demo you can test at break, and a 2-minute survey at the end.",
       ],
       html: () =>
         '<div class="title-brand">H1Done <span>projects</span></div>' +
         '<div class="title-rule"></div>' +
         "<h1>The 40% process,<br>for teachers.</h1>" +
-        '<p class="sub">The new LC projects &mdash; coursework, AI rules, authentication &mdash; and the three conversations worth having about them.</p>' +
+        '<p class="sub">The new LC projects: what the SEC rules ask of you, the mechanism that answers them &mdash; and how to use AI for project work.</p>' +
         '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; teacher session &middot; 15 min</p>' +
         TEACHER_TODO_CARD,
     },
@@ -543,7 +543,7 @@ const CONFIG = {
         "</div>",
     },
     {
-      beat: "3 · Standardisation", clock: "5:00–6:45",
+      beat: "3 · Standardisation", clock: "5:00–6:00",
       notes: [
         "One scaffold for ALL students — same stages, same SEC headings, same definitions of done.",
         "Comparable: same headings = marks and moderation are like-for-like. Auditable: verbatim trail per stage.",
@@ -563,7 +563,7 @@ const CONFIG = {
         "</div>",
     },
     {
-      beat: "4 · The Workspace/M365 gap", clock: "6:45–8:30",
+      beat: "4 · The Workspace/M365 gap", clock: "6:00–7:00",
       notes: [
         "Be honest about Classroom/Teams: they're GOOD — assignment in, grade out, rubrics, originality reports.",
         "But originality = plagiarism, not AI provenance. And the gap: no stage-by-stage gating, no per-stage verbatim export, no AI-use logging, no guided flow.",
@@ -584,59 +584,60 @@ const CONFIG = {
         "</div>",
     },
     {
-      beat: "4b · The honest alternatives", clock: "8:30–9:15",
+      beat: "4b · The honest alternatives", clock: "7:00–7:30",
       notes: [
-        "Say these OUT LOUD — it sells the honesty: Classroom staged, Forms checkpoints, Docs tracker, Notion kanban.",
+        "Say these OUT LOUD — it builds trust: Classroom staged, Forms checkpoints, Docs tracker, Notion kanban.",
         "Each one: free, works today, costs hours of assembly — and none give verbatim stage evidence or an AI-use record.",
-        "If a teacher built one of these and it works: brilliant — this is still the missing layer on top.",
-        "Keep pace: this is a 45-second slide, the demo is next.",
+        "If a teacher built one of these and it works: brilliant — what's missing is the same in every case.",
+        "Keep pace: 30 seconds, then straight to the feedback rules slide.",
       ],
       html: slideTeacherBrief,
     },
     {
-      beat: "5 · Live demo — teacher side", clock: "9:15–11:45",
+      beat: "5 · Feedback: individual or group?", clock: "7:30–9:00",
       notes: [
-        "Switch to the demo tab. Teacher board first: point at the colour logic — events, not AI.",
-        "Open one student: full history, every stage answer verbatim, attempts and timestamps.",
-        "Type advice in the box → student tab shows it; clear a hand-raise the same way.",
-        "View-as-student: read-only, exactly their view.",
-        "The export: SEC headings + verbatim answers + the AI appendix — 'this is what you'd sign P.2 on'.",
-        "If wifi dies: say so, walk the export screenshot in the print/PDF fallback instead.",
+        "Say the worry out loud: you were told you can't give individualised project feedback.",
+        "The actual documents (AGP guidelines, Role of the teacher, pp. 12-13): feedback must be GENERAL and NONDIRECTIVE — no model text, no answers, no draft-editing.",
+        "But prompt questions are a NAMED legitimate support, and an individualised approach is EXPECTED of each student.",
+        "So: individualised QUESTIONS = the teaching. Never model text or answers = the hard wall.",
+        "For the group: a class-level summary at each stage checkpoint — common problems, who's stuck — for your class talk, while individual question-led prompting continues per student.",
+        "AI-drafted suggestions only appear when you click to request one, and you preview before anything sends — feedback stays yours.",
+        "November: the union meeting will clarify the individual-feedback rules — our interpretation adapts to the Rules.",
+        "Full quotes are on the one-pager QR you just saw.",
+      ],
+      html: () =>
+        '<p class="eyebrow">The rules on feedback &mdash; AGP guidelines, Role of the teacher (pp. 12&ndash;13)</p>' +
+        '<h2>Individual or for the group? <span class="italic crim">Both &mdash; within the line.</span></h2>' +
+        '<div class="side-split">' +
+        '<div class="side-body">' +
+        '<ul class="tech-steps"><li><b>The worry:</b> &ldquo;teachers can&rsquo;t give individualised feedback on projects.&rdquo; The documents say something more precise.</li><li><b>What feedback must be:</b> general and nondirective — no model text, no answers, no draft-editing. That line binds <em>your feedback</em>.</li><li><b>What&rsquo;s expected of you:</b> prompt questions &mdash; a named, legitimate support &mdash; and an <b>individualised approach</b> is expected of each student. Individualised <em>questions</em> are the teaching.</li><li><b>For the group:</b> a class-level summary at each stage checkpoint — common problems, who&rsquo;s stuck — for your class talk, while individual question-led prompting continues per student.</li><li><b>AI-drafted suggestions</b> only appear when you click to request one, you preview before anything sends — feedback stays yours.</li></ul>' +
+        '<div class="take one-line">Individualised <b>questions</b> = the teaching. Never model text or answers = the hard wall. November&rsquo;s union meeting will clarify further &mdash; we adapt to the Rules.</div>' +
+        "</div>" +
+        '<div class="side-media"><img class="diag-img" src="img/ai-partner.v2.webp" alt="Feedback within the line: individualised prompt questions per student, general non-directive class feedback, never model text or answers"></div>' +
+        "</div>",
+    },
+    {
+      beat: "6 · Live demo — teacher side", clock: "9:00–13:00",
+      notes: [
+        "Phones OUT. Scan the demo QR now — tap Teacher → the board. Test it yourselves: triage, advice, view-as-student, export.",
+        "I drive the big screen: board (colour logic = events, not AI), one student's full history, advice box → student-tab round-trip, view-as-student, the complete export.",
+        "This slide STAYS UP through break and Q&A — the QR is live; the site runs fine on phones over mobile data.",
+        "If wifi dies: the site runs locally too — and the print/PDF fallback has every slide.",
+        "When Q&A ends: two more slides — 'not all AI is equal', then the survey."
       ],
       html: slideTeacherDemo,
     },
     {
-      beat: "6 · The pilot ask", clock: "11:45–13:15",
+      beat: "7 · Not all AI is equal", clock: "13:00–13:45",
       notes: [
-        "The ask runs THROUGH THE PRINCIPAL — not one volunteer class: all geography classes, whole cohort, comparable data.",
-        "FREE until Christmas. No cost, no lock-in; pricing exists only later for schools that want it.",
-        "Back-fill ingest: projects already underway? Students dump what they have — the platform works backwards from it.",
-        "Runs INSIDE your Workspace/Teams: class copy-link, school-account sign-in — the missing layer, not a migration.",
-        "November union meeting = documentation-first pack deadline: exact SEC/NCCA wording mapped to how we meet it — subject by subject.",
-        "Ask for one thing today: the conversation with the principal. That's it.",
-      ],
-      html: () =>
-        '<p class="eyebrow">The ask &mdash; through the principal, all geography classes</p>' +
-        '<h2>Free until Christmas. <span class="italic crim">The whole cohort.</span></h2>' +
-        '<div class="stats stats-v" style="max-width:900px">' +
-        '<div class="stat"><p><b>Free, pre-Christmas pilot</b> — every geography class, not a sample of one. Comparable data across the year group from day one.</p></div>' +
-        '<div class="stat"><p><b>Back-fill ingest</b> — projects already underway? Students dump what they&rsquo;ve done; the platform builds the trail backwards. Nothing starts from zero.</p></div>' +
-        '<div class="stat"><p><b>Inside your Workspace/Teams</b> — class copy-link, school-account sign-in. Positioned as the missing layer, not another platform.</p></div>' +
-        '<div class="stat"><p><b>Documentation-first</b> — a doc pack per subject: the exact SEC/NCCA wording &rarr; how we meet it. Ready before the November union meeting.</p></div>' +
-        "</div>" +
-        '<div class="take one-line">One thing to do today: <b>mention it to the principal.</b> That conversation is where the pilot starts.</div>',
-    },
-    {
-      beat: "7 · The student story", clock: "13:15–13:45",
-      notes: [
-        "Compressed, ~3 sentences + the grid: this is what students heard in their session.",
+        "Back from break/Q&A — demo QR goes down, this comes up.",
+        "Patrick's 'is it accurate?' is a MODEL question: not every AI is equal — same logo, 30-point gaps.",
         "The 4 numbers, fast: 16/42 intelligence · 65%/91% PhD-exam score · 75%/28% hallucination when wrong · $0.25/$7.63 per task.",
-        "Not all AI is equal — same logo, 30-point gaps. Model + settings change everything.",
-        "Why tell teachers: this is WHY the triage board uses no generative AI at all, and why 'ask what model' is the tagline.",
-        "Do NOT dwell — the charts speak; land one line and move.",
+        "This is why the triage board uses no generative AI: events, not AI. And it's the tagline's source.",
+        "Do NOT dwell — the charts speak; land one line and move to the survey."
       ],
       html: () =>
-        '<p class="eyebrow">What your students heard &mdash; 30-second version</p>' +
+        '<p class="eyebrow">After the break &mdash; the last teaching point</p>' +
         '<h2>Not all AI is equal. <span class="italic crim">Measured, not marketed.</span></h2>' +
         '<div class="aa-grid">' +
         '<figure class="aa-card"><img src="img/aa-index.webp" alt="Artificial Analysis Intelligence Index leaderboard" loading="lazy"><figcaption>Intelligence Index — free defaults at the bottom of the table</figcaption></figure>' +
@@ -647,97 +648,29 @@ const CONFIG = {
         '<div class="take one-line"><b>16/42</b> intelligence &middot; <b>65%/91%</b> PhD-exam &middot; <b>75%/28%</b> hallucination &middot; <b>$0.25/$7.63</b> per task &mdash; model + settings, not brand.</div>',
     },
     {
-      beat: "8 · The method we teach", clock: "13:45–14:15",
+      beat: "8 · Close — survey", clock: "13:45–14:30",
       notes: [
-        "One slide, the whole student session: understand → memorise → apply → loop.",
-        "Understand at their level (AI quizzes first, fills gaps) · memorise by active recall + spacing (Anki, 1·3·7·14·30) · apply via 80/20 past questions · every wrong becomes a new card and the loop spins.",
-        "Why teachers should care: it's the same loop the project platform runs — grill per stage, revise, review, export. Study method and project method are ONE method.",
-        "The curves are from Osmosis — the same spaced-repetition logic governs the project stages.",
-      ],
-      html: () =>
-        '<p class="eyebrow">One slide, the whole student session</p>' +
-        '<h2>Understand &rarr; memorise &rarr; apply &rarr; <span class="italic crim">loop.</span></h2>' +
-        '<div class="loop-row">' +
-        '<span class="loop-step">Understand<br><small>at your level</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step">Memorise<br><small>recall + spacing</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step">Apply<br><small>80/20 past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step loop-back">Wrongs<br><small>new cards</small></span>' +
-        "</div>" +
-        '<div class="side-split" style="margin-top:0.8vh">' +
-        '<div class="side-media" style="flex:0 0 clamp(200px,26vw,340px)">' + SVG.forget() + "</div>" +
-        '<div class="side-body"><ul class="tech-steps" style="margin:0"><li><b>Understand</b> — quiz before you read; AI fills the gaps at the student&rsquo;s level.</li><li><b>Memorise</b> — active recall on a spacing ladder: 1 &middot; 3 &middot; 7 &middot; 14 &middot; 30 days.</li><li><b>Apply</b> — past questions grouped 80/20; AI marks against the scheme.</li><li><b>Loop</b> — every wrong becomes a new card, straight back in. Same loop the project platform runs, stage by stage.</li></ul></div>' +
-        "</div>",
-    },
-    {
-      beat: "9 · Close — what we're asking", clock: "14:15–15:00",
-      notes: [
-        "Two asks: (1) the 2-minute teacher survey — subject + what would make it work for your class; (2) the principal conversation.",
+        "Final: the 2-minute teacher survey — your subject + one thing that would make AI use work for your class.",
         "Tagline slowly, word for word: not every AI is the same — ask what model, what settings, and know how I learn.",
-        "Leave the QR up while questions run. Briefing URL is on paper too — the A4 printout in the room.",
-        "If asked about cost: free until Christmas; the pilot decides what happens after.",
+        "Leave the survey QR up while the room empties; the briefing URL is on it for the one-pager.",
+        "If asked about the tool itself or a pilot: take it after, one-to-one — this session stays informative."
       ],
       html: slideCloseTeachers,
     },
 
-    /* ---- IF-TIME TAIL (after close; skipping costs nothing) ---- */
-
-    {
-      tail: true, beat: "If time · Active recall", clock: "+1:00",
-      notes: [
-        "TAIL — only if the room wants depth and there's time.",
-        "Recall is the workout: answering the question IS the lift. Re-reading is recognition, not recall — it feels easy because it IS easy.",
-        "Free setup: ChatGPT free 'quiz me, one at a time' · AI Studio paste-notes-to-questions · NotebookLM quiz from your own sources.",
-      ],
-      html: () =>
-        '<p class="eyebrow">If time &mdash; the techniques, teacher-size</p>' +
-        '<h2>Active recall &mdash; <span class="italic crim">answering is the workout.</span></h2>' +
-        '<ul class="tech-steps"><li>Every fact is a question. The <em>attempt</em> is what builds memory — a thousand mini-tests.</li><li>Re-reading and highlighting = recognition, not recall. Feels easy because it <em>is</em> easy.</li><li>Free tools: ChatGPT free (&ldquo;quiz me, one at a time&rdquo;) &middot; Google AI Studio (paste notes &rarr; questions) &middot; NotebookLM (quiz from your own sources).</li></ul>' +
-        evidence(["Roediger &amp; Karpicke 2006: testing beats re-reading", "Dunlosky 2013: practice testing = top technique"]),
-    },
-    {
-      tail: true, beat: "If time · Spaced repetition", clock: "+1:00", diag: "forget",
-      notes: [
-        "TAIL. The Osmosis curve: memory decays; recall at the thin moment lifts it; intervals grow 1·3·7·14·30.",
-        "5 minutes daily beats an hour on Sunday. Anki does the scheduling, free on desktop/Android.",
-        "Proof of life: this exact system carried the LC grind — and last week's surgical exam.",
-      ],
-      html: () =>
-        '<div class="side-split">' +
-        '<div class="side-body"><h2>Spaced repetition &mdash; <span class="italic crim">timing is the trick.</span></h2>' +
-        '<ul class="tech-steps"><li>Memory decays on a curve. Recall right at the thin moment = strongest lift.</li><li>Intervals grow: 1 &middot; 3 &middot; 7 &middot; 14 &middot; 30 days. Miss = sooner; easy = later.</li><li><b>Anki</b> — free on desktop &amp; Android, schedules it for you.</li><li>5 minutes daily beats an hour on Sunday.</li></ul>' +
-        evidence(["Ebbinghaus forgetting curve (1885)", "Cepeda 2006: spacing meta-analysis"]) +
-        "</div>" +
-        '<div class="side-media">' + SVG.forget() + "</div>" +
-        "</div>",
-    },
-    {
-      tail: true, beat: "If time · 80/20 past questions", clock: "+1:00", diag: "pareto",
-      notes: [
-        "TAIL. Past questions grouped by type — fewer, better. The exam is a genre; learn its moves.",
-        "AI marks against the scheme: paste answer + scheme, honest alignment. OpenRouter :free as the no-login fallback.",
-      ],
-      html: () =>
-        '<div class="side-split">' +
-        '<div class="side-body"><h2>80/20 &mdash; <span class="italic crim">past questions first.</span></h2>' +
-        '<ul class="tech-steps"><li>Group past questions by type; do fewer, better ones. The exam is a genre — learn its moves.</li><li>AI as marking scheme: paste the answer + the scheme, get marked honestly.</li><li>OpenRouter <b>:free</b> models as the no-login fallback.</li></ul>' +
-        evidence(["retrieval practice as exam prep", "assessment alignment: scheme-graded practice"]) +
-        "</div>" +
-        '<div class="side-media">' + SVG.pareto() + "</div>" +
-        "</div>",
-    },
-    {
-      tail: true, beat: "If time · Feynman", clock: "+1:00",
-      notes: [
-        "TAIL. Explain it aloud in simple words; the gap in the explanation is the gap in the knowledge.",
-        "ChatGPT free voice mode plays the confused student. Works for staff meetings too — that's the joke, use it.",
-      ],
-      html: () =>
-        '<p class="eyebrow">If time &mdash; the last technique</p>' +
-        '<h2>Feynman &mdash; <span class="italic crim">explain it like I&rsquo;m twelve.</span></h2>' +
-        '<ul class="tech-steps"><li>Explain the topic aloud in simple words — no jargon allowed.</li><li>Where you stumble is where the understanding isn&rsquo;t. Go back for that one thing.</li><li>ChatGPT free <b>voice mode</b> plays the confused student — talk it out on the drive home.</li></ul>' +
-        evidence(["Feynman technique: explanation as comprehension test", "self-explanation effect (Chi 1994)"]),
-    },
   ];
+
+  // if-time tail: VERBATIM student-slide copies (no rework, no summaries) — skipping costs nothing
+  [1, 5, 6, 7, 8].forEach((si) =>
+    SLIDES_TEACHERS.push({
+      tail: true,
+      beat: "If time · " + SLIDES_STUDENTS[si].beat.replace(/^\d+ · /, ""),
+      clock: "+1:00",
+      diag: SLIDES_STUDENTS[si].diag,
+      notes: SLIDES_STUDENTS[si].notes,
+      html: SLIDES_STUDENTS[si].html,
+    })
+  );
 
   const SLIDES = () => (state.audience === "teachers" ? SLIDES_TEACHERS : SLIDES_STUDENTS);
 
