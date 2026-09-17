@@ -231,23 +231,29 @@ a:hover { text-decoration: underline; }
 }
 .slide-foot .beat { text-transform: uppercase; font-weight: 600; }
 
-/* side photo with credit */
-.pic { position: absolute; right: 3.2vw; top: 50%; transform: translateY(-50%); width: clamp(180px, 24vw, 360px); z-index: 1; }
-.slide { padding-right: 0; }
-.slide:has(.pic) { padding-right: 0; }
-.pic img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); display: block; aspect-ratio: 3/2; object-fit: cover; }
-.pic .credit { display: block; font-size: clamp(8px, 1.2vh, 10px); color: var(--muted); margin-top: 4px; text-align: right; }
-.slide > *:not(.pic):not(.slide-foot) { position: relative; z-index: 2; max-width: calc(100% - clamp(180px, 22vw, 340px)); }
-.slide > .stats { max-width: calc(100% - clamp(170px, 21vw, 320px)); }
+/* diagrams (inline SVG) */
+.diag { width: 100%; max-width: 680px; height: auto; display: block; margin: 0.6vh 0 1.2vh; }
+.diag text { font-family: "Inter", sans-serif; }
+.diag-split { display: flex; gap: clamp(14px, 2vw, 30px); align-items: center; width: 100%; }
+.diag-split .diag { max-width: 260px; margin: 0; flex-shrink: 0; }
+.diag-split .stats-v { display: grid; grid-template-columns: 1fr; gap: clamp(8px, 1.4vh, 14px); flex: 1; }
 @media (max-width: 900px), (max-height: 560px) {
-  .pic { display: none; }
-  .slide > *:not(.pic):not(.slide-foot), .slide > .stats { max-width: 100%; }
+  .diag-split { flex-direction: column; align-items: stretch; }
+  .diag-split .diag { max-width: 100%; }
 }
 
-/* title-slide hero photo */
-.hero-pic { position: relative; width: min(46vh, 40vw); margin: 0 auto 2vh; z-index: 2; }
-.hero-pic img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); display: block; aspect-ratio: 3/2; object-fit: cover; }
-.hero-pic .credit { position: absolute; right: 8px; bottom: 6px; font-size: 8px; color: rgba(255,255,255,0.85); background: rgba(26,26,26,0.45); border-radius: 6px; padding: 1px 6px; }
+/* evidence strip */
+.evidence {
+  margin-top: 1.6vh; max-width: 900px; width: 100%;
+  background: color-mix(in srgb, var(--raised) 8%, transparent);
+  border-left: 4px solid var(--raised); border-radius: 0 10px 10px 0;
+  padding: 1vh 16px; font-size: clamp(9px, 1.5vh, 13px); color: var(--muted); line-height: 1.6;
+}
+.evidence .lab {
+  text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;
+  color: var(--raised); font-size: 0.72em; margin-right: 10px;
+}
+.evidence .sep { margin: 0 8px; color: var(--bg-alt); }
 
 /* loop chips */
 .loop-row { display: flex; align-items: stretch; gap: clamp(6px, 1vw, 14px); flex-wrap: wrap; margin: 1.6vh 0 2vh; }

@@ -38,15 +38,117 @@ const CONFIG = {
 
   /* ---------------- deck content ---------------- */
 
-  const IMG = (n) => "img/" + n + ".webp";
-
   const qr = (url, size) =>
     "https://quickchart.io/qr?text=" + encodeURIComponent(url) + "&size=" + (size || 600);
 
-  // side image with source credit (Google Images via Serper; credit shown under image)
-  const pic = (name, credit, side) =>
-    '<div class="pic pic-' + (side || "right") + '"><img src="' + IMG(name) + '" alt="">' +
-    '<span class="credit">photo: ' + credit + " (Google Images)</span></div>";
+  // inline SVG teaching diagrams (hand-built, brand-coloured)
+  const SVG = {
+    // forgetting curve: three recall lifts with growing intervals
+    forget: () =>
+      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="Forgetting curve with spaced recalls">' +
+      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
+      // decaying memory curves (dashed) + recall lifts
+      '<path d="M20 25 C 60 30, 80 95, 110 118" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>' +
+      '<path d="M110 118 C 150 105, 175 60, 205 52" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>' +
+      '<path d="M205 52 C 250 50, 290 88, 330 95" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.45"/>' +
+      '<path d="M330 95 C 380 90, 420 108, 448 112" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 4" opacity="0.4"/>' +
+      // recall lifts (crimson dots + arrows up)
+      '<circle cx="110" cy="118" r="6" fill="var(--crimson)"/><circle cx="205" cy="52" r="6" fill="var(--crimson)"/><circle cx="330" cy="95" r="6" fill="var(--crimson)"/><circle cx="448" cy="112" r="6" fill="var(--ok)"/>' +
+      // interval braces
+      '<line x1="110" y1="135" x2="205" y2="135" stroke="var(--crimson)" stroke-width="2"/><line x1="205" y1="135" x2="330" y2="135" stroke="var(--crimson)" stroke-width="2"/><line x1="330" y1="135" x2="448" y2="135" stroke="var(--ok)" stroke-width="2"/>' +
+      '<text x="157" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">1 day</text>' +
+      '<text x="267" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">3 days</text>' +
+      '<text x="389" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">7 days…</text>' +
+      '<text x="22" y="30" font-size="12" fill="var(--muted)">memory</text>' +
+      '<text x="90" y="112" font-size="10" fill="var(--crimson)">recall!</text>' +
+      '<text x="185" y="46" font-size="10" fill="var(--crimson)">recall!</text>' +
+      '<text x="310" y="88" font-size="10" fill="var(--crimson)">recall!</text>' +
+      "</svg>",
+
+    // the loop: cards → apply, wrongs → new cards (circular, requested loop-back arrow)
+    loop: () =>
+      '<svg class="diag" viewBox="0 0 560 250" role="img" aria-label="The study loop">' +
+      '<rect x="0" y="0" width="560" height="250" rx="10" fill="var(--card)"/>' +
+      // boxes
+      '<g font-family="Inter, sans-serif">' +
+      '<rect x="30" y="95" width="120" height="60" rx="12" fill="none" stroke="var(--crimson)" stroke-width="2.5"/><text x="90" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)">Cards</text><text x="90" y="141" text-anchor="middle" font-size="11" fill="var(--muted)">Anki, daily</text>' +
+      '<rect x="410" y="95" width="120" height="60" rx="12" fill="none" stroke="var(--crimson)" stroke-width="2.5"/><text x="470" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)">Apply</text><text x="470" y="141" text-anchor="middle" font-size="11" fill="var(--muted)">past questions</text>' +
+      // forward arrows: cards -> apply (top), apply -> cards (bottom via wrongs)
+      '<path d="M155 105 C 230 60, 330 60, 405 105" fill="none" stroke="var(--crimson)" stroke-width="2.5" marker-end="url(#ar)"/>' +
+      '<text x="280" y="55" text-anchor="middle" font-size="12" fill="var(--ink)">answer &amp; mark honestly</text>' +
+      '<path d="M405 145 C 330 190, 230 190, 155 145" fill="none" stroke="var(--ok)" stroke-width="2.5" marker-end="url(#arg)"/>' +
+      '<text x="280" y="205" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ok)">wrong → new card → back in</text>' +
+      // wrongs strike
+      '<text x="470" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">✗ marked wrong</text>' +
+      '<text x="90" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">review grows 1→3→7→14→30 d</text>' +
+      "</g>" +
+      '<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--crimson)"/></marker>' +
+      '<marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs>' +
+      "</svg>",
+
+    // understanding = map of known vs unknown (two balls + string)
+    gaps: () =>
+      '<svg class="diag" viewBox="0 0 460 160" role="img" aria-label="Two balls, string, gap map">' +
+      '<rect x="0" y="0" width="460" height="160" rx="10" fill="var(--card)"/>' +
+      '<circle cx="80" cy="80" r="26" fill="var(--ok)" opacity="0.85"/><text x="80" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">know</text>' +
+      '<circle cx="380" cy="80" r="26" fill="var(--crimson)"/><text x="380" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">want</text>' +
+      '<path d="M106 80 Q 230 40 354 80" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>' +
+      '<text x="230" y="35" text-anchor="middle" font-size="12" fill="var(--muted)">the map: what you know vs what you don&rsquo;t</text>' +
+      '<circle cx="215" cy="58" r="5" fill="var(--stalled)"/><circle cx="265" cy="50" r="5" fill="var(--stalled)"/><circle cx="305" cy="60" r="5" fill="var(--stalled)"/>' +
+      '<text x="230" y="100" text-anchor="middle" font-size="11" fill="var(--stalled)">● gaps found by the pre-quiz — filled before they compound</text>' +
+      '<path d="M40 135 L 420 135" stroke="var(--bg-alt)" stroke-width="1.5"/>' +
+      '<text x="40" y="152" font-size="11" fill="var(--muted)">flow: teach ~10% beyond your level</text>' +
+      '<text x="420" y="152" text-anchor="end" font-size="11" fill="var(--muted)">too far above → zone out</text>' +
+      "</svg>",
+
+    // 80/20 pareto
+    pareto: () =>
+      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="80/20 past questions">' +
+      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
+      '<rect x="40" y="35" width="90" height="85" rx="6" fill="var(--crimson)" opacity="0.9"/><text x="85" y="80" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">20%</text><text x="85" y="100" text-anchor="middle" font-size="10" fill="#fff">of question types</text>' +
+      '<rect x="140" y="35" width="280" height="85" rx="6" fill="var(--bg-alt)"/><text x="280" y="72" text-anchor="middle" font-size="13" fill="var(--muted)">carry 80% of the exam marks</text>' +
+      '<text x="280" y="92" text-anchor="middle" font-size="11" fill="var(--muted)">— AI groups the papers by type, you train the big five first</text>' +
+      '<text x="40" y="142" font-size="11" fill="var(--muted)">80/20: study in order of what comes up most</text>' +
+      "</svg>",
+
+    // model + settings: same logo, different brains (dials)
+    dials: () =>
+      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="Same app, different model and settings">' +
+      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
+      '<g font-family="Inter, sans-serif">' +
+      // two identical app windows
+      '<rect x="30" y="30" width="180" height="90" rx="10" fill="none" stroke="var(--muted)" stroke-width="2"/><circle cx="45" cy="45" r="3" fill="var(--muted)"/><text x="120" y="75" text-anchor="middle" font-size="12" fill="var(--ink)">same logo</text><text x="120" y="93" text-anchor="middle" font-size="11" fill="var(--muted)">same chat box</text>' +
+      '<rect x="250" y="30" width="180" height="90" rx="10" fill="none" stroke="var(--crimson)" stroke-width="2"/><circle cx="265" cy="45" r="3" fill="var(--crimson)"/>' +
+      '<text x="340" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">what model?</text>' +
+      '<text x="340" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">what settings?</text>' +
+      '<text x="340" y="108" text-anchor="middle" font-size="10" fill="var(--muted)">think on/off · context · 222k ceiling</text>' +
+      '<text x="230" y="143" text-anchor="middle" font-size="11" fill="var(--muted)">65% vs 91% — same €0.00</text>' +
+      "</g></svg>",
+
+    // 40% donut
+    donut: () =>
+      '<svg class="diag" viewBox="0 0 200 150" role="img" aria-label="40 percent of the LC is coursework">' +
+      '<rect x="0" y="0" width="200" height="150" rx="10" fill="var(--card)"/>' +
+      '<circle cx="70" cy="75" r="42" fill="none" stroke="var(--bg-alt)" stroke-width="16"/>' +
+      '<circle cx="70" cy="75" r="42" fill="none" stroke="var(--crimson)" stroke-width="16" stroke-dasharray="105.5 158.6" transform="rotate(-90 70 75)"/>' +
+      '<text x="70" y="80" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">40%</text>' +
+      '<text x="125" y="60" font-size="11" fill="var(--ink)" font-weight="600">project + report,</text>' +
+      '<text x="125" y="76" font-size="11" fill="var(--ink)" font-weight="600">done at home</text>' +
+      '<text x="125" y="96" font-size="10" fill="var(--muted)">Engineering 2027: 50%</text>' +
+      "</svg>",
+
+    // ladder context window (222k)
+    context: () =>
+      '<svg class="diag" viewBox="0 0 460 140" role="img" aria-label="Context window fills up, then invention">' +
+      '<rect x="0" y="0" width="460" height="140" rx="10" fill="var(--card)"/>' +
+      '<rect x="30" y="40" width="400" height="34" rx="8" fill="var(--bg-alt)"/>' +
+      '<rect x="30" y="40" width="260" height="34" rx="8" fill="var(--raised)" opacity="0.85"/>' +
+      '<text x="42" y="62" font-size="11" fill="#fff" font-weight="600">your documents, the chat so far…</text>' +
+      '<text x="330" y="62" font-size="11" fill="var(--muted)">~222k limit</text>' +
+      '<text x="30" y="98" font-size="11" fill="var(--stalled)">full up + reasoning eats into it → after that it invents, confidently</text>' +
+      '<text x="30" y="118" font-size="11" fill="var(--muted)">long project = feed sections, not the whole folder at once</text>' +
+      "</svg>",
+  };
 
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
@@ -91,7 +193,7 @@ const CONFIG = {
     );
   }
 
-  function ladderSlide() {
+  function ladderSlide(withContext) {
     const rows = [
       { lbl: "Free ChatGPT <small>the default most students use</small>", pct: 65, idx: "16", cls: "f-r" },
       { lbl: "School Copilot <small>what your school login serves</small>", pct: 82, idx: "27", cls: "f-a" },
@@ -111,10 +213,16 @@ const CONFIG = {
       ).join("") +
       "</div>" +
       '<div class="take">Same logo, same chat box &mdash; up to a <b>30-point gap</b> underneath. The intelligence is in the <b>model</b>, not the brand.</div>' +
-      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:1.2vh">And a second ceiling: free defaults carry <b>~222k characters of context</b> &mdash; reasoning eats into it &mdash; then they start inventing. Long documents need the bigger-context models.</p>' +
-      '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:0.8vh">Data: ' + CONFIG.DATA_NOTE + " · hallucination rates and cost per task on the handout.</p>"
+      (withContext ? SVG.context() : "") +
+      '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:1.4vh">Data: ' + CONFIG.DATA_NOTE + " · hallucination rates and cost per task on the handout.</p>"
     );
   }
+
+  // evidence strip: the studies behind each technique
+  const evidence = (refs) =>
+    '<div class="evidence"><span class="lab">Evidence</span>' +
+    refs.map((r) => "<span>" + r + "</span>").join('<span class="sep">·</span>') +
+    "</div>";
 
   function slideHook() {
     return (
@@ -133,8 +241,8 @@ const CONFIG = {
 
   const SLIDES_STUDENTS = [
     {
-      beat: "Welcome", clock: "0:00", img: "title",
-      notes: ["Let the room settle. Title + photo up as they come in.", "Frame it: this is about HOW to study — and a big part of that will be AI.", "Promise the room: free tools only tonight. Nothing to buy."],
+      beat: "Welcome", clock: "0:00", centered: true,
+      notes: ["Let the room settle. Title up as they come in.", "Frame it: this is about HOW to study — and a big part of that will be AI.", "Promise the room: free tools only tonight. Nothing to buy."],
       html: () =>
         '<div class="title-brand">H1Done <span>study</span></div>' +
         '<div class="title-rule"></div>' +
@@ -153,17 +261,16 @@ const CONFIG = {
       html: slideHook,
     },
     {
-      beat: "1 · Hook (contd)", clock: "~2:30", img: "ai-brain",
+      beat: "1 · Hook (contd)", clock: "~2:30", diag: "forget",
       notes: [
         "The measured data behind the four numbers — the ladder.",
         "Point at bars: free default 65% → your school tools 82–84% → SAME app with THINK pressed 84% → 91% reference at $0.25.",
-        "Context point: free defaults carry ~222k words of memory — and reasoning eats it. After that they make it up.",
         "Line to land: the intelligence is in the MODEL, not the brand. → ask what model, what settings.",
       ],
-      html: () => ladderSlide() + pic("ai-brain", " Efiagram / Adobe Stock", "right"),
+      html: () => ladderSlide(),
     },
     {
-      beat: "2 · Make them care", clock: "3:00–7:00", img: "exam-hall",
+      beat: "2 · Make them care", clock: "3:00–7:00", diag: "donut",
       notes: [
         "The LC quietly moved: up to 40% of the grade = projects done at home, with AI in every pocket.",
         "Biology investigation now; Engineering next year = 50% of the whole grade.",
@@ -173,15 +280,16 @@ const CONFIG = {
       html: () =>
         '<p class="eyebrow">What changed while you were studying the old way</p>' +
         '<h2>Up to <span class="crim">40%</span> of your Leaving Cert is now a project &mdash; done at home.</h2>' +
-        '<div class="stats" style="grid-template-columns:repeat(3,1fr)">' +
+        '<div class="diag-split">' + SVG.donut() +
+        '<div class="stats stats-v" style="margin:0">' +
         '<div class="stat"><div class="big">40%</div><p>Biology (AAC): the investigation + report, done in your own time, with AI in every pocket.</p></div>' +
         '<div class="stat"><div class="big">50%</div><p>Engineering next year: Design &amp; Manufacture project — the biggest coursework weight in the LC.</p></div>' +
-        '<div class="stat"><div class="big">2027</div><p>First examined: the new spec you are sitting. Half your grade is decided before exam day.</p></div>' +
-        "</div>" +
+        '<div class="stat"><div class="big">2027</div><p>First examined: the new spec you are sitting. Half your grade decided before exam day.</p></div>' +
+        "</div></div>" +
         '<p class="sub" style="margin-bottom:0">The rules changed: the SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</p>',
     },
     {
-      beat: "3 · Write your why", clock: "7:00–12:00", img: "road",
+      beat: "3 · Write your why", clock: "7:00–12:00",
       notes: [
         "80/20 of THIS talk: strategy is only 20% — the other 80% is psychology. So: write your why.",
         "Be SPECIFIC: points range (top + low), course, place. Vague = useless.",
@@ -200,81 +308,86 @@ const CONFIG = {
         '<div class="why-example"><span class="lab">One line, like this (fill before Friday)</span><span class="ph-inline" id="why-example-line">My why goes here — [WHY_EXAMPLE] in CONFIG</span></div>',
     },
     {
-      beat: "4 · Understand", clock: "12:00–15:00", img: "puzzle",
+      beat: "4 · Understand", clock: "12:00–15:00", diag: "gaps",
       notes: [
         "Learning = 3 processes: UNDERSTAND, MEMORISE, APPLY. Laws, not tricks — the tricks just serve them.",
-        "Definition of understanding: knowing WHAT YOU KNOW vs WHAT YOU DON'T. That's the map.",
+        "Definition of understanding: knowing WHAT YOU KNOW vs WHAT YOU DON'T. That's the map (see the two balls).",
         "A teacher can't customise to 30 individual levels — AI can. Quiz BEFORE you read: find the gaps, fill them early, catch misconceptions before the framework sets.",
         "Flow state: taught ~10% beyond your level = enjoyable; below = boring; above = you zone out. Nothing to do with intelligence — everything to do with level.",
+        "Evidence: Bloom's 2-sigma (1-to-1 tutoring ≈ 2 standard deviations better); Vygotsky's zone of proximal development; pre-questions prime learning.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">1</span><h2>Understand &mdash; at <span class="italic crim">your</span> level</h2></div>' +
         '<p class="sub">Learning is three processes: <b>understand &rarr; memorise &rarr; apply</b>. Understanding starts with a map: <i>what you know vs what you don&rsquo;t.</i></p>' +
+        SVG.gaps() +
         '<div class="tools"><span class="tool-chip"><b>ChatGPT / AI Studio</b> — &ldquo;quiz me first, then teach to my level&rdquo;</span><span class="tool-chip"><b>NotebookLM</b> — grounded in YOUR sources</span><span class="tool-chip"><b>Voice-to-text</b> — talk your questions in (Groq, free)</span></div>' +
         '<ul class="tech-steps"><li>Quiz <em>before</em> you read &mdash; find the gaps and the misconceptions early, while they&rsquo;re cheap to fix.</li><li>Then read content built for your level: every acronym explained, every gap filled as you go.</li><li>~10% beyond your level = flow: enjoyable, fast. Too far below = boring. Too far above = you zone out. It&rsquo;s level, not intelligence.</li><li>A class of 30 gets one speed. A good AI gets <em>yours</em> &mdash; a private tutor effect, for free.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Passive reading and re-watching. If no question was asked, no map was drawn &mdash; you don&rsquo;t know what you don&rsquo;t know.</div>',
+        '<div class="trap"><b>The trap</b>Passive reading and re-watching. If no question was asked, no map was drawn &mdash; you don&rsquo;t know what you don&rsquo;t know.</div>' +
+        evidence(["Bloom&rsquo;s 2-sigma: 1-to-1 tutoring ≈ +2 SD", "Vygotsky: zone of proximal development", "pre-testing primes later learning (Kornell)"]),
     },
     {
-      beat: "4 · Memorise", clock: "15:00–17:30", img: "gym",
+      beat: "4 · Memorise", clock: "15:00–17:30", diag: "forget",
       notes: [
         "Memorise = recall on demand. Active recall = a thousand mini-tests; spaced repetition schedules them.",
-        "The string-and-two-balls image: link stretches as you forget — recall at the right moment = the barely-liftable weight — link strengthens, interval grows.",
+        "Walk the diagram: memory decays → recall at the thin moment lifts it → interval grows 1→3→7→14→30.",
         "Without spacing: the same card 10–40 times. With it: minutes a day. 5 min today > 1 hour Sunday.",
         "Proof-of-life: this exact system carried him through the LC grind and MRCS last week.",
+        "Evidence: Ebbinghaus forgetting curve (1885); Roediger & Karpicke 2006 (testing beats re-reading, massive effect); Cepeda 2006 (spacing meta-analysis); Dunlosky 2013 (practice testing + distributed practice = top two techniques).",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">2</span><h2>Memorise &mdash; like a muscle</h2></div>' +
-        '<p class="sub">Understood &ne; memorised. Memorised = you can <b>recall it on demand</b>. That takes two things: <b>active recall</b> (a thousand mini-tests) and <b>spacing</b>.</p>' +
+        '<p class="sub">Understood &ne; memorised. Memorised = you can <b>recall it on demand</b>: active recall (a thousand mini-tests) + spacing.</p>' +
+        SVG.forget() +
         '<div class="tools"><span class="tool-chip"><b>Anki</b> — free on desktop &amp; Android, does the scheduling for you</span></div>' +
-        '<ul class="tech-steps"><li>Every fact is a question. Answering it <em>is</em> the workout &mdash; the lift, barely managed.</li><li>Memory is a string between two balls: it thins as you forget. Recall right at the thin moment = strongest lift.</li><li>Anki times that moment for you: 1 · 3 · 7 · 14 · 30 days. Miss = it comes back sooner. Easy = later.</li><li>Read once with feeling, then never re-read — recall instead. 5 minutes daily beats an hour on Sunday.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Re-reading and highlighting — recognition, not recall. Feels easy because it <em>is</em> easy: it isn&rsquo;t learning. And don&rsquo;t binge 400 cards in one night; cards are made <em>during</em> study.</div>',
+        '<ul class="tech-steps"><li>Every fact is a question. Answering it <em>is</em> the workout &mdash; the lift, barely managed.</li><li>Memory decays on a curve. Recall right at the thin moment = strongest lift — and the next interval grows.</li><li>Anki times that moment for you: 1 · 3 · 7 · 14 · 30 days. Miss = sooner. Easy = later.</li><li>Read once with feeling, then never re-read — recall instead. 5 minutes daily beats an hour on Sunday.</li></ul>' +
+        '<div class="trap"><b>The trap</b>Re-reading and highlighting — recognition, not recall. Feels easy because it <em>is</em> easy: it isn&rsquo;t learning. Don&rsquo;t binge 400 cards in one night; cards are made <em>during</em> study.</div>' +
+        evidence(["Ebbinghaus forgetting curve (1885)", "Roediger &amp; Karpicke 2006: testing &gt; re-reading", "Cepeda 2006: spacing meta-analysis", "Dunlosky 2013: top-2 techniques"]),
     },
     {
-      beat: "4 · Apply", clock: "17:30–19:30", img: "toolbox",
+      beat: "4 · Apply", clock: "17:30–19:30", diag: "pareto",
       notes: [
         "APPLY is the exam skill: knowing ≠ applying under time pressure, multi-topic questions, examiners trying to trick you.",
         "Applying is also the only honest CHECK that you understood.",
         "80/20: past questions grouped by type — AI groups them so you do fewer, better. StudyClick for the papers.",
         "The loop closes: wrong answers → new flashcards → back into Anki → re-apply. And corrected work must RETURN (re-test in 2–4 weeks) or it evaporates.",
+        "Evidence: testing effect again (retrieval practice as study); immediate feedback corrects faster (formative-assessment lit); feedback + re-test beats single marking.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">3</span><h2>Apply &mdash; past questions first</h2></div>' +
-        '<p class="sub">The exam doesn&rsquo;t ask &ldquo;do you know it&rdquo; &mdash; it asks &ldquo;can you <b>use</b> it, under time, with tricks&rdquo;. Applying is also the only honest <em>check</em> that you understood.</p>' +
+        '<p class="sub">The exam doesn&rsquo;t ask &ldquo;do you know it&rdquo; &mdash; it asks &ldquo;can you <b>use</b> it, under time, with tricks&rdquo;. Applying is also the only honest <em>check</em>.</p>' +
+        SVG.pareto() +
         '<div class="tools"><span class="tool-chip"><b>Past papers grouped by type</b> — 80/20: fewer questions, better chosen (StudyClick / paper sites)</span><span class="tool-chip"><b>AI as marking scheme</b> — paste answer + scheme, get marked honestly</span><span class="tool-chip"><b>OpenRouter :free</b> — no-login fallback</span></div>' +
         '<ul class="tech-steps"><li>Attempt a past question <em>early</em> — before you feel &ldquo;ready&rdquo;. The exam is a genre; learn its moves.</li><li>Every wrong answer becomes a new flashcard — the miss feeds straight back into the memorise step.</li><li>Loop it: cards &rarr; apply &rarr; wrongs &rarr; new cards &rarr; re-apply. Full papers folded in as you go.</li><li>In the project: AI may organise your plan and clarify research &mdash; never write your words. Say exactly how you used it.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Nodding at a model answer. Nodding is not writing. And a corrected test you never re-sit is a lesson evaporating — put it back in the loop.</div>',
+        '<div class="trap"><b>The trap</b>Nodding at a model answer. Nodding is not writing. And a corrected test you never re-sit is a lesson evaporating — put it back in the loop.</div>' +
+        evidence(["retrieval practice as exam prep", "immediate feedback &gt; delayed (formative lit)", "corrections re-tested in 2–4 weeks stick"]),
     },
     {
-      beat: "4 · The loop", clock: "19:30–20:00", img: "steps",
+      beat: "4 · The loop", clock: "19:30–20:00", diag: "loop",
       notes: [
-        "One picture of the whole system: GRILL (map) → READ (your level) → CARDS (memorise) → APPLY (past Qs) → wrongs become new cards → repeat, climbing.",
-        "This IS the /incremental loop that got him through the LC in 6 months and MRCS last week.",
-        "Each pass up the stairs gets easier — that's spacing compounding.",
+        "ONE PICTURE of the whole system — walk the arrows: Cards → apply → marked → wrong → NEW CARD → back into Cards → apply again. Spinning, climbing.",
+        "This is the /incremental loop that got him through the LC in 6 months and MRCS last week.",
+        "Each pass the intervals grow — the loop spins slower per fact because you KNOW it better. Efficiency = fewer, better reps.",
+        "AI's jobs: grill, customise, group, mark. Your job: the recall. The machine can't lift for you.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one picture</h2></div>' +
-        '<p class="sub">Three processes, one loop. Every cycle the stairs get easier &mdash; that&rsquo;s spacing compounding.</p>' +
-        '<div class="loop-row">' +
-        '<span class="loop-step">Grill<br><small>find the gaps</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step">Read<br><small>at your level</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step">Cards<br><small>Anki daily</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step">Apply<br><small>past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
-        '<span class="loop-step loop-back">Wrongs &rarr; new cards<br><small>repeat, climbing</small></span>' +
-        "</div>" +
-        '<p class="sub" style="margin-bottom:0">AI&rsquo;s job in the loop: <b>grill you</b>, <b>customise the reading</b>, <b>group the questions</b>, <b>mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</p>',
+        '<p class="sub">Three processes, one loop. Every pass the lifts get lighter and further apart &mdash; that&rsquo;s spacing compounding.</p>' +
+        SVG.loop() +
+        '<ul class="tech-steps"><li><b>Cards</b> (Anki daily) &rarr; <b>Apply</b> (past questions) &rarr; marked honestly.</li><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; the loop spins again.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
+        evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]),
     },
     {
-      beat: "5 · Not all AI is equal", clock: "20:00–22:00", img: "mixer",
+      beat: "5 · Not all AI is equal", clock: "20:00–22:00", diag: "dials",
       notes: [
         "Not every doctor is equal, not every teacher is equal — not every AI is equal. Same logo ≠ same brain.",
         "Two questions to ask ANY AI: What MODEL? What SETTINGS? (Thinking on/off is a setting that jumps 65→84 on the same app.)",
-        "Ladder: free default 65 → school tools 82–84 → think-mode 84 → GLM-5.3-Flash 91 at $0.25/task.",
+        "Context ceiling: ~222k characters — reasoning eats into it — after that it invents. Feed sections, not whole folders.",
         "Settings: voice-to-text for input (faster than typing), OpenRouter :free for no-login access, right model = pennies.",
       ],
-      html: () => ladderSlide() + pic("mixer", " George Marek / Unsplash", "right"),
+      html: () => ladderSlide(true) + SVG.dials(),
     },
     {
-      beat: "6 · Live demo", clock: "22:00–27:00", img: "qr-phone",
+      beat: "6 · Live demo", clock: "22:00–27:00",
       notes: [
         "Phones OUT. Scan the QR on screen — or the A4 printout.",
         "One student on the big screen if the room allows: pick Biology → Enzymes.",
@@ -384,18 +497,9 @@ const CONFIG = {
       '<button class="icon-btn" id="remote-btn" title="Open the phone remote — shows this URL on your phone">⌁ remote</button>' +
       "</div></div>" +
       '<div class="deck-stage" id="stage">' +
-      slides.map((s, i) => {
-        let inner = s.html();
-        if (s.img) {
-          const credit = { "title": "MChe Lee / Unsplash", "ai-brain": "Efiagram / Adobe Stock", "exam-hall": "Wilderness_1 / 123RF", "road": "Fotoblysk / Dreamstime", "puzzle": "Alexlukin / Dreamstime", "gym": "Mikhail Shishov / Dreamstime", "toolbox": "_Andrey_ / iStock", "steps": "wjarek / Adobe Stock", "mixer": "George Marek / Unsplash", "qr-phone": "damircudic / E+" }[s.img] || "";
-          if (i === 0) {
-            inner = '<div class="hero-pic"><img src="' + IMG(s.img) + '" alt=""><span class="credit">photo: ' + credit + ' (Google Images)</span></div>' + inner;
-          } else {
-            inner += pic(s.img, credit, "right");
-          }
-        }
-        return '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + inner + foot(s.beat, s.clock) + "</section>";
-      }).join("") +
+      slides.map((s, i) =>
+        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + s.html() + foot(s.beat, s.clock) + "</section>"
+      ).join("") +
       "</div></div>";
 
     state.slide = 0;
