@@ -67,14 +67,14 @@ const CONFIG = {
 
     // 40% donut
     donut: () =>
-      '<svg class="diag" viewBox="0 0 200 150" role="img" aria-label="40 percent of the LC is coursework">' +
-      '<rect x="0" y="0" width="200" height="150" rx="10" fill="var(--card)"/>' +
-      '<circle cx="70" cy="75" r="42" fill="none" stroke="var(--bg-alt)" stroke-width="16"/>' +
-      '<circle cx="70" cy="75" r="42" fill="none" stroke="var(--crimson)" stroke-width="16" stroke-dasharray="105.5 158.6" transform="rotate(-90 70 75)"/>' +
-      '<text x="70" y="80" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">40%</text>' +
-      '<text x="125" y="60" font-size="11" fill="var(--ink)" font-weight="600">project + report,</text>' +
-      '<text x="125" y="76" font-size="11" fill="var(--ink)" font-weight="600">done at home</text>' +
-      '<text x="125" y="96" font-size="10" fill="var(--muted)">Engineering 2027: 50%</text>' +
+      '<svg class="diag" viewBox="0 0 230 150" role="img" aria-label="40 percent of the LC is coursework">' +
+      '<rect x="0" y="0" width="230" height="150" rx="10" fill="var(--card)"/>' +
+      '<circle cx="62" cy="75" r="42" fill="none" stroke="var(--bg-alt)" stroke-width="16"/>' +
+      '<circle cx="62" cy="75" r="42" fill="none" stroke="var(--crimson)" stroke-width="16" stroke-dasharray="105.5 158.6" transform="rotate(-90 62 75)"/>' +
+      '<text x="62" y="80" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">40%</text>' +
+      '<text x="118" y="62" font-size="11" fill="var(--ink)" font-weight="600">portfolio + report,</text>' +
+      '<text x="118" y="78" font-size="11" fill="var(--ink)" font-weight="600">largely your own time</text>' +
+      '<text x="118" y="97" font-size="10" fill="var(--muted)">Engineering 2027: 50%</text>' +
       "</svg>",
 
     // ladder context window (222k)
@@ -92,6 +92,13 @@ const CONFIG = {
 
   const LOGO = "img/h1d-logo.webp";
   const brandMark = (cls) => '<img class="brand-mark ' + (cls || "") + '" src="' + LOGO + '" alt="H1Done logo">';
+
+  // fill-before-Friday checklist (presenter-visible on title slide)
+  const TODO_CARD =
+    '<div class="todo-card"><span class="lab">Fill before Friday</span>' +
+    "<ul><li><b>WHY_EXAMPLE</b> — your medicine why-line (slide 5, CONFIG)</li>" +
+    "<li><b>SURVEY_URL</b> — post-survey QR (close slide, CONFIG)</li>" +
+    "<li><b>Printed QR A4 ×2</b> — quickchart recipe, in your bag</li></ul></div>";
 
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
@@ -191,7 +198,8 @@ const CONFIG = {
         '<div class="title-rule"></div>' +
         '<h1>Study smarter with AI.<br>Not harder.</h1>' +
         '<p class="sub">The most efficient way to learn — understanding, memorising, applying — and where AI actually helps.</p>' +
-        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; 5th &amp; 6th Year</p>',
+        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; 5th &amp; 6th Year</p>' +
+        TODO_CARD,
     },
     {
       beat: "1 · Hook", clock: "0:00–3:00",
@@ -215,21 +223,22 @@ const CONFIG = {
     {
       beat: "2 · Make them care", clock: "3:00–7:00", diag: "donut",
       notes: [
-        "The LC quietly moved: up to 40% of the grade = projects done at home, with AI in every pocket.",
-        "Biology investigation now; Engineering next year = 50% of the whole grade.",
+        "The LC quietly moved: up to 40% of the grade = portfolio + report, largely in your own time — with AI in every pocket.",
+        "Not all at home: e.g. Geography — at least 20 hours supervised in class; the PORTFOLIO (write-up) is what's done at home, not the physical work.",
+        "Biology investigation now; Engineering next year = 50% of the whole grade. Report due ~June 2027.",
         "You already compete against people using AI well. Use it well or it uses you.",
         "Marks moving from MEMORY to METHOD — and the SEC allows AI for research/planning, never your words.",
       ],
       html: () =>
         '<p class="eyebrow">What changed while you were studying the old way</p>' +
-        '<h2>Up to <span class="crim">40%</span> of your Leaving Cert is now a project &mdash; done at home.</h2>' +
-        '<div class="diag-split">' + SVG.donut() +
+        '<h2>Up to <span class="crim">40%</span> of your Leaving Cert is now a project &mdash; largely in your own time.</h2>' +
+        '<div class="diag-split">' +
         '<div class="stats stats-v" style="margin:0">' +
-        '<div class="stat"><div class="big">40%</div><p>Biology (AAC): the investigation + report, done in your own time, with AI in every pocket.</p></div>' +
-        '<div class="stat"><div class="big">50%</div><p>Engineering next year: Design &amp; Manufacture project — the biggest coursework weight in the LC.</p></div>' +
+        '<div class="stat"><div class="big">40%</div><p>Biology (AAC): the investigation + report, largely in your own time — with AI in every pocket.</p></div>' +
+        '<div class="stat"><div class="big">50%</div><p>Engineering next year: Design &amp; Manufacture — the biggest coursework weight in the LC.</p></div>' +
         '<div class="stat"><div class="big">2027</div><p>First examined: the new spec you are sitting. Half your grade decided before exam day.</p></div>' +
-        "</div></div>" +
-        '<p class="sub" style="margin-bottom:0">The rules changed: the SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</p>',
+        "</div>" + SVG.donut() + "</div>" +
+        '<p class="sub" style="margin-bottom:0">Not all at home &mdash; e.g. Geography: <b>at least 20 hours supervised in class</b>; the <b>portfolio</b> (the write-up) is what&rsquo;s done at home. And the rules changed: the SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</p>',
     },
     {
       beat: "3 · Write your why", clock: "7:00–12:00",
@@ -279,13 +288,17 @@ const CONFIG = {
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">2</span><h2>Memorise &mdash; like a muscle</h2></div>' +
+        '<div class="side-split">' +
+        '<div class="side-body">' +
         '<p class="sub">Understood &ne; memorised. Memorised = you can <b>recall it on demand</b>: active recall (a thousand mini-tests) + spacing.</p>' +
-        SVG.forget() +
-        '<p class="mut" style="font-size:clamp(8px,1.3vh,11px);margin:-0.6vh 0 0.8vh">diagram: Osmosis.org &mdash; each review resets the fade and flattens it higher: better long-term retention</p>' +
         '<div class="tools"><span class="tool-chip"><b>Anki</b> — free on desktop &amp; Android, does the scheduling for you</span></div>' +
         '<ul class="tech-steps"><li>Every fact is a question. Answering it <em>is</em> the workout &mdash; the lift, barely managed.</li><li>Memory decays on a curve. Recall right at the thin moment = strongest lift — and the next interval grows.</li><li>Anki times that moment for you: 1 · 3 · 7 · 14 · 30 days. Miss = sooner. Easy = later.</li><li>Read once with feeling, then never re-read — recall instead. 5 minutes daily beats an hour on Sunday.</li></ul>' +
         '<div class="trap"><b>The trap</b>Re-reading and highlighting — recognition, not recall. Feels easy because it <em>is</em> easy: it isn&rsquo;t learning. Don&rsquo;t binge 400 cards in one night; cards are made <em>during</em> study.</div>' +
-        evidence(["Ebbinghaus forgetting curve (1885)", "Roediger &amp; Karpicke 2006: testing &gt; re-reading", "Cepeda 2006: spacing meta-analysis", "Dunlosky 2013: top-2 techniques"]),
+        evidence(["Ebbinghaus forgetting curve (1885)", "Roediger &amp; Karpicke 2006: testing &gt; re-reading", "Cepeda 2006: spacing meta-analysis", "Dunlosky 2013: top-2 techniques"]) +
+        "</div>" +
+        '<div class="side-media">' + SVG.forget() +
+        '<p class="mut" style="font-size:clamp(8px,1.3vh,11px);margin:6px 0 0;text-align:center">each review resets the fade, flattening higher &mdash; better long-term retention (Osmosis.org)</p></div>' +
+        "</div>",
     },
     {
       beat: "4 · Apply", clock: "17:30–19:30", diag: "pareto",
@@ -298,12 +311,16 @@ const CONFIG = {
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">3</span><h2>Apply &mdash; past questions first</h2></div>' +
+        '<div class="side-split">' +
+        '<div class="side-body">' +
         '<p class="sub">The exam doesn&rsquo;t ask &ldquo;do you know it&rdquo; &mdash; it asks &ldquo;can you <b>use</b> it, under time, with tricks&rdquo;. Applying is also the only honest <em>check</em>.</p>' +
-        SVG.pareto() +
         '<div class="tools"><span class="tool-chip"><b>Past papers grouped by type</b> — 80/20: fewer questions, better chosen (StudyClick / paper sites)</span><span class="tool-chip"><b>AI as marking scheme</b> — paste answer + scheme, get marked honestly</span><span class="tool-chip"><b>OpenRouter :free</b> — no-login fallback</span></div>' +
         '<ul class="tech-steps"><li>Attempt a past question <em>early</em> — before you feel &ldquo;ready&rdquo;. The exam is a genre; learn its moves.</li><li>Every wrong answer becomes a new flashcard — the miss feeds straight back into the memorise step.</li><li>Loop it: cards &rarr; apply &rarr; wrongs &rarr; new cards &rarr; re-apply. Full papers folded in as you go.</li><li>In the project: AI may organise your plan and clarify research &mdash; never write your words. Say exactly how you used it.</li></ul>' +
         '<div class="trap"><b>The trap</b>Nodding at a model answer. Nodding is not writing. And a corrected test you never re-sit is a lesson evaporating — put it back in the loop.</div>' +
-        evidence(["retrieval practice as exam prep", "immediate feedback &gt; delayed (formative lit)", "corrections re-tested in 2–4 weeks stick"]),
+        evidence(["retrieval practice as exam prep", "immediate feedback &gt; delayed (formative lit)", "corrections re-tested in 2–4 weeks stick"]) +
+        "</div>" +
+        '<div class="side-media">' + SVG.pareto() + "</div>" +
+        "</div>",
     },
     {
       beat: "4 · The loop", clock: "19:30–20:00",
@@ -324,7 +341,7 @@ const CONFIG = {
         '<span class="loop-step">Apply<br><small>past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
         '<span class="loop-step loop-back">Wrongs<br><small>new cards</small></span>' +
         "</div>" +
-        '<svg class="loop-back-arc" viewBox="0 0 560 60" aria-hidden="true"><path d="M550 6 C 480 50, 260 56, 230 20" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs><text x="395" y="52" text-anchor="middle" font-size="13" fill="var(--ok)" font-weight="600">back into Cards &amp; Apply &mdash; the loop spins</text></svg>' +
+        '<div class="loop-wrap"><svg class="loop-back-arc" viewBox="0 0 560 64" preserveAspectRatio="none" aria-hidden="true"><path d="M548 8 C 470 54, 240 58, 42 22" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs></svg><span class="loop-back-label">every wrong &rarr; a new card &rarr; back into Cards &amp; Apply &mdash; the loop spins</span></div>' +
         '<ul class="tech-steps"><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; apply again. The loop spins.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
         evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]),
     },
@@ -339,15 +356,14 @@ const CONFIG = {
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">4</span><h2>Not all AI is equal &mdash; <span class="italic crim">measured, not marketed</span></h2></div>' +
-        '<p class="sub">PhD-level science exam (GPQA Diamond), cost per task, hallucination rate &mdash; 652 models benchmarked. Same logo, same chat box, <b>30-point gaps</b> underneath.</p>' +
+        '<p class="sub one-line">PhD-level science exam · cost per task · hallucination rate &mdash; 652 models benchmarked. <b>Same logo, 30-point gaps.</b></p>' +
         '<div class="aa-grid">' +
         '<figure class="aa-card"><img src="img/aa-index.webp" alt="Artificial Analysis Intelligence Index leaderboard" loading="lazy"><figcaption>Intelligence Index v4.3 — GLM-5.3-Flash (42) above every free &amp; school-served model</figcaption></figure>' +
         '<figure class="aa-card"><img src="img/aa-halluc.webp" alt="Hallucination rate chart" loading="lazy"><figcaption>Hallucination rate, lower is better — 28% vs 96%. When it&rsquo;s wrong, does it admit it?</figcaption></figure>' +
-        '<figure class="aa-card"><img src="img/aa-cost.webp" alt="Cost per task chart" loading="lazy"><figcaption>Cost per task — $0.25 vs $7.63. The free column and the cheap column beat the expensive defaults.</figcaption></figure>' +
-        '<figure class="aa-card"><img src="img/aa-scatter.webp" alt="Intelligence vs cost scatter" loading="lazy"><figcaption>The green quadrant: intelligence per euro. GLM-5.3-Flash sits left of the Pareto line.</figcaption></figure>' +
+        '<figure class="aa-card"><img src="img/aa-cost.webp" alt="Cost per task chart" loading="lazy"><figcaption>Cost per task — $0.25 vs $7.63. Free and cheap beat the expensive defaults.</figcaption></figure>' +
+        '<figure class="aa-card"><img src="img/aa-scatter.webp" alt="Intelligence vs cost scatter" loading="lazy"><figcaption>The green quadrant: intelligence per euro — GLM-5.3-Flash left of the Pareto line</figcaption></figure>' +
         "</div>" +
-        '<div class="take">Two questions before you trust any AI: <b>what model?</b> &mdash; <b>what settings?</b> Press Think. Know what you&rsquo;re holding.</div>' +
-        '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:1vh">Context ceiling: ~222k characters &mdash; reasoning eats into it &mdash; then it invents. Feed sections, not whole folders. Data: ' + CONFIG.DATA_NOTE + '.</p>',
+        '<div class="take one-line">Two questions before you trust any AI: <b>what model?</b> &mdash; <b>what settings?</b> Press Think. Know what you&rsquo;re holding.</div>',
     },
     {
       beat: "6 · Live demo", clock: "22:00–27:00",

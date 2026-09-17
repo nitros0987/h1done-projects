@@ -231,6 +231,18 @@ a:hover { text-decoration: underline; }
 }
 .slide-foot .beat { text-transform: uppercase; font-weight: 600; }
 
+/* fill-before-Friday todo card (title slide) */
+.todo-card {
+  position: absolute; right: 2vw; top: 8vh; z-index: 5;
+  background: #FFF8E6; border: 1.5px dashed var(--stalled); border-radius: 12px;
+  padding: 12px 18px; max-width: 300px; text-align: left;
+  font-size: clamp(10px, 1.6vh, 13px); color: var(--ink); box-shadow: var(--shadow);
+}
+.todo-card .lab { display: block; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; font-size: 0.72em; color: var(--stalled); margin-bottom: 6px; }
+.todo-card ul { margin: 0; padding-left: 18px; }
+.todo-card li { margin-bottom: 5px; line-height: 1.4; }
+@media print { .todo-card { display: none; } }
+
 /* H1D round logo marks */
 .brand-mark { width: 26px; height: 26px; border-radius: 50%; vertical-align: -7px; margin-right: 8px; box-shadow: var(--shadow); }
 .foot-mark { width: 22px; height: 22px; vertical-align: -6px; margin-right: 0; opacity: 0.9; }
@@ -241,24 +253,35 @@ a:hover { text-decoration: underline; }
 /* diagrams (inline SVG) */
 .diag { width: 100%; max-width: 680px; height: auto; display: block; margin: 0.6vh 0 1.2vh; }
 .diag text { font-family: "Inter", sans-serif; }
-.diag-img { max-width: 560px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px; }
-.diag-split { display: flex; gap: clamp(14px, 2vw, 30px); align-items: center; width: 100%; }
-.diag-split .diag { max-width: 260px; margin: 0; flex-shrink: 0; }
-.diag-split .stats-v { display: grid; grid-template-columns: 1fr; gap: clamp(8px, 1.4vh, 14px); flex: 1; }
+.diag-img { max-width: 100%; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px; }
+.side-split { display: flex; gap: clamp(14px, 2vw, 30px); align-items: center; width: 100%; }
+.side-split .side-media { flex: 0 0 clamp(220px, 30vw, 400px); min-width: 0; }
+.side-split .side-media .diag-img { width: 100%; max-width: 100%; margin: 0; }
+.side-split .side-body { flex: 1; min-width: 0; }
+@media (max-width: 900px), (max-height: 620px) {
+  .side-split { flex-direction: column; }
+  .side-split .side-media { flex: 0 0 auto; width: 100%; }
+}
+.diag-split { display: flex; gap: clamp(14px, 2vw, 30px); align-items: center; justify-content: center; width: 100%; }
+.diag-split .diag { max-width: 250px; margin: 0; flex-shrink: 0; }
+.diag-split .stats-v { display: grid; grid-template-columns: 1fr; gap: clamp(8px, 1.4vh, 14px); flex: 1; min-width: 0; }
+.diag-split .stats-v .stat p { font-size: clamp(10px, 1.6vh, 14px); }
 @media (max-width: 900px), (max-height: 560px) {
   .diag-split { flex-direction: column; align-items: stretch; }
   .diag-split .diag { max-width: 100%; }
 }
 
 /* AA chart cards (not-all-AI slide) */
-.aa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.4vw, 20px); width: 100%; margin: 0.6vh 0 1.2vh; }
+.one-line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+@media (max-width: 1100px) { .one-line { white-space: normal; } }
+.aa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1.2vw, 16px); width: 100%; margin: 0.4vh 0 1vh; }
 .aa-card {
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-  padding: clamp(8px, 1.2vh, 14px); margin: 0; overflow: hidden;
+  padding: clamp(6px, 1vh, 12px); margin: 0; overflow: hidden;
 }
-.aa-card img { width: 100%; border-radius: 8px; display: block; }
-.aa-card figcaption { font-size: clamp(9px, 1.5vh, 13px); color: var(--muted); margin-top: 6px; line-height: 1.45; }
-@media (max-height: 640px) { .aa-card figcaption { display: none; } }
+.aa-card img { width: 100%; max-height: 30vh; object-fit: contain; border-radius: 8px; display: block; }
+.aa-card figcaption { font-size: clamp(9px, 1.4vh, 12px); color: var(--muted); margin-top: 4px; line-height: 1.4; }
+@media (max-height: 700px) { .aa-card figcaption { display: none; } }
 @media print { .aa-card { break-inside: avoid; } }
 
 /* evidence strip */
@@ -284,7 +307,12 @@ a:hover { text-decoration: underline; }
 .loop-step small { display: block; font-weight: 500; color: var(--muted); font-size: 0.62em; margin-top: 2px; }
 .loop-step.loop-back { border-top-color: var(--ok); }
 .loop-arrow { align-self: center; font-size: clamp(16px, 3vh, 28px); color: var(--crimson); font-weight: 700; }
-.loop-back-arc { width: min(560px, 46vw); height: auto; display: block; margin: -0.6vh 0 0 0; align-self: flex-end; }
+.loop-wrap { position: relative; width: 100%; max-width: 900px; height: 56px; margin: -0.4vh 0 0; }
+.loop-back-arc { position: absolute; inset: 0; width: 100%; height: 100%; }
+.loop-back-label {
+  position: absolute; left: 55%; top: 62%; transform: translateX(-50%);
+  font-size: clamp(11px, 1.8vh, 15px); color: var(--ok); font-weight: 600; white-space: nowrap;
+}
 
 /* ladder slide (benchmark bars, from the ai-in-schools deck) */
 .brow { display: grid; grid-template-columns: minmax(150px, 250px) 1fr 90px; align-items: center; gap: 12px; margin: 1.4vh 0; }
