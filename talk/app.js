@@ -38,8 +38,15 @@ const CONFIG = {
 
   /* ---------------- deck content ---------------- */
 
+  const IMG = (n) => "img/" + n + ".webp";
+
   const qr = (url, size) =>
     "https://quickchart.io/qr?text=" + encodeURIComponent(url) + "&size=" + (size || 600);
+
+  // side image with source credit (Google Images via Serper; credit shown under image)
+  const pic = (name, credit, side) =>
+    '<div class="pic pic-' + (side || "right") + '"><img src="' + IMG(name) + '" alt="">' +
+    '<span class="credit">photo: ' + credit + " (Google Images)</span></div>";
 
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
@@ -104,14 +111,16 @@ const CONFIG = {
       ).join("") +
       "</div>" +
       '<div class="take">Same logo, same chat box &mdash; up to a <b>30-point gap</b> underneath. The intelligence is in the <b>model</b>, not the brand.</div>' +
-      '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:1.4vh">Data: ' + CONFIG.DATA_NOTE + " · hallucination rates and cost per task on the handout.</p>"
+      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:1.2vh">And a second ceiling: free defaults carry <b>~222k characters of context</b> &mdash; reasoning eats into it &mdash; then they start inventing. Long documents need the bigger-context models.</p>' +
+      '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:0.8vh">Data: ' + CONFIG.DATA_NOTE + " · hallucination rates and cost per task on the handout.</p>"
     );
   }
 
   function slideHook() {
     return (
-      '<p class="eyebrow">First — a show of hands</p>' +
-      '<h2>Who studied last night? &hellip; Who <span class="italic crim">checked</span> whether it worked?</h2>' +
+      '<p class="eyebrow">Quick show of hands</p>' +
+      '<h2>Who here uses AI? &hellip; Who <span class="italic crim">pays</span> for it? &hellip; What do you use it for?</h2>' +
+      '<p class="sub">Keep hands up for: heard of <b>Anki</b>? The <b>80/20 principle</b>? <b>Spaced repetition</b>? <b>Active recall</b>?</p>' +
       '<div class="stats">' +
       '<div class="stat"><div class="big"><span class="bad">16</span> <span class="vs">vs</span> <span class="good">42</span></div><p>Intelligence index — what free ChatGPT serves you by default vs what the same money can buy. The "38" on the poster is a different, max-effort model.</p></div>' +
       '<div class="stat"><div class="big"><span class="bad">65%</span> <span class="vs">vs</span> <span class="good">91%</span></div><p>Score on a PhD-level science exam. The free default gets 1 in 3 expert questions wrong — and answers confidently.</p></div>' +
@@ -124,28 +133,43 @@ const CONFIG = {
 
   const SLIDES_STUDENTS = [
     {
-      beat: "Welcome", clock: "0:00", centered: true,
-      notes: ["Stand tall. Let the room settle.", "Title on screen as they come in.", "Name the four numbers BEFORE this slide? No — slide 2 does it."],
+      beat: "Welcome", clock: "0:00", img: "title",
+      notes: ["Let the room settle. Title + photo up as they come in.", "Frame it: this is about HOW to study — and a big part of that will be AI.", "Promise the room: free tools only tonight. Nothing to buy."],
       html: () =>
         '<div class="title-brand">H1Done <span>study</span></div>' +
         '<div class="title-rule"></div>' +
         '<h1>Study smarter with AI.<br>Not harder.</h1>' +
-        '<p class="sub">The new Leaving Cert &middot; the 40% projects &middot; the four techniques that actually move marks.</p>' +
+        '<p class="sub">The most efficient way to learn — understanding, memorising, applying — and where AI actually helps.</p>' +
         '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; 5th &amp; 6th Year</p>',
     },
     {
       beat: "1 · Hook", clock: "0:00–3:00",
-      notes: ["Show of hands: studied last night? Checked whether it worked?", "The 16-vs-42 story: same logo, same chat box — 30-point gap underneath.", "Name the four numbers slowly: 16/42 · 65/91 · 75/28 · $0.25/$7.63.", "Do NOT explain indexes — one line each, move on."],
+      notes: [
+        "SHOW OF HANDS, keep energy up: Who uses AI? Which ones? Who PAYS for it? What for?",
+        "Then the knowledge check: heard of Anki? 80/20? Spaced repetition? Active recall? (Hands tell you the room's level — adapt.)",
+        "Then the four numbers, slowly: 16 vs 42 · 65% vs 91% · 75% vs 28% · $0.25 vs $7.63.",
+        "Medicine link: to get INTO medicine and through it — still grilled weekly — we need the MOST efficient way to study. They try to trick you; you must apply, not just know.",
+      ],
       html: slideHook,
     },
     {
-      beat: "1 · Hook (contd)", clock: "~2:00",
-      notes: ["This is the measured data behind the four numbers.", "Point at the ladder: free default 65% → school tools 82–84% → same app with THINK 84% → 91% reference.", "Line: the intelligence is in the model, not the brand.", "Seed the tagline: ask what model, ask what settings."],
-      html: ladderSlide,
+      beat: "1 · Hook (contd)", clock: "~2:30", img: "ai-brain",
+      notes: [
+        "The measured data behind the four numbers — the ladder.",
+        "Point at bars: free default 65% → your school tools 82–84% → SAME app with THINK pressed 84% → 91% reference at $0.25.",
+        "Context point: free defaults carry ~222k words of memory — and reasoning eats it. After that they make it up.",
+        "Line to land: the intelligence is in the MODEL, not the brand. → ask what model, what settings.",
+      ],
+      html: () => ladderSlide() + pic("ai-brain", " Efiagram / Adobe Stock", "right"),
     },
     {
-      beat: "2 · Make them care", clock: "3:00–7:00",
-      notes: ["The LC quietly moved: 40% of your grade = projects done at home, with AI in the room.", "Biology project now — Engineering next year = 50%. Half your grade before you sit the paper.", "You already compete against people using AI. Use it well, or it uses you.", "Marks are moving from memory → method."],
+      beat: "2 · Make them care", clock: "3:00–7:00", img: "exam-hall",
+      notes: [
+        "The LC quietly moved: up to 40% of the grade = projects done at home, with AI in every pocket.",
+        "Biology investigation now; Engineering next year = 50% of the whole grade.",
+        "You already compete against people using AI well. Use it well or it uses you.",
+        "Marks moving from MEMORY to METHOD — and the SEC allows AI for research/planning, never your words.",
+      ],
       html: () =>
         '<p class="eyebrow">What changed while you were studying the old way</p>' +
         '<h2>Up to <span class="crim">40%</span> of your Leaving Cert is now a project &mdash; done at home.</h2>' +
@@ -157,11 +181,18 @@ const CONFIG = {
         '<p class="sub" style="margin-bottom:0">The rules changed: the SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</p>',
     },
     {
-      beat: "3 · Write your why", clock: "7:00–12:00",
-      notes: ["Two columns. Silence. Pens down rule.", "Left: if I hit my points, my life looks like… Right: if I don't, it costs me…", "Then one line each: result · why · first step tonight.", "QUOTE: motivation isn't a talk — it's a sentence you wrote yourself.", "Fill your own example line in CONFIG before Friday (medicine why)."],
+      beat: "3 · Write your why", clock: "7:00–12:00", img: "road",
+      notes: [
+        "80/20 of THIS talk: strategy is only 20% — the other 80% is psychology. So: write your why.",
+        "Be SPECIFIC: points range (top + low), course, place. Vague = useless.",
+        "Top range: what would it give you? Independence? Family? The smartest course?",
+        "Below the line: what would it cost you — what could you NOT give, not have, how would you feel?",
+        "Then 4 min SILENCE, two columns, pens down rule. Quote: motivation isn't a talk — it's a sentence you wrote yourself.",
+      ],
       html: () =>
-        '<p class="eyebrow">Before any technique &mdash; 4 minutes, silence, pens down</p>' +
+        '<p class="eyebrow">Before any technique &mdash; the 80% that is psychology, not strategy</p>' +
         '<h2>Write your own <span class="italic crim">why</span>.</h2>' +
+        '<p class="sub">Be specific: the points range (top + low), the course, the place. Then &mdash; 4 minutes, silence, pens moving:</p>' +
         '<div class="why-grid">' +
         '<div class="why-col win"><h3><span class="mark">✓</span>If I hit my points&hellip;</h3><div class="why-line"></div><div class="why-line"></div><div class="why-line"></div></div>' +
         '<div class="why-col cost"><h3><span class="mark">✗</span>If I don&rsquo;t, it costs me&hellip;</h3><div class="why-line"></div><div class="why-line"></div><div class="why-line"></div></div>' +
@@ -169,53 +200,97 @@ const CONFIG = {
         '<div class="why-example"><span class="lab">One line, like this (fill before Friday)</span><span class="ph-inline" id="why-example-line">My why goes here — [WHY_EXAMPLE] in CONFIG</span></div>',
     },
     {
-      beat: "4 · Techniques", clock: "12:00–14:00", num: "1",
-      notes: ["Active recall: close the book, write what you know. Pain = working.", "Free tools: ChatGPT free 'quiz me, one at a time' · AI Studio paste notes → questions · NotebookLM quiz from YOUR sources."],
+      beat: "4 · Understand", clock: "12:00–15:00", img: "puzzle",
+      notes: [
+        "Learning = 3 processes: UNDERSTAND, MEMORISE, APPLY. Laws, not tricks — the tricks just serve them.",
+        "Definition of understanding: knowing WHAT YOU KNOW vs WHAT YOU DON'T. That's the map.",
+        "A teacher can't customise to 30 individual levels — AI can. Quiz BEFORE you read: find the gaps, fill them early, catch misconceptions before the framework sets.",
+        "Flow state: taught ~10% beyond your level = enjoyable; below = boring; above = you zone out. Nothing to do with intelligence — everything to do with level.",
+      ],
       html: () =>
-        '<div class="tech-head"><span class="tech-num">1</span><h2>Active recall &mdash; close the book</h2></div>' +
-        '<p class="sub">Re-reading feels productive and isn&rsquo;t. Pulling it out of your head &mdash; that&rsquo;s the rep that sticks. If it hurts, it&rsquo;s working.</p>' +
-        '<div class="tools"><span class="tool-chip"><b>ChatGPT free</b> — &ldquo;quiz me, one at a time&rdquo;</span><span class="tool-chip"><b>Google AI Studio</b> — paste notes → questions</span><span class="tool-chip"><b>NotebookLM</b> — quiz from your own sources</span></div>' +
-        '<ul class="tech-steps"><li>Read a section once. Book closed.</li><li>Write everything you remember &mdash; dumps, arrows, bad handwriting all count.</li><li>Check the book. What you missed <em>is your study list</em>.</li><li>Then ask the AI to quiz you &mdash; one question at a time, out loud.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Asking the AI to summarise. That&rsquo;s reading with extra steps. Make it ask <em>you</em>.</div>',
+        '<div class="tech-head"><span class="tech-num">1</span><h2>Understand &mdash; at <span class="italic crim">your</span> level</h2></div>' +
+        '<p class="sub">Learning is three processes: <b>understand &rarr; memorise &rarr; apply</b>. Understanding starts with a map: <i>what you know vs what you don&rsquo;t.</i></p>' +
+        '<div class="tools"><span class="tool-chip"><b>ChatGPT / AI Studio</b> — &ldquo;quiz me first, then teach to my level&rdquo;</span><span class="tool-chip"><b>NotebookLM</b> — grounded in YOUR sources</span><span class="tool-chip"><b>Voice-to-text</b> — talk your questions in (Groq, free)</span></div>' +
+        '<ul class="tech-steps"><li>Quiz <em>before</em> you read &mdash; find the gaps and the misconceptions early, while they&rsquo;re cheap to fix.</li><li>Then read content built for your level: every acronym explained, every gap filled as you go.</li><li>~10% beyond your level = flow: enjoyable, fast. Too far below = boring. Too far above = you zone out. It&rsquo;s level, not intelligence.</li><li>A class of 30 gets one speed. A good AI gets <em>yours</em> &mdash; a private tutor effect, for free.</li></ul>' +
+        '<div class="trap"><b>The trap</b>Passive reading and re-watching. If no question was asked, no map was drawn &mdash; you don&rsquo;t know what you don&rsquo;t know.</div>',
     },
     {
-      beat: "4 · Techniques", clock: "14:00–16:00", num: "2",
-      notes: ["Spaced repetition: 5 min today beats 1 hour Sunday. Show the ladder visually if asked.", "Anki — desktop/Android free, FSRS built in.", "Proof-of-life: his own system got him through the LC grind and MRCS last week."],
+      beat: "4 · Memorise", clock: "15:00–17:30", img: "gym",
+      notes: [
+        "Memorise = recall on demand. Active recall = a thousand mini-tests; spaced repetition schedules them.",
+        "The string-and-two-balls image: link stretches as you forget — recall at the right moment = the barely-liftable weight — link strengthens, interval grows.",
+        "Without spacing: the same card 10–40 times. With it: minutes a day. 5 min today > 1 hour Sunday.",
+        "Proof-of-life: this exact system carried him through the LC grind and MRCS last week.",
+      ],
       html: () =>
-        '<div class="tech-head"><span class="tech-num">2</span><h2>Spaced repetition &mdash; come back before you forget</h2></div>' +
-        '<p class="sub">Memory fades on a schedule. Beat the fade by reviewing right as it slips: <b>1 · 3 · 7 · 14 · 30 days</b>. Five minutes today beats an hour on Sunday.</p>' +
-        '<div class="tools"><span class="tool-chip"><b>Anki</b> — free on desktop &amp; Android, scheduling built in</span></div>' +
-        '<ul class="tech-steps"><li>Every wrong answer becomes one small card &mdash; one fact, your words.</li><li>The app shows it again right before you&rsquo;d forget it. Trust the intervals.</li><li>Miss it again? It comes back sooner. That&rsquo;s the system being honest.</li><li>10 minutes daily &gt; 2 hours cramming. Streak beats binge.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Making 400 beautiful cards in one night, then never opening them again. Cards are made <em>during</em> study, not instead of it.</div>',
+        '<div class="tech-head"><span class="tech-num">2</span><h2>Memorise &mdash; like a muscle</h2></div>' +
+        '<p class="sub">Understood &ne; memorised. Memorised = you can <b>recall it on demand</b>. That takes two things: <b>active recall</b> (a thousand mini-tests) and <b>spacing</b>.</p>' +
+        '<div class="tools"><span class="tool-chip"><b>Anki</b> — free on desktop &amp; Android, does the scheduling for you</span></div>' +
+        '<ul class="tech-steps"><li>Every fact is a question. Answering it <em>is</em> the workout &mdash; the lift, barely managed.</li><li>Memory is a string between two balls: it thins as you forget. Recall right at the thin moment = strongest lift.</li><li>Anki times that moment for you: 1 · 3 · 7 · 14 · 30 days. Miss = it comes back sooner. Easy = later.</li><li>Read once with feeling, then never re-read — recall instead. 5 minutes daily beats an hour on Sunday.</li></ul>' +
+        '<div class="trap"><b>The trap</b>Re-reading and highlighting — recognition, not recall. Feels easy because it <em>is</em> easy: it isn&rsquo;t learning. And don&rsquo;t binge 400 cards in one night; cards are made <em>during</em> study.</div>',
     },
     {
-      beat: "4 · Techniques", clock: "16:00–18:00", num: "3",
-      notes: ["Feynman: teach it to the wall. If you can't say it simply, you don't have it yet.", "Free tool: ChatGPT voice mode — AI plays the confused student.", "60-second how + the trap."],
+      beat: "4 · Apply", clock: "17:30–19:30", img: "toolbox",
+      notes: [
+        "APPLY is the exam skill: knowing ≠ applying under time pressure, multi-topic questions, examiners trying to trick you.",
+        "Applying is also the only honest CHECK that you understood.",
+        "80/20: past questions grouped by type — AI groups them so you do fewer, better. StudyClick for the papers.",
+        "The loop closes: wrong answers → new flashcards → back into Anki → re-apply. And corrected work must RETURN (re-test in 2–4 weeks) or it evaporates.",
+      ],
       html: () =>
-        '<div class="tech-head"><span class="tech-num">3</span><h2>The Feynman test &mdash; teach it to the wall</h2></div>' +
-        '<p class="sub">Explain the topic out loud in plain words, as if to a 10-year-old. Where you stall or reach for jargon &mdash; that&rsquo;s exactly where the gap is.</p>' +
-        '<div class="tools"><span class="tool-chip"><b>ChatGPT free · voice</b> — explain aloud, it plays the confused student</span></div>' +
-        '<ul class="tech-steps"><li>Pick one topic. Set 3 minutes on the timer.</li><li>Explain it aloud &mdash; no notes, no jargon hiding.</li><li>Stuck? <em>Good.</em> That gap is tonight&rsquo;s real study list.</li><li>Voice mode: let it ask &ldquo;why?&rdquo; and &ldquo;what does that mean?&rdquo; like a curious kid.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Confusing fluent reading with understanding. Reading feels like knowing. Saying it aloud doesn&rsquo;t lie.</div>',
+        '<div class="tech-head"><span class="tech-num">3</span><h2>Apply &mdash; past questions first</h2></div>' +
+        '<p class="sub">The exam doesn&rsquo;t ask &ldquo;do you know it&rdquo; &mdash; it asks &ldquo;can you <b>use</b> it, under time, with tricks&rdquo;. Applying is also the only honest <em>check</em> that you understood.</p>' +
+        '<div class="tools"><span class="tool-chip"><b>Past papers grouped by type</b> — 80/20: fewer questions, better chosen (StudyClick / paper sites)</span><span class="tool-chip"><b>AI as marking scheme</b> — paste answer + scheme, get marked honestly</span><span class="tool-chip"><b>OpenRouter :free</b> — no-login fallback</span></div>' +
+        '<ul class="tech-steps"><li>Attempt a past question <em>early</em> — before you feel &ldquo;ready&rdquo;. The exam is a genre; learn its moves.</li><li>Every wrong answer becomes a new flashcard — the miss feeds straight back into the memorise step.</li><li>Loop it: cards &rarr; apply &rarr; wrongs &rarr; new cards &rarr; re-apply. Full papers folded in as you go.</li><li>In the project: AI may organise your plan and clarify research &mdash; never write your words. Say exactly how you used it.</li></ul>' +
+        '<div class="trap"><b>The trap</b>Nodding at a model answer. Nodding is not writing. And a corrected test you never re-sit is a lesson evaporating — put it back in the loop.</div>',
     },
     {
-      beat: "4 · Techniques", clock: "18:00–20:00", num: "4",
-      notes: ["Past questions first: the exam is a genre — learn its moves.", "Free tools: paste papers + marking schemes into AI Studio/ChatGPT free → marked with scheme alignment.", "SEC framing: AI may clarify research, never write your words. Acknowledge use."],
+      beat: "4 · The loop", clock: "19:30–20:00", img: "steps",
+      notes: [
+        "One picture of the whole system: GRILL (map) → READ (your level) → CARDS (memorise) → APPLY (past Qs) → wrongs become new cards → repeat, climbing.",
+        "This IS the /incremental loop that got him through the LC in 6 months and MRCS last week.",
+        "Each pass up the stairs gets easier — that's spacing compounding.",
+      ],
       html: () =>
-        '<div class="tech-head"><span class="tech-num">4</span><h2>Past questions first &mdash; learn the genre</h2></div>' +
-        '<p class="sub">The exam is a genre with its own moves. Practise the real thing early &mdash; then use AI as your marking scheme, not your ghostwriter.</p>' +
-        '<div class="tools"><span class="tool-chip"><b>Google AI Studio / ChatGPT free</b> — paste paper + scheme → get marked</span><span class="tool-chip"><b>OpenRouter :free</b> — no-login fallback</span></div>' +
-        '<ul class="tech-steps"><li>Attempt a past question cold, timed, before you &ldquo;finish studying&rdquo; the topic.</li><li>Paste your answer + the marking scheme into the AI &mdash; mark it honestly.</li><li>Each miss becomes a one-line rule (next slide&rsquo;s system files those for you).</li><li>In the project: AI may organise your plan and clarify research &mdash; never write your words. The SEC requires you to say exactly how you used it.</li></ul>' +
-        '<div class="trap"><b>The trap</b>Reading a model answer and nodding. Nodding is not writing. Attempt first, AI marks after.</div>',
+        '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one picture</h2></div>' +
+        '<p class="sub">Three processes, one loop. Every cycle the stairs get easier &mdash; that&rsquo;s spacing compounding.</p>' +
+        '<div class="loop-row">' +
+        '<span class="loop-step">Grill<br><small>find the gaps</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Read<br><small>at your level</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Cards<br><small>Anki daily</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Apply<br><small>past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step loop-back">Wrongs &rarr; new cards<br><small>repeat, climbing</small></span>' +
+        "</div>" +
+        '<p class="sub" style="margin-bottom:0">AI&rsquo;s job in the loop: <b>grill you</b>, <b>customise the reading</b>, <b>group the questions</b>, <b>mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</p>',
     },
     {
-      beat: "5 · Live demo", clock: "20:00–27:00",
-      notes: ["Phones OUT. Scan the QR on screen.", "One student does it on the big screen if the room allows.", "Flow: scan → landing → Biology → Enzymes → board → grill of 5 → self-mark → one-line rule → spacing ladder.", "This IS the system: the techniques, webbed into a tool."],
+      beat: "5 · Not all AI is equal", clock: "20:00–22:00", img: "mixer",
+      notes: [
+        "Not every doctor is equal, not every teacher is equal — not every AI is equal. Same logo ≠ same brain.",
+        "Two questions to ask ANY AI: What MODEL? What SETTINGS? (Thinking on/off is a setting that jumps 65→84 on the same app.)",
+        "Ladder: free default 65 → school tools 82–84 → think-mode 84 → GLM-5.3-Flash 91 at $0.25/task.",
+        "Settings: voice-to-text for input (faster than typing), OpenRouter :free for no-login access, right model = pennies.",
+      ],
+      html: () => ladderSlide() + pic("mixer", " George Marek / Unsplash", "right"),
+    },
+    {
+      beat: "6 · Live demo", clock: "22:00–27:00", img: "qr-phone",
+      notes: [
+        "Phones OUT. Scan the QR on screen — or the A4 printout.",
+        "One student on the big screen if the room allows: pick Biology → Enzymes.",
+        "Flow: board → grill of 5 → self-mark 1–4 → one-line rule filed → spacing ladder 1·3·7·14·30 shown.",
+        "This IS the loop, webbed into a tool. Teachers: this is the pilot conversation.",
+      ],
       html: slideDemo,
     },
     {
-      beat: "6 · Close", clock: "27:00–30:00",
-      notes: ["Tagline slowly, word for word: not every AI is the same — ask what model, what settings, know how I learn.", "The system is ours — free pilot before Christmas via the principal.", "ASK: fill the survey — last question, leave your email.", "Thanks + hold up the handout page."],
+      beat: "7 · Close", clock: "27:00–30:00",
+      notes: [
+        "Tagline slowly, word for word: not every AI is the same — ask what model, what settings, know how I learn.",
+        "The system is ours: free pilot before Christmas through the principal.",
+        "ASK: scan → 2-minute survey — what should we build next? Email at the last question = pilot updates.",
+        "Fair warning reprise: too fast? jargon? disagree? — say so. Try it for two weeks before you judge it.",
+      ],
       html: slideClose,
     },
   ];
@@ -309,9 +384,18 @@ const CONFIG = {
       '<button class="icon-btn" id="remote-btn" title="Open the phone remote — shows this URL on your phone">⌁ remote</button>' +
       "</div></div>" +
       '<div class="deck-stage" id="stage">' +
-      slides.map((s, i) =>
-        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + s.html() + foot(s.beat, s.clock) + "</section>"
-      ).join("") +
+      slides.map((s, i) => {
+        let inner = s.html();
+        if (s.img) {
+          const credit = { "title": "MChe Lee / Unsplash", "ai-brain": "Efiagram / Adobe Stock", "exam-hall": "Wilderness_1 / 123RF", "road": "Fotoblysk / Dreamstime", "puzzle": "Alexlukin / Dreamstime", "gym": "Mikhail Shishov / Dreamstime", "toolbox": "_Andrey_ / iStock", "steps": "wjarek / Adobe Stock", "mixer": "George Marek / Unsplash", "qr-phone": "damircudic / E+" }[s.img] || "";
+          if (i === 0) {
+            inner = '<div class="hero-pic"><img src="' + IMG(s.img) + '" alt=""><span class="credit">photo: ' + credit + ' (Google Images)</span></div>' + inner;
+          } else {
+            inner += pic(s.img, credit, "right");
+          }
+        }
+        return '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + inner + foot(s.beat, s.clock) + "</section>";
+      }).join("") +
       "</div></div>";
 
     state.slide = 0;
@@ -398,6 +482,9 @@ const CONFIG = {
       '<button class="btn" id="r-next">Next ›</button>' +
       "</div></div>";
 
+    // cache the stylesheet text so next-slide visual previews render faithfully
+    fetch("talk.css").then((r) => r.text()).then((t) => { state.cssText = t; }).catch(() => {});
+
     $("#r-next").addEventListener("click", () => publishCmd("+1"));
     $("#r-prev").addEventListener("click", () => publishCmd("-1"));
     bindSwipe(document.body);
@@ -409,6 +496,30 @@ const CONFIG = {
     connectMqtt(false);
   }
 
+  function visualSrcdoc(nextHtml) {
+    return (
+      '<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">' +
+      "<style>" + (state.cssText || "") + "</style>" +
+      '<style>body{overflow:hidden}.slide{position:static;display:flex!important;inset:auto;height:800px}.slide-foot{display:none}</style></head>' +
+      '<body><div class="slide on">' + nextHtml + "</div></body></html>"
+    );
+  }
+
+  function scaleVisual(card) {
+    const frame = card.querySelector("iframe");
+    if (!frame) return;
+    const apply = () => {
+      const w = card.clientWidth || 320;
+      frame.style.transform = "scale(" + (w / 1280) + ")";
+      frame.style.width = "1280px";
+      frame.style.height = Math.round(800 * (w / 1280) / (w / 1280)) + "px";
+      // height container: keep 1280:800 ratio
+      card.style.height = Math.round(w * (800 / 1280)) + "px";
+    };
+    frame.addEventListener("load", apply);
+    apply();
+  }
+
   function renderRemoteState(msg) {
     const cards = $("#r-cards");
     if (!cards) return;
@@ -417,13 +528,27 @@ const CONFIG = {
     const now = slides[i];
     const next = slides[i + 1];
     const items = (now.notes || []);
+    const visId = "rv-" + (i + 1);
     cards.innerHTML =
       '<div class="remote-now"><p class="remote-card-k">Now — beat ' + pad(i) + "/" + pad(slides.length - 1) + ' <span class="remote-clock">' + (now.clock || "") + "</span></p>" +
       '<div class="rt">' + now.beat + "</div>" +
       '<ul class="remote-notes">' + items.map((n, k) => '<li class="' + (k === 0 ? "" : "dim") + '">' + n + "</li>").join("") + "</ul></div>" +
       (next
-        ? '<div class="remote-next"><p class="remote-card-k">Next</p><div class="rt">' + next.beat + "</div></div>"
+        ? '<div class="remote-next"><p class="remote-card-k">Next</p><div class="rt">' + next.beat + "</div>" +
+          '<div class="remote-visual" id="' + visId + '"><span class="rv-skel">rendering next slide…</span></div>' +
+          '<span class="rv-label" style="position:absolute;right:8px;bottom:4px;font-size:0.6rem;color:var(--muted)">next: ' + next.beat + "</span></div>"
         : '<div class="remote-next"><p class="remote-card-k">Next</p><div class="rt">— end —</div></div>');
+    if (next) {
+      const card = $("#" + visId);
+      const frame = document.createElement("iframe");
+      frame.setAttribute("title", "Next slide preview");
+      frame.setAttribute("sandbox", "");
+      card.innerHTML = "";
+      card.appendChild(frame);
+      frame.srcdoc = visualSrcdoc(next.html());
+      scaleVisual(card);
+    }
+    if (state.role === "remote" && !state.connected) toast("Not linked yet — open the SAME url on the laptop");
   }
 
   /* ---------------- mqtt sync ---------------- */

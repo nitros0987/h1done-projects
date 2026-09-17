@@ -231,6 +231,35 @@ a:hover { text-decoration: underline; }
 }
 .slide-foot .beat { text-transform: uppercase; font-weight: 600; }
 
+/* side photo with credit */
+.pic { position: absolute; right: 3.2vw; top: 50%; transform: translateY(-50%); width: clamp(180px, 24vw, 360px); z-index: 1; }
+.slide { padding-right: 0; }
+.slide:has(.pic) { padding-right: 0; }
+.pic img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); display: block; aspect-ratio: 3/2; object-fit: cover; }
+.pic .credit { display: block; font-size: clamp(8px, 1.2vh, 10px); color: var(--muted); margin-top: 4px; text-align: right; }
+.slide > *:not(.pic):not(.slide-foot) { position: relative; z-index: 2; max-width: calc(100% - clamp(180px, 22vw, 340px)); }
+.slide > .stats { max-width: calc(100% - clamp(170px, 21vw, 320px)); }
+@media (max-width: 900px), (max-height: 560px) {
+  .pic { display: none; }
+  .slide > *:not(.pic):not(.slide-foot), .slide > .stats { max-width: 100%; }
+}
+
+/* title-slide hero photo */
+.hero-pic { position: relative; width: min(46vh, 40vw); margin: 0 auto 2vh; z-index: 2; }
+.hero-pic img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); display: block; aspect-ratio: 3/2; object-fit: cover; }
+.hero-pic .credit { position: absolute; right: 8px; bottom: 6px; font-size: 8px; color: rgba(255,255,255,0.85); background: rgba(26,26,26,0.45); border-radius: 6px; padding: 1px 6px; }
+
+/* loop chips */
+.loop-row { display: flex; align-items: stretch; gap: clamp(6px, 1vw, 14px); flex-wrap: wrap; margin: 1.6vh 0 2vh; }
+.loop-step {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  border-top: 4px solid var(--crimson); padding: 1.4vh 18px;
+  font-weight: 700; font-size: clamp(13px, 2.2vh, 20px); line-height: 1.25;
+}
+.loop-step small { display: block; font-weight: 500; color: var(--muted); font-size: 0.62em; margin-top: 2px; }
+.loop-step.loop-back { border-top-color: var(--ok); }
+.loop-arrow { align-self: center; font-size: clamp(16px, 3vh, 28px); color: var(--crimson); font-weight: 700; }
+
 /* ladder slide (benchmark bars, from the ai-in-schools deck) */
 .brow { display: grid; grid-template-columns: minmax(150px, 250px) 1fr 90px; align-items: center; gap: 12px; margin: 1.4vh 0; }
 .brow .lbl { font-size: clamp(11px, 1.8vh, 16px); font-weight: 600; text-align: right; line-height: 1.3; }
@@ -298,9 +327,20 @@ a:hover { text-decoration: underline; }
 }
 .remote-next {
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-  border-left: 5px solid var(--bg-alt); padding: 14px 18px; opacity: 0.85;
+  border-left: 5px solid var(--bg-alt); padding: 14px 18px; opacity: 0.95;
 }
 .remote-next .rt { font-weight: 600; font-size: 1rem; }
+.remote-visual {
+  margin-top: 10px; border: 1px solid var(--bg-alt); border-radius: 10px; overflow: hidden;
+  background: var(--bg); position: relative; height: 118px;
+}
+.remote-visual iframe { width: 1280px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; position: absolute; left: 0; top: 0; }
+.remote-visual .rv-skel {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 0.75rem; gap: 8px;
+}
+.remote-visual img.rv-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+.remote-visual .rv-label { position: absolute; right: 6px; bottom: 4px; font-size: 0.6rem; color: var(--muted); }
 
 .remote-taps { display: flex; gap: 8px; padding: 10px 14px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--bg-alt); }
 .remote-taps .btn { flex: 1; padding: 16px 10px; font-size: 1rem; }
