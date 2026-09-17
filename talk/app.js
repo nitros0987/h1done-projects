@@ -65,65 +65,23 @@ const CONFIG = {
       '<text x="310" y="88" font-size="10" fill="var(--crimson)">recall!</text>' +
       "</svg>",
 
-    // the loop: cards → apply, wrongs → new cards (circular, requested loop-back arrow)
-    loop: () =>
-      '<svg class="diag" viewBox="0 0 560 250" role="img" aria-label="The study loop">' +
-      '<rect x="0" y="0" width="560" height="250" rx="10" fill="var(--card)"/>' +
-      // boxes
-      '<g font-family="Inter, sans-serif">' +
-      '<rect x="30" y="95" width="120" height="60" rx="12" fill="none" stroke="var(--crimson)" stroke-width="2.5"/><text x="90" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)">Cards</text><text x="90" y="141" text-anchor="middle" font-size="11" fill="var(--muted)">Anki, daily</text>' +
-      '<rect x="410" y="95" width="120" height="60" rx="12" fill="none" stroke="var(--crimson)" stroke-width="2.5"/><text x="470" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)">Apply</text><text x="470" y="141" text-anchor="middle" font-size="11" fill="var(--muted)">past questions</text>' +
-      // forward arrows: cards -> apply (top), apply -> cards (bottom via wrongs)
-      '<path d="M155 105 C 230 60, 330 60, 405 105" fill="none" stroke="var(--crimson)" stroke-width="2.5" marker-end="url(#ar)"/>' +
-      '<text x="280" y="55" text-anchor="middle" font-size="12" fill="var(--ink)">answer &amp; mark honestly</text>' +
-      '<path d="M405 145 C 330 190, 230 190, 155 145" fill="none" stroke="var(--ok)" stroke-width="2.5" marker-end="url(#arg)"/>' +
-      '<text x="280" y="205" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ok)">wrong → new card → back in</text>' +
-      // wrongs strike
-      '<text x="470" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">✗ marked wrong</text>' +
-      '<text x="90" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">review grows 1→3→7→14→30 d</text>' +
-      "</g>" +
-      '<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--crimson)"/></marker>' +
-      '<marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs>' +
-      "</svg>",
-
-    // understanding = map of known vs unknown (two balls + string)
+    // understanding = map of known vs unknown (two balls + string), compact + clean
     gaps: () =>
-      '<svg class="diag" viewBox="0 0 460 160" role="img" aria-label="Two balls, string, gap map">' +
-      '<rect x="0" y="0" width="460" height="160" rx="10" fill="var(--card)"/>' +
-      '<circle cx="80" cy="80" r="26" fill="var(--ok)" opacity="0.85"/><text x="80" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">know</text>' +
-      '<circle cx="380" cy="80" r="26" fill="var(--crimson)"/><text x="380" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">want</text>' +
-      '<path d="M106 80 Q 230 40 354 80" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>' +
-      '<text x="230" y="35" text-anchor="middle" font-size="12" fill="var(--muted)">the map: what you know vs what you don&rsquo;t</text>' +
-      '<circle cx="215" cy="58" r="5" fill="var(--stalled)"/><circle cx="265" cy="50" r="5" fill="var(--stalled)"/><circle cx="305" cy="60" r="5" fill="var(--stalled)"/>' +
-      '<text x="230" y="100" text-anchor="middle" font-size="11" fill="var(--stalled)">● gaps found by the pre-quiz — filled before they compound</text>' +
-      '<path d="M40 135 L 420 135" stroke="var(--bg-alt)" stroke-width="1.5"/>' +
-      '<text x="40" y="152" font-size="11" fill="var(--muted)">flow: teach ~10% beyond your level</text>' +
-      '<text x="420" y="152" text-anchor="end" font-size="11" fill="var(--muted)">too far above → zone out</text>' +
+      '<svg class="diag" viewBox="0 0 460 140" role="img" aria-label="Two balls, string, gap map">' +
+      '<rect x="0" y="0" width="460" height="140" rx="10" fill="var(--card)"/>' +
+      '<text x="230" y="24" text-anchor="middle" font-size="12" fill="var(--muted)">the map: what you know vs what you don&rsquo;t</text>' +
+      '<circle cx="70" cy="72" r="26" fill="var(--ok)" opacity="0.9"/><text x="70" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">know</text>' +
+      '<circle cx="390" cy="72" r="26" fill="var(--crimson)"/><text x="390" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">want</text>' +
+      '<path d="M96 72 Q 230 34 364 72" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>' +
+      '<circle cx="200" cy="47" r="5" fill="var(--stalled)"/><circle cx="245" cy="42" r="5" fill="var(--stalled)"/><circle cx="290" cy="49" r="5" fill="var(--stalled)"/>' +
+      '<text x="230" y="112" text-anchor="middle" font-size="11" fill="var(--stalled)">● gaps found by the pre-quiz — filled before they compound</text>' +
+      '<text x="40" y="130" font-size="10" fill="var(--muted)">flow: ~10% beyond your level = enjoyable</text>' +
+      '<text x="420" y="130" text-anchor="end" font-size="10" fill="var(--muted)">too far above → zone out</text>' +
       "</svg>",
 
-    // 80/20 pareto
+    // 80/20: Tomás's hand-drawn sketch (provided image)
     pareto: () =>
-      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="80/20 past questions">' +
-      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
-      '<rect x="40" y="35" width="90" height="85" rx="6" fill="var(--crimson)" opacity="0.9"/><text x="85" y="80" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">20%</text><text x="85" y="100" text-anchor="middle" font-size="10" fill="#fff">of question types</text>' +
-      '<rect x="140" y="35" width="280" height="85" rx="6" fill="var(--bg-alt)"/><text x="280" y="72" text-anchor="middle" font-size="13" fill="var(--muted)">carry 80% of the exam marks</text>' +
-      '<text x="280" y="92" text-anchor="middle" font-size="11" fill="var(--muted)">— AI groups the papers by type, you train the big five first</text>' +
-      '<text x="40" y="142" font-size="11" fill="var(--muted)">80/20: study in order of what comes up most</text>' +
-      "</svg>",
-
-    // model + settings: same logo, different brains (dials)
-    dials: () =>
-      '<svg class="diag" viewBox="0 0 460 150" role="img" aria-label="Same app, different model and settings">' +
-      '<rect x="0" y="0" width="460" height="150" rx="10" fill="var(--card)"/>' +
-      '<g font-family="Inter, sans-serif">' +
-      // two identical app windows
-      '<rect x="30" y="30" width="180" height="90" rx="10" fill="none" stroke="var(--muted)" stroke-width="2"/><circle cx="45" cy="45" r="3" fill="var(--muted)"/><text x="120" y="75" text-anchor="middle" font-size="12" fill="var(--ink)">same logo</text><text x="120" y="93" text-anchor="middle" font-size="11" fill="var(--muted)">same chat box</text>' +
-      '<rect x="250" y="30" width="180" height="90" rx="10" fill="none" stroke="var(--crimson)" stroke-width="2"/><circle cx="265" cy="45" r="3" fill="var(--crimson)"/>' +
-      '<text x="340" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">what model?</text>' +
-      '<text x="340" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">what settings?</text>' +
-      '<text x="340" y="108" text-anchor="middle" font-size="10" fill="var(--muted)">think on/off · context · 222k ceiling</text>' +
-      '<text x="230" y="143" text-anchor="middle" font-size="11" fill="var(--muted)">65% vs 91% — same €0.00</text>' +
-      "</g></svg>",
+      '<img class="diag diag-img" src="img/pareto-8020.webp" alt="80/20 principle: many trivial tasks consume 80% of time but yield 20% of results; few vital tasks yield 80% of results">',
 
     // 40% donut
     donut: () =>
@@ -149,6 +107,9 @@ const CONFIG = {
       '<text x="30" y="118" font-size="11" fill="var(--muted)">long project = feed sections, not the whole folder at once</text>' +
       "</svg>",
   };
+
+  const brandTag = (i) =>
+    i === 0 ? "" : '<div class="slide-brand">H1Done <span>study</span></div>';
 
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
@@ -362,18 +323,26 @@ const CONFIG = {
         evidence(["retrieval practice as exam prep", "immediate feedback &gt; delayed (formative lit)", "corrections re-tested in 2–4 weeks stick"]),
     },
     {
-      beat: "4 · The loop", clock: "19:30–20:00", diag: "loop",
+      beat: "4 · The loop", clock: "19:30–20:00",
       notes: [
-        "ONE PICTURE of the whole system — walk the arrows: Cards → apply → marked → wrong → NEW CARD → back into Cards → apply again. Spinning, climbing.",
+        "ONE LINE, left to right — like the ladder they just saw. Walk it: grill → read → cards → apply → wrongs.",
+        "Then point at the loop-back arrow on the right: every WRONG becomes a new card and feeds straight back into CARDS → APPLY again.",
         "This is the /incremental loop that got him through the LC in 6 months and MRCS last week.",
         "Each pass the intervals grow — the loop spins slower per fact because you KNOW it better. Efficiency = fewer, better reps.",
         "AI's jobs: grill, customise, group, mark. Your job: the recall. The machine can't lift for you.",
       ],
       html: () =>
-        '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one picture</h2></div>' +
-        '<p class="sub">Three processes, one loop. Every pass the lifts get lighter and further apart &mdash; that&rsquo;s spacing compounding.</p>' +
-        SVG.loop() +
-        '<ul class="tech-steps"><li><b>Cards</b> (Anki daily) &rarr; <b>Apply</b> (past questions) &rarr; marked honestly.</li><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; the loop spins again.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
+        '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one line, then it spins</h2></div>' +
+        '<p class="sub">Three processes, one line &mdash; and every wrong answer feeds back in. That&rsquo;s spacing compounding.</p>' +
+        '<div class="loop-row">' +
+        '<span class="loop-step">Grill<br><small>find the gaps</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Read<br><small>at your level</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Cards<br><small>Anki daily</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step">Apply<br><small>past Qs</small></span><span class="loop-arrow">&rarr;</span>' +
+        '<span class="loop-step loop-back">Wrongs<br><small>new cards</small></span>' +
+        '<svg class="loop-back-arc" viewBox="0 0 300 44" aria-hidden="true"><path d="M290 4 C 240 40, 60 40, 10 8" fill="none" stroke="var(--ok)" stroke-width="3" marker-end="url(#looparrow)"/><defs><marker id="looparrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker></defs><text x="150" y="38" text-anchor="middle" font-size="11" fill="var(--ok)" font-weight="600">back into Cards &amp; Apply</text></svg>' +
+        "</div>" +
+        '<ul class="tech-steps"><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; apply again. The loop spins.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
         evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]),
     },
     {
@@ -382,9 +351,20 @@ const CONFIG = {
         "Not every doctor is equal, not every teacher is equal — not every AI is equal. Same logo ≠ same brain.",
         "Two questions to ask ANY AI: What MODEL? What SETTINGS? (Thinking on/off is a setting that jumps 65→84 on the same app.)",
         "Context ceiling: ~222k characters — reasoning eats into it — after that it invents. Feed sections, not whole folders.",
+        "Charts if asked: full index board · hallucination ladder (18% vs 96%!) · cost bars ($0.25 vs $7.63) · scatter = the attractive quadrant. Ask which one they want to see — details stay collapsed unless a question pulls.",
         "Settings: voice-to-text for input (faster than typing), OpenRouter :free for no-login access, right model = pennies.",
       ],
-      html: () => ladderSlide(true) + SVG.dials(),
+      html: () =>
+        '<div class="tech-head"><span class="tech-num">4</span><h2>Not all AI is equal &mdash; <span class="italic crim">measured, not marketed</span></h2></div>' +
+        '<p class="sub">PhD-level science exam (GPQA Diamond), cost per task, hallucination rate &mdash; 652 models benchmarked. Same logo, same chat box, <b>30-point gaps</b> underneath.</p>' +
+        '<div class="aa-grid">' +
+        '<figure class="aa-card"><img src="img/aa-index.webp" alt="Artificial Analysis Intelligence Index leaderboard" loading="lazy"><figcaption>Intelligence Index v4.3 — GLM-5.3-Flash (42) above every free &amp; school-served model</figcaption></figure>' +
+        '<figure class="aa-card"><img src="img/aa-halluc.webp" alt="Hallucination rate chart" loading="lazy"><figcaption>Hallucination rate, lower is better — 28% vs 96%. When it&rsquo;s wrong, does it admit it?</figcaption></figure>' +
+        '<figure class="aa-card"><img src="img/aa-cost.webp" alt="Cost per task chart" loading="lazy"><figcaption>Cost per task — $0.25 vs $7.63. The free column and the cheap column beat the expensive defaults.</figcaption></figure>' +
+        '<figure class="aa-card"><img src="img/aa-scatter.webp" alt="Intelligence vs cost scatter" loading="lazy"><figcaption>The green quadrant: intelligence per euro. GLM-5.3-Flash sits left of the Pareto line.</figcaption></figure>' +
+        "</div>" +
+        '<div class="take">Two questions before you trust any AI: <b>what model?</b> &mdash; <b>what settings?</b> Press Think. Know what you&rsquo;re holding.</div>' +
+        '<p class="mut" style="font-size:clamp(9px,1.4vh,12px);margin-top:1vh">Context ceiling: ~222k characters &mdash; reasoning eats into it &mdash; then it invents. Feed sections, not whole folders. Data: ' + CONFIG.DATA_NOTE + '.</p>',
     },
     {
       beat: "6 · Live demo", clock: "22:00–27:00",
@@ -498,7 +478,7 @@ const CONFIG = {
       "</div></div>" +
       '<div class="deck-stage" id="stage">' +
       slides.map((s, i) =>
-        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + s.html() + foot(s.beat, s.clock) + "</section>"
+        '<section class="slide' + (s.centered ? " centered" : "") + (i === 0 ? " on" : "") + '" data-i="' + i + '">' + brandTag(i) + s.html() + foot(s.beat, s.clock) + "</section>"
       ).join("") +
       "</div></div>";
 
