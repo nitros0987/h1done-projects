@@ -700,7 +700,7 @@ const CONFIG = {
     $("#app").innerHTML =
       '<div class="gate-wrap"><div class="gate-card">' +
       '<img class="gate-logo" src="' + LOGO + '" alt="H1Done logo">' +
-      '<div class="gate-brand">H1Done <span>study</span></div>' +
+      '<div class="gate-brand">H1Done <span>' + (state.audience === "teachers" ? "projects" : "study") + "</span></div>" +
       '<div class="gate-kicker">School talk · ' + (state.audience === "teachers" ? "teacher session" : "student session") + "</div>" +
       '<input id="pw" class="gate-input" type="password" inputmode="text" autocomplete="off" placeholder="Passphrase" aria-label="Passphrase">' +
       '<div class="gate-err" id="gate-err"></div>' +
