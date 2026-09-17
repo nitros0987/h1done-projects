@@ -241,7 +241,7 @@ const CONFIG = {
         "</div>" +
         '<p class="sub" style="margin:1.4vh 0 0">Not all at home &mdash; e.g. Geography: <b>at least 20 hours supervised in class</b>; the <b>portfolio</b> (the write-up) is what&rsquo;s done at home.</p>' +
         "</div>" +
-        '<div class="side-media"><img class="diag-img" src="img/ai-fork.webp" alt="Two paths: the flat old road, and a staircase rising into the light — the project route"></div>' +
+        '<div class="side-media"><img class="diag-img" src="img/ai-fork.v2.webp" alt="40% of your LC: donut chart, stat cards 40/50/2027, class road to portfolio-at-home, AI for research and planning"></div>' +
         "</div>" +
         '<div class="take one-line">The SEC allows AI for <b>research and planning</b> &mdash; never to write your words. The winners learn <b>method</b>, not memory.</div>',
     },
@@ -283,7 +283,7 @@ const CONFIG = {
         '<div class="trap"><b>The trap</b>Passive reading and re-watching. If no question was asked, no map was drawn &mdash; you don&rsquo;t know what you don&rsquo;t know.</div>' +
         evidence(["Bloom&rsquo;s 2-sigma: 1-to-1 tutoring ≈ +2 SD", "Vygotsky: zone of proximal development", "pre-testing primes later learning (Kornell)"]) +
         "</div>" +
-        '<div class="side-media"><img class="diag-img" src="img/ai-partner.webp" alt="Student and AI arm-wrestling over a bar chart — working together honestly"></div>' +
+        '<div class="side-media"><img class="diag-img" src="img/ai-partner.v2.webp" alt="How to understand a topic: know vs want-to-know circles, gaps found by pre-quiz, quiz before you read, class of 30 vs AI private tutor free"></div>' +
         "</div>",
     },
     {
@@ -356,7 +356,7 @@ const CONFIG = {
         '<ul class="tech-steps"><li>Every <b>wrong becomes a new card</b> &rarr; straight back into the deck &rarr; apply again. The loop spins.</li><li>Intervals grow 1 &rarr; 3 &rarr; 7 &rarr; 14 &rarr; 30 days: the loop spins slower per fact because you know it better.</li><li>AI&rsquo;s jobs: <b>grill you, customise the reading, group the questions, mark honestly</b>. Your job: the recall. The machine can&rsquo;t lift for you.</li></ul>' +
         evidence(["this exact loop carried the LC in 6 months → MRCS", "efficiency = fewer, better reps — not more hours"]) +
         "</div>" +
-        '<div class="side-media"><img class="diag-img" src="img/ai-loop.webp" alt="Student climbing a spiral staircase of flashcards with an upward loop arrow — spaced repetition compounding"></div>' +
+        '<div class="side-media"><img class="diag-img" src="img/ai-loop.v2.webp" alt="Study loop: grill, read, cards, apply, wrongs — every wrong becomes a new card, review timeline 1-3-7-14-30 days"></div>' +
         "</div>",
     },
     {
