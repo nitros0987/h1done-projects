@@ -50,6 +50,11 @@ function boot(search, session) {
   return { w, d: w.document, navigations, published, msg: (o) => onMessage && onMessage("t", Buffer.from(JSON.stringify(o))) };
 }
 
+// every quickchart QR target inside an element, decoded
+const qrTargets = (el) =>
+  Array.from(el.querySelectorAll("img[src*='quickchart']"))
+    .map((i) => decodeURIComponent(new URL(i.getAttribute("src")).searchParams.get("text") || ""));
+
 const click = (d, sel) => d.querySelector(sel).dispatchEvent(new d.defaultView.MouseEvent("click", { bubbles: true }));
 
 console.log("— launcher —");
@@ -114,8 +119,13 @@ console.log("— student deck —");
   ok("switch-talk button present", !!d.querySelector("#switch-btn"));
   const close = Array.from(d.querySelectorAll(".slide")).pop();
   ok("close slide carries the survey QR", /quickchart\.io\/qr/.test(close.innerHTML));
-  ok("close QR points at the post-quiz form", /1FAIpQLSeGLF6V07T47lQEOuy48l7LpZbYZ7NF46YqR1EOuN1cPFZAPQ/.test(close.innerHTML));
+
   ok("close slide sells the quiz, not a survey", /Open the quiz/.test(close.innerHTML) && /2-minute quiz/.test(close.textContent));
+  const demo = Array.from(d.querySelectorAll(".slide")).filter((x) => /Live demo/.test(x.textContent))[0];
+  ok("student demo QR points at the study site", qrTargets(demo).join() === "https://nitros0987.github.io/h1done-learn/");
+  ok("student close carries two QRs", close.querySelectorAll(".qr-duo .qr-box").length === 2);
+  ok("student close QR 1 = the post-quiz", /1FAIpQLSeGLF/.test(qrTargets(close)[0]));
+  ok("student close QR 2 = the projects site", qrTargets(close)[1] === "https://nitros0987.github.io/h1done-projects/");
   ok("no placeholder QR left", !/paste survey URL in CONFIG/.test(d.body.innerHTML));
   ok("switch button returns to the launcher", (click(d, "#switch-btn"), !!d.querySelector(".gate-card")));
 }
@@ -127,7 +137,14 @@ console.log("— teacher deck —");
   ok("tab title names the teacher talk", w.document.title === "H1Done projects — teacher talk");
   ok("teacher sticky is gone", d.querySelectorAll(".todo-card").length === 0);
   ok("teacher close QR present", /quickchart\.io\/qr/.test(Array.from(d.querySelectorAll(".slide")).map(s => s.innerHTML).join("")));
+  const tclose = Array.from(d.querySelectorAll(".slide")).filter((x) => /Before you go/.test(x.textContent))[0];
+  ok("teacher close carries two QRs", tclose.querySelectorAll(".qr-duo .qr-box").length === 2);
+  ok("teacher close QR 1 = the teacher survey", /1FAIpQLSfwg6XHJ4/.test(qrTargets(tclose)[0]));
+  ok("teacher close QR 2 = the study demo", qrTargets(tclose)[1] === "https://nitros0987.github.io/h1done-learn/");
+  const tdemo = Array.from(d.querySelectorAll(".slide")).filter((x) => /triage board/i.test(x.textContent))[0];
+  ok("teacher demo QR = the projects site", qrTargets(tdemo).join() === "https://nitros0987.github.io/h1done-projects/");
   ok("teacher survey URL on the close slide", /1FAIpQLSfwg6XHJ4PA62fCXf-5-RNl0U-2OQvERIka2IkWdQm80yGigw/.test(d.body.innerHTML));
+  ok("teacher briefing one-pager still cited", /workspace-gap\.html/.test(tclose.textContent));
 }
 
 console.log("— presenter notes (phone remote) —");

@@ -10,8 +10,12 @@ const CONFIG = {
   // Bumped c9w2 when the teacher deck joined: suffix per build, audience-segmented per deck.
   CHANNEL_ID: "h1talk-ballybunion-2026-09-18-c9w2",
   MQTT_URL: "wss://broker.emqx.io:8084/mqtt",
-  // DEMO link on slides + QR. Plain public URL — no key in the repo (paste ?key= in Settings on the venue laptop).
-  DEMO_URL: "https://nitros0987.github.io/h1done-projects/",
+  // The two demos, one per audience. Plain public URLs — no key in the repo
+  // (paste ?key= in Settings on the venue laptop).
+  // Students: the study demo (Enzymes board, grill, spacing ladder).
+  STUDY_URL: "https://nitros0987.github.io/h1done-learn/",
+  // Teachers: the projects demo (triage board, advice round-trip, SEC export).
+  PROJECTS_URL: "https://nitros0987.github.io/h1done-projects/",
   // Leave '' to show a fill-later placeholder. Paste the post-survey form link and the QR renders itself.
   SURVEY_URL: "https://docs.google.com/forms/d/e/1FAIpQLSeGLF6V07T47lQEOuy48l7LpZbYZ7NF46YqR1EOuN1cPFZAPQ/viewform",
   // Leave '' to show a fill-later placeholder (button appears once set).
@@ -48,6 +52,11 @@ const CONFIG = {
 
   const qr = (url, size) =>
     "https://quickchart.io/qr?text=" + encodeURIComponent(url) + "&size=" + (size || 600);
+
+  // one QR + its caption; two of them side by side inside .qr-duo
+  const qrCard = (url, caption, alt) =>
+    '<div class="qr-box"><img alt="' + alt + '" src="' + qr(url) + '">' +
+    '<p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">' + caption + "</p></div>";
 
   // inline SVG teaching diagrams (hand-built, brand-coloured)
   const SVG = {
@@ -117,13 +126,12 @@ const CONFIG = {
       '<span class="tool-chip"><b>Watch</b> — big screen follows along</span></div>' +
       '<p class="mut" style="font-size:clamp(11px,1.8vh,15px)">No sign-up. Nothing to install. This is our system — built around the new Leaving Cert.</p>' +
       "</div>" +
-      '<div class="qr-box"><img alt="QR code to the live H1Done demo" src="' + qr(CONFIG.DEMO_URL) + '">' +
-      '<p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">' + CONFIG.DEMO_URL.replace("https://", "") + "</p></div>" +
+      qrCard(CONFIG.STUDY_URL, CONFIG.STUDY_URL.replace("https://", ""), "QR code to the H1Done study demo") +
       "</div>"
     );
   }
 
-  function slideClose(surveyUrl, audienceNote, cta, qrNote) {
+  function slideClose(surveyUrl, audienceNote, cta, qrNote, second) {
     const survey = surveyUrl || "";
     const label = cta || "Open the survey";
     const note = qrNote || "2 minutes — really";
@@ -138,11 +146,14 @@ const CONFIG = {
         ? '<a class="btn" href="' + survey + '" target="_blank" rel="noopener">' + label + "</a>"
         : "") +
       "</div></div>" +
+      '<div class="qr-duo">' +
       (survey
-        ? '<div class="qr-box"><img alt="QR code to the finish survey" src="' + qr(survey) + '"><p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">' + note + "</p></div>"
+        ? qrCard(survey, note, "QR code to the finish survey")
         : '<div class="qr-box" style="display:flex;align-items:center;justify-content:center;min-height:150px;border:2px dashed var(--stalled);border-radius:12px"><span class="ph" style="cursor:default">QR — paste survey URL in CONFIG</span></div>') +
+      (second ? qrCard(second.url, second.caption, second.alt) : "") +
       "</div>" +
-      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:2.4vh">Talk slides + every free tool mentioned: <b>' + CONFIG.DEMO_URL.replace("https://", "") + '</b> &mdash; scan the demo QR and tap <b>Study smarter</b>.</p>'
+      "</div>" +
+      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:2.4vh">Both stay open after tonight &mdash; study demo: <b>' + CONFIG.STUDY_URL.replace("https://", "") + '</b> &middot; the project side: <b>' + CONFIG.PROJECTS_URL.replace("https://", "") + "</b>. No sign-up, nothing to install.</p>"
     );
   }
 
@@ -152,7 +163,12 @@ const CONFIG = {
       CONFIG.SURVEY_URL,
       "One last scan: <b>the 2-minute quiz</b> &mdash; six questions from tonight, and you get your score straight away. Then two lines: what should we build next &mdash; and if you want the free pilot in your school before Christmas, leave your email at the last question.",
       "Open the quiz",
-      "6 questions &middot; your score straight away"
+      "the quiz &middot; your score straight away",
+      {
+        url: CONFIG.PROJECTS_URL,
+        caption: "the project side &mdash; your 40%",
+        alt: "QR code to the H1Done projects demo",
+      }
     );
 
   function ladderSlide(withContext) {
@@ -412,10 +428,11 @@ const CONFIG = {
     {
       beat: "6 · Live demo", clock: "22:00–27:00",
       notes: [
-        "Phones OUT. Scan the QR on screen — or the A4 printout.",
+        "Phones OUT. Scan the QR on screen — it goes to the STUDY demo (h1done-learn), not the projects site.",
         "One student on the big screen if the room allows: pick Biology → Enzymes.",
         "Flow: board → grill of 5 → self-mark 1–4 → one-line rule filed → spacing ladder 1·3·7·14·30 shown.",
         "This IS the loop, webbed into a tool. Teachers: this is the pilot conversation.",
+        "NB the printed A4: make sure it's the h1done-learn QR for tonight — the projects QR is on the close slide instead.",
       ],
       html: slideDemo,
     },
@@ -427,6 +444,7 @@ const CONFIG = {
         "ASK: scan → the 2-minute POST-QUIZ. Six questions from tonight, you get your score instantly, then two lines of feedback. Q1 is the passphrase (ballybunion) so we know who was in the room.",
         "Say it plainly: the quiz is the last rep of the night — testing yourself is the whole message, so we finish by doing it.",
         "Email at the last question = the pilot list. The open box at the end comes straight to us — questions, complaints, all of it.",
+        "TWO QRs on this slide: left = the quiz, right = the PROJECT side (h1done-projects) for the 40% coursework — mention it for anyone starting their investigation.",
         "Pre-survey: a third left 'a habit you'd start' blank. Ask for ONE line, one habit, before they leave the room.",
         "Fair warning reprise: too fast? jargon? disagree? — say so. Try it for two weeks before you judge it.",
       ],
@@ -450,8 +468,7 @@ const CONFIG = {
       '<li><b>Complete export</b> — the student&rsquo;s <em>verbatim</em> answers under SEC headings, with the AI-use appendix already written for you.</li></ul>' +
       '<div class="tools"><span class="tool-chip"><b>Follow on your phone</b> — scan, then tap <b>Teacher</b> &rarr; the board</span></div>' +
       "</div>" +
-      '<div class="qr-box"><img alt="QR code to the live H1Done demo" src="' + qr(CONFIG.DEMO_URL) + '">' +
-      '<p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">' + CONFIG.DEMO_URL.replace("https://", "") + " &mdash; tap Teacher</p></div>" +
+      qrCard(CONFIG.PROJECTS_URL, CONFIG.PROJECTS_URL.replace("https://", "") + " &mdash; tap Teacher", "QR code to the H1Done projects demo") +
       "</div>"
     );
   }
@@ -482,11 +499,14 @@ const CONFIG = {
         ? '<a class="btn" href="' + CONFIG.TEACHER_SURVEY_URL + '" target="_blank" rel="noopener">Open the teacher survey</a>'
         : "") +
       "</div></div>" +
+      '<div class="qr-duo">' +
       (CONFIG.TEACHER_SURVEY_URL
-        ? '<div class="qr-box"><img alt="QR code to the teacher survey" src="' + qr(CONFIG.TEACHER_SURVEY_URL) + '"><p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">2 minutes — really</p></div>'
+        ? qrCard(CONFIG.TEACHER_SURVEY_URL, "the teacher survey &middot; 2 minutes", "QR code to the teacher survey")
         : '<div class="qr-box" style="display:flex;align-items:center;justify-content:center;min-height:150px;border:2px dashed var(--stalled);border-radius:12px"><span class="ph" style="cursor:default">QR — paste TEACHER_SURVEY_URL in CONFIG</span></div>') +
+      qrCard(CONFIG.STUDY_URL, "the student study demo", "QR code to the H1Done study demo") +
       "</div>" +
-      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:2.4vh">One-page brief to keep: <b>' + CONFIG.TEACHER_BRIEF_URL.replace("https://", "") + "</b> &middot; the student site: <b>" + CONFIG.DEMO_URL.replace("https://", "") + "</b></p>"
+      "</div>" +
+      '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:2.4vh">One-page brief to keep: <b>' + CONFIG.TEACHER_BRIEF_URL.replace("https://", "") + "</b> &middot; the projects demo: <b>" + CONFIG.PROJECTS_URL.replace("https://", "") + "</b></p>"
     );
   }
 
@@ -668,7 +688,8 @@ const CONFIG = {
         "This survey IS the inbox: every teacher answer, question and complaint lands with us — read them all, reply to anything with a name on it.",
         "Q1 is the passphrase — so we know who was in the room; the quiz questions mirror the deck (penalties, permitted uses, authentication, feedback line).",
         "Tagline slowly, word for word: not every AI is the same — ask what model, what settings, and know how I learn.",
-        "Leave the survey QR up while the room empties; the briefing URL is on it for the one-pager.",
+        "Leave both QRs up while the room empties: left = the teacher survey, right = the STUDENT study demo (h1done-learn) if they want to see what the students got.",
+        "The briefing URL (workspace-gap.html) is on the slide for the one-pager.",
         "If asked about the tool itself or a pilot: take it after, one-to-one — this session stays informative."
       ],
       html: slideCloseTeachers,

@@ -233,6 +233,9 @@ a:hover { text-decoration: underline; }
 .qr-box { background: #fff; border-radius: 12px; padding: 10px; box-shadow: var(--shadow); width: clamp(150px, 24vh, 240px); }
 .qr-box img { display: block; width: 100%; border-radius: 6px; }
 .demo-split { display: flex; gap: clamp(20px, 4vw, 60px); align-items: center; }
+/* two QRs side by side on the close slides (survey + the other audience's site) */
+.qr-duo { display: flex; gap: clamp(10px, 1.6vw, 18px); align-items: flex-start; }
+.qr-duo .qr-box { width: clamp(118px, 17vh, 170px); }
 .demo-copy { max-width: 620px; }
 
 /* close slide */
