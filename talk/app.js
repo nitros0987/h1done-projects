@@ -21,6 +21,8 @@ const CONFIG = {
   // One-page teacher briefing (Workspace/M365 gap, SEC quotes verified) — shown beside the demo link.
   TEACHER_BRIEF_URL: "https://nitros0987.github.io/h1done-projects/workspace-gap.html",
   DATA_NOTE: "Artificial Analysis · Intelligence Index v4.3 · 16 Sep 2026",
+  // bump on every deploy — busts the phone/laptop cache so both ends run the same build
+  BUILD: "20260918a",
 };
 /* ==================================================================== */
 
@@ -99,19 +101,6 @@ const CONFIG = {
   const LOGO = "img/h1d-logo.webp";
   const brandMark = (cls) => '<img class="brand-mark ' + (cls || "") + '" src="' + LOGO + '" alt="H1Done logo">';
 
-  // fill-before-Friday checklist (presenter-visible on title slide) — teacher variant swaps in when audience=teachers
-  const TODO_CARD =
-    '<div class="todo-card"><span class="lab">Fill before Friday</span>' +
-    "<ul><li><b>WHY_EXAMPLE</b> — your medicine why-line (slide 5, CONFIG)</li>" +
-    "<li><b>SURVEY_URL</b> — post-survey QR (close slide, CONFIG)</li>" +
-    "<li><b>Printed QR A4 ×2</b> — quickchart recipe, in your bag</li></ul></div>";
-
-  const TEACHER_TODO_CARD =
-    '<div class="todo-card"><span class="lab">Session checklist</span>' +
-    "<ul><li><b>TEACHER_SURVEY_URL</b> — done: post-survey live, QR renders on the close slide</li>" +
-    "<li><b>Demo tab pre-opened</b> — teacher board + a student tab for the round-trip</li>" +
-    "<li><b>Printed QR A4</b> — teacher briefing (workspace-gap.html), in your bag</li></ul></div>";
-
   const foot = (beat, clock) =>
     '<div class="slide-foot"><span class="beat">' + beat + "</span><span>" + clock +
     "</span>" + brandMark("foot-mark") + "</div>";
@@ -134,8 +123,10 @@ const CONFIG = {
     );
   }
 
-  function slideClose(surveyUrl, audienceNote) {
+  function slideClose(surveyUrl, audienceNote, cta, qrNote) {
     const survey = surveyUrl || "";
+    const label = cta || "Open the survey";
+    const note = qrNote || "2 minutes — really";
     return (
       '<p class="eyebrow">Before you go</p>' +
       '<div class="close-tag">&ldquo;Not every AI is the same &mdash; ask <span class="crim">what model</span>, ask <span class="crim">what settings</span>, and know <span class="crim">how I learn</span>.&rdquo;</div>' +
@@ -144,11 +135,11 @@ const CONFIG = {
       '<p class="sub" style="margin-bottom:1.4vh">' + audienceNote + "</p>" +
       '<div class="cta-row" style="justify-content:flex-start">' +
       (survey
-        ? '<a class="btn" href="' + survey + '" target="_blank" rel="noopener">Open the survey</a>'
+        ? '<a class="btn" href="' + survey + '" target="_blank" rel="noopener">' + label + "</a>"
         : "") +
       "</div></div>" +
       (survey
-        ? '<div class="qr-box"><img alt="QR code to the finish survey" src="' + qr(survey) + '"><p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">2 minutes — really</p></div>'
+        ? '<div class="qr-box"><img alt="QR code to the finish survey" src="' + qr(survey) + '"><p class="mut" style="text-align:center;font-size:10px;margin:6px 0 0">' + note + "</p></div>"
         : '<div class="qr-box" style="display:flex;align-items:center;justify-content:center;min-height:150px;border:2px dashed var(--stalled);border-radius:12px"><span class="ph" style="cursor:default">QR — paste survey URL in CONFIG</span></div>') +
       "</div>" +
       '<p class="mut" style="font-size:clamp(10px,1.6vh,14px);margin-top:2.4vh">Talk slides + every free tool mentioned: <b>' + CONFIG.DEMO_URL.replace("https://", "") + '</b> &mdash; scan the demo QR and tap <b>Study smarter</b>.</p>'
@@ -159,7 +150,9 @@ const CONFIG = {
   const slideCloseStudents = () =>
     slideClose(
       CONFIG.SURVEY_URL,
-      "One last scan: <b>the 2-minute survey</b>. Tell us what to build next — and if you want the free pilot in your school before Christmas, leave your email at the last question."
+      "One last scan: <b>the 2-minute quiz</b> &mdash; six questions from tonight, and you get your score straight away. Then two lines: what should we build next &mdash; and if you want the free pilot in your school before Christmas, leave your email at the last question.",
+      "Open the quiz",
+      "6 questions &middot; your score straight away"
     );
 
   function ladderSlide(withContext) {
@@ -211,14 +204,25 @@ const CONFIG = {
   const SLIDES_STUDENTS = [
     {
       beat: "Welcome", clock: "0:00", centered: true,
-      notes: ["Let the room settle. Title up as they come in.", "Frame it: this is about HOW to study — and a big part of that will be AI.", "Promise the room: free tools only tonight. Nothing to buy."],
+      notes: [
+        "Let the room settle. Title up as they come in.",
+        "Frame it: this is about HOW to study — and a big part of that will be AI.",
+        "Promise the room: free tools only tonight. Nothing to buy.",
+        "<b>THE ROOM — pre-survey, 51 answers (31× 5th yr · 20× 6th yr):</b>",
+        "Hours studied outside school: <b>59% under 5/wk</b> · 25% 5–10 · 16% 10–20. Nobody over 20.",
+        "What they DO when they 'study': <b>re-read notes 82%</b> · past papers 49% · highlight 27% · flashcards 29% · videos 20%.",
+        "AI use: tried it once or twice <b>45%</b> · weekly 39% · never 12% · daily 4%. Mostly for <b>'explaining things I don't get' (76%)</b>, projects 31%, summaries 20%.",
+        "What stops them: <b>phone/distractions 37%</b> · no time 31% · <b>'I don't know how' 24%</b> · don't see the point 8%.",
+        "Their #1 ask: <b>'a system that tells me what to do next' 47%</b> · <b>motivation 41%</b> · better notes 8% · someone checking my work 4%.",
+        "So: the talk they asked for is METHOD + WHY. Say that early — 'I read your answers; here's what you asked for'.",
+        "33% left the 'habit you'd start' box blank or 'idk' — that's the gap the close + post-quiz is for.",
+      ],
       html: () =>
         '<div class="title-brand">H1Done <span>study</span></div>' +
         '<div class="title-rule"></div>' +
         '<h1>Study smarter with AI.<br>Not harder.</h1>' +
         '<p class="sub">The most efficient way to learn — understanding, memorising, applying — and where AI actually helps.</p>' +
-        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; 5th &amp; 6th Year</p>' +
-        TODO_CARD,
+        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; 5th &amp; 6th Year</p>',
     },
     {
       beat: "1 · Hook", clock: "0:00–3:00",
@@ -227,6 +231,7 @@ const CONFIG = {
         "Then the knowledge check: heard of Anki? 80/20? Spaced repetition? Active recall? (Hands tell you the room's level — adapt.)",
         "Then the four numbers, slowly: 16 vs 42 · 65% vs 91% · 75% vs 28% · $0.25 vs $7.63.",
         "Medicine link: to get INTO medicine and through it — still grilled weekly — we need the MOST efficient way to study. They try to trick you; you must apply, not just know.",
+        "Pre-survey calibration: only 2 of 51 use AI daily, 45% tried it once or twice, 12% never. Expect fewer hands than you'd think — and say so if the hands don't match.",
       ],
       html: slideHook,
     },
@@ -247,6 +252,7 @@ const CONFIG = {
         "Biology investigation now; Engineering next year = 50% of the whole grade. Report due ~June 2027.",
         "You already compete against people using AI well. Use it well or it uses you.",
         "Marks moving from MEMORY to METHOD — and the SEC allows AI for research/planning, never your words.",
+        "Pre-survey: 31% already use AI for PROJECTS — the rules on this slide are live for a third of the room right now.",
       ],
       html: () =>
         '<p class="eyebrow">What changed while you were studying the old way</p>' +
@@ -272,6 +278,8 @@ const CONFIG = {
         "Top range: what would it give you? Independence? Family? The smartest course?",
         "Below the line: what would it cost you — what could you NOT give, not have, how would you feel?",
         "Then 4 min SILENCE, two columns, pens down rule. Quote: motivation isn't a talk — it's a sentence you wrote yourself.",
+        "YOUR OWN WHY-LINE IS VERBAL — it is no longer on the slide. Say it out loud (medicine, the points, the place) before the 4 minutes start.",
+        "Pre-survey: MOTIVATION was the #1 ask for 41% of them — this slide is aimed straight at that. Another 24% said 'I don't know how' (that's the rest of the talk).",
       ],
       html: () =>
         '<p class="eyebrow">Before any technique &mdash; the 80% that is psychology, not strategy</p>' +
@@ -280,8 +288,7 @@ const CONFIG = {
         '<div class="why-grid">' +
         '<div class="why-col win"><h3><span class="mark">✓</span>If I hit my points&hellip;</h3><div class="why-line"></div><div class="why-line"></div><div class="why-line"></div></div>' +
         '<div class="why-col cost"><h3><span class="mark">✗</span>If I don&rsquo;t, it costs me&hellip;</h3><div class="why-line"></div><div class="why-line"></div><div class="why-line"></div></div>' +
-        "</div>" +
-        '<div class="why-example"><span class="lab">One line, like this (fill before Friday)</span><span class="ph-inline" id="why-example-line">My why goes here — [WHY_EXAMPLE] in CONFIG</span></div>',
+        "</div>",
     },
     {
       beat: "4 · Understand", clock: "12:00–15:00", diag: "gaps",
@@ -291,6 +298,7 @@ const CONFIG = {
         "A teacher can't customise to 30 individual levels — AI can. Quiz BEFORE you read: find the gaps, fill them early, catch misconceptions before the framework sets.",
         "Flow state: taught ~10% beyond your level = enjoyable; below = boring; above = you zone out. Nothing to do with intelligence — everything to do with level.",
         "Evidence: Bloom's 2-sigma (1-to-1 tutoring ≈ 2 standard deviations better); Vygotsky's zone of proximal development; pre-questions prime learning.",
+        "Pre-survey: 76% already use AI for 'explaining things I don't get' — they're at step 1 already. The upgrade is 'QUIZ me first, then teach to my level'.",
       ],
       html: () =>
         '<div class="side-split">' +
@@ -313,6 +321,7 @@ const CONFIG = {
         "Without spacing: the same card 10–40 times. With it: minutes a day. 5 min today > 1 hour Sunday.",
         "Proof-of-life: this exact system carried him through the LC grind and MRCS last week.",
         "Evidence: Ebbinghaus forgetting curve (1885); Roediger & Karpicke 2006 (testing beats re-reading, massive effect); Cepeda 2006 (spacing meta-analysis); Dunlosky 2013 (practice testing + distributed practice = top two techniques).",
+        "THIS is the slide for this room: 82% said re-reading notes is what 'studying' means to them, 27% highlight — and only 29% use flashcards. Name it kindly: the most popular method is the weakest one.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">2</span><h2>Memorise &mdash; like a muscle</h2></div>' +
@@ -336,6 +345,7 @@ const CONFIG = {
         "80/20: past questions grouped by type — AI groups them so you do fewer, better. StudyClick for the papers.",
         "The loop closes: wrong answers → new flashcards → back into Anki → re-apply. And corrected work must RETURN (re-test in 2–4 weeks) or it evaporates.",
         "Evidence: testing effect again (retrieval practice as study); immediate feedback corrects faster (formative-assessment lit); feedback + re-test beats single marking.",
+        "Pre-survey: 49% already do past papers — good. The upgrade is GROUPING by question type + AI marking against the scheme, and only 16% currently use AI for past questions.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">3</span><h2>Apply &mdash; past questions first</h2></div>' +
@@ -358,6 +368,7 @@ const CONFIG = {
         "This is the /incremental loop that got him through the LC in 6 months and MRCS last week.",
         "Each pass the intervals grow — the loop spins slower per fact because you KNOW it better. Efficiency = fewer, better reps.",
         "AI's jobs: grill, customise, group, mark. Your job: the recall. The machine can't lift for you.",
+        "Tie back to their #1 ask: 47% wanted 'a system that tells me what to do next' — this loop IS that system, and the demo is it webbed into a tool.",
       ],
       html: () =>
         '<div class="tech-head"><span class="tech-num">∞</span><h2>The loop &mdash; one line, then it spins</h2></div>' +
@@ -413,7 +424,10 @@ const CONFIG = {
       notes: [
         "Tagline slowly, word for word: not every AI is the same — ask what model, what settings, know how I learn.",
         "The system is ours: free pilot before Christmas through the principal.",
-        "ASK: scan → 2-minute survey — what should we build next? Email at the last question = pilot updates.",
+        "ASK: scan → the 2-minute POST-QUIZ. Six questions from tonight, you get your score instantly, then two lines of feedback. Q1 is the passphrase (ballybunion) so we know who was in the room.",
+        "Say it plainly: the quiz is the last rep of the night — testing yourself is the whole message, so we finish by doing it.",
+        "Email at the last question = the pilot list. The open box at the end comes straight to us — questions, complaints, all of it.",
+        "Pre-survey: a third left 'a habit you'd start' blank. Ask for ONE line, one habit, before they leave the room.",
         "Fair warning reprise: too fast? jargon? disagree? — say so. Try it for two weeks before you judge it.",
       ],
       html: slideCloseStudents,
@@ -484,14 +498,14 @@ const CONFIG = {
         "Frame: what the SEC rules ask of you, the mechanism that answers them, how to use AI for project work.",
         "Patrick covered what AI is and the guidance — this is how the rules land on your desk, and how to use AI within them.",
         "Promise: exact SEC wording, a live demo you can test at break, and a 2-minute survey at the end.",
+        "Pre-flight (was the sticky): demo tab pre-opened — teacher board + a student tab for the round-trip; printed A4 QR of the briefing in the bag; post-survey QR renders on the close slide.",
       ],
       html: () =>
         '<div class="title-brand">H1Done <span>projects</span></div>' +
         '<div class="title-rule"></div>' +
         "<h1>The 40% process,<br>for teachers.</h1>" +
         '<p class="sub">The new LC projects: what the SEC rules ask of you, the mechanism that answers them &mdash; and how to use AI for project work.</p>' +
-        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; teacher session &middot; 15 min</p>' +
-        TEACHER_TODO_CARD,
+        '<p class="mut" style="font-size:clamp(10px,1.7vh,14px)">St Joseph&rsquo;s, Ballybunion &middot; teacher session &middot; 15 min</p>',
     },
     {
       beat: "1 · The rules land on your desk", clock: "0:00–2:30", diag: "book",
@@ -698,38 +712,80 @@ const CONFIG = {
 
   /* ---------------- gate ---------------- */
 
+  // One launcher for both talks: pick the talk, pick the device, passphrase, go.
+  // Enter rewrites the URL (?audience=…&view=…) and reloads, so a refresh, a
+  // shared link and the phone remote can never disagree about which deck is live.
   function renderGate() {
+    document.removeEventListener("keydown", deckKeys);
+    const authed = sessionStorage.getItem("h1talk-auth") === "1";
+    const word = () => (state.audience === "teachers" ? "projects" : "study");
+
     $("#app").innerHTML =
       '<div class="gate-wrap"><div class="gate-card">' +
       '<img class="gate-logo" src="' + LOGO + '" alt="H1Done logo">' +
-      '<div class="gate-brand">H1Done <span>' + (state.audience === "teachers" ? "projects" : "study") + "</span></div>" +
-      '<div class="gate-kicker">School talk · ' + (state.audience === "teachers" ? "teacher session" : "student session") + "</div>" +
-      '<input id="pw" class="gate-input" type="password" inputmode="text" autocomplete="off" placeholder="Passphrase" aria-label="Passphrase">' +
-      '<div class="gate-err" id="gate-err"></div>' +
-      '<div class="gate-role">' +
-      '<button class="btn ghost' + (state.role === "presenter" ? " active" : "") + '" id="role-present">Present</button>' +
-      '<button class="btn ghost' + (state.role === "remote" ? " active" : "") + '" id="role-remote">Use as remote</button>' +
+      '<div class="gate-brand">H1Done <span id="gate-word">' + word() + "</span></div>" +
+      '<div class="gate-kicker">St Joseph&rsquo;s, Ballybunion &middot; school talk</div>' +
+
+      '<p class="gate-step">1 &middot; Which talk?</p>' +
+      '<div class="gate-pick" id="pick-talk">' +
+      '<button type="button" class="pick' + (state.audience === "students" ? " active" : "") + '" data-aud="students"><b>Study talk</b><small>Students &middot; 30 min</small></button>' +
+      '<button type="button" class="pick' + (state.audience === "teachers" ? " active" : "") + '" data-aud="teachers"><b>Projects talk</b><small>Teachers &middot; 15 min</small></button>' +
       "</div>" +
-      '<p style="margin:18px 0 0"><button class="btn full" id="gate-go">Enter</button></p>' +
-      '<div class="gate-foot">Deck + remote in one URL. The venue laptop: <b>Present</b>. Your phone: <b>Use as remote</b>.</div>' +
+
+      '<p class="gate-step">2 &middot; This device</p>' +
+      '<div class="gate-pick" id="pick-role">' +
+      '<button type="button" class="pick' + (state.role === "presenter" ? " active" : "") + '" data-role="presenter"><b>Present</b><small>Laptop &middot; the big screen</small></button>' +
+      '<button type="button" class="pick' + (state.role === "remote" ? " active" : "") + '" data-role="remote"><b>Phone remote</b><small>Notes + next slide</small></button>' +
+      "</div>" +
+
+      (authed ? "" : '<p class="gate-step">3 &middot; Passphrase</p><input id="pw" class="gate-input" type="password" inputmode="text" autocomplete="off" placeholder="Passphrase" aria-label="Passphrase">') +
+      '<div class="gate-err" id="gate-err"></div>' +
+      '<p style="margin:14px 0 0"><button class="btn full" id="gate-go">' + (authed ? "Go" : "Enter") + "</button></p>" +
+      '<div class="gate-foot">Same link for everything. Venue laptop: <b>Present</b>. Your phone: <b>Phone remote</b> &mdash; same talk, or it won&rsquo;t steer.</div>' +
+      '<div class="gate-build">build ' + CONFIG.BUILD + "</div>" +
       "</div></div>";
 
-    const pw = $("#pw");
+    const setWord = () => { const w = $("#gate-word"); if (w) w.textContent = word(); };
+    const pickIn = (sel, attr, apply) =>
+      $$(sel + " .pick").forEach((b) =>
+        b.addEventListener("click", () => {
+          $$(sel + " .pick").forEach((o) => o.classList.remove("active"));
+          b.classList.add("active");
+          apply(b.getAttribute(attr));
+          setWord();
+        })
+      );
+    pickIn("#pick-talk", "data-aud", (v) => { state.audience = v; });
+    pickIn("#pick-role", "data-role", (v) => { state.role = v; });
+
     const go = () => {
-      if (pw.value.trim().toLowerCase() === CONFIG.PASSWORD) {
-        sessionStorage.setItem("h1talk-auth", "1");
-        sessionStorage.setItem("h1talk-role", state.role);
-        start();
-      } else {
-        $("#gate-err").textContent = "Not the passphrase — check it (it's the venue town).";
-        pw.focus();
+      const field = $("#pw");
+      if (!authed) {
+        if (field.value.trim().toLowerCase() !== CONFIG.PASSWORD) {
+          $("#gate-err").textContent = "Not the passphrase — check it (it's the venue town).";
+          field.focus();
+          return;
+        }
       }
+      sessionStorage.setItem("h1talk-auth", "1");
+      sessionStorage.setItem("h1talk-role", state.role);
+      sessionStorage.setItem("h1talk-audience", state.audience);
+
+      // put the choice in the URL, then reload if it changed — one source of truth
+      const params = new URLSearchParams(location.search);
+      if (state.audience === "teachers") params.set("audience", "teachers");
+      else params.delete("audience");
+      if (state.role === "remote") params.set("view", "remote");
+      else params.delete("view");
+      const qs = params.toString();
+      const want = location.pathname + (qs ? "?" + qs : "");
+      if (want !== location.pathname + location.search) { location.replace(want); return; }
+      start();
     };
+
     $("#gate-go").addEventListener("click", go);
-    $("#role-present").addEventListener("click", () => { state.role = "presenter"; $("#role-present").classList.add("active"); $("#role-remote").classList.remove("active"); });
-    $("#role-remote").addEventListener("click", () => { state.role = "remote"; $("#role-remote").classList.add("active"); $("#role-present").classList.remove("active"); });
-    pw.addEventListener("keydown", (e) => { if (e.key === "Enter") go(); });
-    pw.focus();
+    const field = $("#pw");
+    if (field) { field.addEventListener("keydown", (e) => { if (e.key === "Enter") go(); }); field.focus(); }
   }
 
   /* ---------------- lightbox (click any image → fullscreen) ---------------- */
@@ -778,6 +834,7 @@ const CONFIG = {
       '<button class="icon-btn" id="fs-btn" title="Full screen (f)">⛶ full</button>' +
       '<button class="icon-btn" id="print-btn" title="Save as PDF fallback (offline)">⎙ pdf</button>' +
       '<button class="icon-btn" id="remote-btn" title="Open the phone remote — shows this URL on your phone">⌁ remote</button>' +
+      '<button class="icon-btn" id="switch-btn" title="Switch talk / device — back to the launcher">⇄ talk</button>' +
       "</div></div>" +
       '<div class="deck-stage" id="stage">' +
       slides.map((s, i) =>
@@ -793,6 +850,7 @@ const CONFIG = {
     $("#print-btn").addEventListener("click", () => { toast("Print dialog: choose 'Save as PDF', margins None, background graphics ON."); setTimeout(() => window.print(), 350); });
     $("#remote-btn").addEventListener("click", showRemoteUrl);
     $("#home-brand").addEventListener("click", (e) => { e.preventDefault(); showRemoteUrl(); });
+    $("#switch-btn").addEventListener("click", renderGate);
 
     document.addEventListener("keydown", deckKeys);
     bindSwipe($("#stage"));
@@ -880,15 +938,18 @@ const CONFIG = {
     $("#app").innerHTML =
       '<div class="remote">' +
       '<div class="remote-top"><span class="deck-brand">' + brandMark() + 'H1Done <span>' + (state.audience === "teachers" ? "projects" : "study") + "</span></span>" +
-      '<span class="remote-status" id="r-status"><span class="dot"></span>connecting…</span></div>' +
+      '<span class="remote-status" id="r-status"><span class="dot"></span>connecting…</span>' +
+      '<button class="icon-btn" id="r-switch" title="Switch talk / device">⇄</button></div>' +
       '<div class="remote-cards" id="r-cards"></div>' +
       '<div class="remote-taps">' +
       '<button class="btn ghost" id="r-prev" aria-label="Previous">‹</button>' +
       '<button class="btn" id="r-next">Next ›</button>' +
       "</div></div>";
 
+    $("#r-switch").addEventListener("click", renderGate);
+
     // cache the stylesheet text so next-slide visual previews render faithfully
-    fetch("talk.css").then((r) => r.text()).then((t) => { state.cssText = t; }).catch(() => {});
+    fetch("talk.css?v=" + CONFIG.BUILD).then((r) => r.text()).then((t) => { state.cssText = t; }).catch(() => {});
 
     // skip over the "if time" tail slides: the remote's Next/Prev never walks into them.
     // The remote knows the presenter's current slide from state messages, so it sends an
@@ -1063,6 +1124,10 @@ const CONFIG = {
 
   function start() {
     state.view = state.role === "remote" ? "remote" : "deck";
+    // the tab title says which talk is loaded — no more guessing between the two decks
+    document.title =
+      (state.audience === "teachers" ? "H1Done projects — teacher talk" : "H1Done study — student talk") +
+      (state.role === "remote" ? " · remote" : "");
     if (state.view === "remote") renderRemote();
     else renderDeck();
   }
@@ -1070,7 +1135,9 @@ const CONFIG = {
   function boot() {
     document.documentElement.setAttribute("data-theme", state.theme);
     const params = new URLSearchParams(location.search);
-    if (params.get("audience") === "teachers") state.audience = "teachers";
+    const aud = params.get("audience");
+    if (aud === "teachers" || aud === "students") state.audience = aud;
+    else state.audience = sessionStorage.getItem("h1talk-audience") || "students";
     if (params.get("view") === "remote") state.role = "remote";
 
     const authed = sessionStorage.getItem("h1talk-auth") === "1";
