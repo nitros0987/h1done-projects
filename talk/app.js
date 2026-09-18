@@ -1135,9 +1135,10 @@ const CONFIG = {
   function boot() {
     document.documentElement.setAttribute("data-theme", state.theme);
     const params = new URLSearchParams(location.search);
-    const aud = params.get("audience");
-    if (aud === "teachers" || aud === "students") state.audience = aud;
-    else state.audience = sessionStorage.getItem("h1talk-audience") || "students";
+    // the URL is the only source of truth for which deck is live: a plain link is
+    // ALWAYS the student talk, whatever this tab was showing earlier
+    const params_aud = params.get("audience");
+    state.audience = params_aud === "teachers" ? "teachers" : "students";
     if (params.get("view") === "remote") state.role = "remote";
 
     const authed = sessionStorage.getItem("h1talk-auth") === "1";
